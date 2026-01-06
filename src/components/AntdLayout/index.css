@@ -1,0 +1,19 @@
+@layer base {    
+    :root{
+        --pageload-bar-color:#222222;
+    }    
+    #root {
+        padding: 0;
+        margin: 0;
+        border: 0;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+/** Menu icon automatic compact mode */
+.adminui-menu-icon {
+    font-size: var(--adminui-menu-icon-size);
+    width: var(--adminui-menu-icon-size);
+    height: var(--adminui-menu-icon-size);
+}

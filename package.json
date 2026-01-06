@@ -1,0 +1,86 @@
+{
+  "name": "@adminui-dev/antd-layout",
+  "version": "1.0.2",
+  "description": "this project name is @adminui-dev/antd-layout",
+  "keywords": [
+    "layut",
+    "antd-layout",
+    "adminui",
+    "admin-layout",
+    "layout",
+    "react-layout"
+  ],
+  "license": "MIT",
+  "author": "zhouwenqi",
+  "type": "commonjs",
+  "publishConfig": {
+    "access": "public"
+  },
+  "module": "./dist/index.esm.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.cjs.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "main": "./dist/index.cjs.js",
+  "types": "./dist/index.d.ts",
+  "authors": [
+    "zhouwenqi <zhouwenqi1982@live.com>"
+  ],
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhouwenqi/adminui-antd-layout.git"
+  },
+  "homepage": "https://demo.adminui.dev",
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "tslib": "^2.6.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@types/commander": "^2.12.5",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/nprogress": "^0.2.3",
+    "postcss": "^8.5.6",
+    "postcss-modules": "^6.0.1",
+    "rollup": "^4.0.0",
+    "rollup-plugin-dts": "^6.0.0",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-terser": "^7.0.2",
+    "typescript": "^5.0.3",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-intl": "^8.0.4",
+    "react-router": "^7.11.0",
+    "react-router-dom": "^7.11.0",
+    "nprogress": "^0.2.0",
+    "@adminui-dev/layout":"1.0.7",
+    "antd": "^6.1.1"
+  },
+  "peerDependencies": {
+    "nprogress": ">=0.2.0",
+    "react": ">=19.2.0",
+    "react-dom": ">=19.2.0",
+    "@adminui-dev/layout":">=1.0.7",
+    "react-intl": ">=8.0.4",
+    "react-router": ">=7.11.0",
+    "react-router-dom": ">=7.11.0",
+    "@ant-design/colors": ">=7.2.1",
+    "@ant-design/icons": ">=6.1.0",
+    "antd": ">=6.1.1"
+  }
+}
