@@ -61,6 +61,7 @@ function transformMenuItem(parentPath:string,routeItem:MenuData) {
     let menuData:MenuData = {
       name:spath,
       path:spath,
+      label:routeItem.label,
       originalPath:spath,
       extra:convertToNode(routeItem.extra),
       icon:convertToNode(routeItem.icon)

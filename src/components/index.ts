@@ -1,9 +1,12 @@
 import {AntdLayout} from "./AntdLayout"
+import {PageLoading,RouteLoading,LazyPage} from "./AntdLayout/LazyPage"
 import {useAvatarPopover,useBrandPopover,useMainCollapsed,useContainerOutlet} from "./AntdLayout/MainContext"
-import {useConfigAction,useConfigState,useTheme} from "@adminui-dev/layout"
+import { FullScreenButton, useConfigAction,useConfigState,useTheme} from "@adminui-dev/layout"
 export *  from "./AntdLayout/common/ColorUtil"
 export * from "./AntdLayout/common/MenuUtil"
 export * from "./AntdLayout/common/RouteUtil"
 export * from "./AntdLayout/common/StringUtil"
-export {useAvatarPopover,useBrandPopover,useMainCollapsed,useContainerOutlet,useConfigAction,useConfigState,useTheme}
-export {AntdLayout}
+
+export {useConfigAction,useConfigState,FullScreenButton,useTheme}
+export {useAvatarPopover,useBrandPopover,useMainCollapsed,useContainerOutlet}
+export {AntdLayout,PageLoading,RouteLoading,LazyPage}

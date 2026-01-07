@@ -49,8 +49,7 @@ function LazyImage(props:React.ImgHTMLAttributes<HTMLImageElement>&{hasChild?:bo
     const imgBox:React.CSSProperties = {
         ...props.style,        
         transition: 'opacity 0.3s ease-out',
-        opacity:loaded ? 1 : 0,
-        overflow:"hidden",
+        opacity:loaded ? 1 : 0,      
         display:"flex",
         justifyItems:"center",
         alignItems:"center"

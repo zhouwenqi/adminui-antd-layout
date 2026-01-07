@@ -1,18 +1,17 @@
 import { Breadcrumb } from "antd";
-import { useIntl } from "react-intl";
 import { Link,useMatches } from "react-router";
-import { useConfigState, type LayoutProps } from "@adminui-dev/layout";
-import { getRouterLabel } from "./common/MenuUtil";
+import { type LayoutProps } from "@adminui-dev/layout";
+
+import { useMainContext } from "./MainContext";
 
 function MainBreadcrumb(props:LayoutProps){
     const matches = useMatches()
-    const {layoutConfig} = useConfigState()
-    const intl = useIntl()
-    const t = layoutConfig.disabledLocale ? undefined : intl
+    const {flattenMenuMap} = useMainContext()
 
     const breadcrumbItems:any[] = []
     matches.forEach((item,index)=>{
-        const label = getRouterLabel(item,t)
+        const menuItem = flattenMenuMap[item.pathname]
+        const label =menuItem ? menuItem.label : ""
         breadcrumbItems.push(
             {
                 path:item.pathname,

@@ -5,7 +5,8 @@ import type { BrandInfo, UserInfo,  OutletContainer } from "@adminui-dev/layout"
 
 const MainContext = createContext<MainDispatcher>({
     collapsed:false,
-    headerHeight:50,    
+    headerHeight:50,
+    flattenMenuMap:{},
     setCollapsed:()=>{}
 })
 const AvatarPopoverContext = createContext<PopoverDispatcher<UserInfo>>({

@@ -1,2 +1,2 @@
-import type * as types from  "./AntdLayout/typings"
-export type { types }
+export type *  from "./AntdLayout/typings"
+export type *  from "@adminui-dev/layout"

@@ -4,6 +4,22 @@ import { type IntlShape } from "react-intl"
 import { type UIMatch } from "react-router-dom"
 
 /**
+ * flatten menu data
+ * @param menuData root menu data
+ * @returns 
+ */
+
+const flattenMenuData=(menuData:MenuData[]):Record<string,MenuData>=>{
+  return menuData.reduce((acc,node)=>{
+    const {children,...item}= node
+    acc[item.path!] = item
+    if(children) {
+      Object.assign(acc,flattenMenuData(children))
+    }    
+    return acc
+  },{} as Record<string,MenuData>)
+}
+/**
  * separate menu data
  * @param antdMenuData menu data
  * @param selectKeys 
@@ -75,10 +91,6 @@ const getMenuLabel=(menuData:MenuData,intl?:IntlShape)=>{
   return getLocalLabel(path,menuData.name,menuData.label,intl)
 }
 
-const getRouterLabel=(route:UIMatch,intl?:IntlShape)=>{  
-    return getLocalLabel(route.pathname,route.id,"",intl)  
-}
-
 /**
  * get antd menu item
  * @param menuDataItem menu data item
@@ -95,4 +107,4 @@ const getAntdMenuItem=(menuDataItem:MenuData) =>  {
     return antdMenu
 }
 
-export {separateMenuData,transformToAntdMenuData,localeMenuData,getAntdMenuItem,getMenuLabel,getRouterLabel}
+export {separateMenuData,transformToAntdMenuData,localeMenuData,getAntdMenuItem,getMenuLabel,flattenMenuData}

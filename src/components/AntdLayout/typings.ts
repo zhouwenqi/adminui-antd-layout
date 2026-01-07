@@ -19,6 +19,7 @@ interface MainDispatcher {
     brandPopoverContent?:React.ReactNode,
     avatarPopoverContent?:React.ReactNode,
     toolbarExtraItems?:React.ReactNode,
+    flattenMenuMap:Record<string,MenuData>,
     setCollapsed:(collapsed:boolean)=>void
 }
 interface PopoverDispatcher<T>{

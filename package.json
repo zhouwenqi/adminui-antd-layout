@@ -1,6 +1,6 @@
 {
   "name": "@adminui-dev/antd-layout",
-  "version": "1.0.2",
+  "version": "1.0.7",
   "description": "this project name is @adminui-dev/antd-layout",
   "keywords": [
     "layut",
@@ -45,7 +45,8 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "tslib": "^2.6.0"
+    "tslib": "^2.6.0",
+    "@adminui-dev/layout":"1.0.9"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.0",
@@ -67,15 +68,13 @@
     "react-intl": "^8.0.4",
     "react-router": "^7.11.0",
     "react-router-dom": "^7.11.0",
-    "nprogress": "^0.2.0",
-    "@adminui-dev/layout":"1.0.7",
+    "nprogress": "^0.2.0",    
     "antd": "^6.1.1"
   },
   "peerDependencies": {
     "nprogress": ">=0.2.0",
     "react": ">=19.2.0",
     "react-dom": ">=19.2.0",
-    "@adminui-dev/layout":">=1.0.7",
     "react-intl": ">=8.0.4",
     "react-router": ">=7.11.0",
     "react-router-dom": ">=7.11.0",

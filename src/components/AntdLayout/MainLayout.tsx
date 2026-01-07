@@ -6,10 +6,9 @@ import MainAside from "./MainAside"
 import type { AntdMenuData, MainDispatcher, MainLayoutProps } from "./typings"
 import React, {  useMemo, useState } from "react"
 import { createMainContext, ROLE_ASIDE_FOOTER, ROLE_ASIDE_HEADER, ROLE_AVATAR_POPOVER_CONTENT, ROLE_BRAND_POPOVER_CONTENT, ROLE_CONTENT_FOOTER, ROLE_SOLT_CONTENT, ROLE_TOOLBAR_EXTRA_ITEMS } from "./MainContext"
-import { getRouterLabel, localeMenuData, separateMenuData, transformToAntdMenuData } from "./common/MenuUtil"
+import { flattenMenuData, localeMenuData, separateMenuData, transformToAntdMenuData } from "./common/MenuUtil"
 import { matchPathToKeys, splitMenuKeys } from "./common/RouteUtil"
 import { useIntl } from "react-intl"
-
 
 const { useToken } = antdTheme
 const DEFAULT_HEADER_HEIGHT = 56;
@@ -37,22 +36,21 @@ function MainLayout(props:MainLayoutProps){
       headerHeight -= 4
     }  
 
+
     const rootMenuData = layoutConfig.disabledLocale ? props.menuData : localeMenuData(props.menuData,intl)
     const menuData = rootMenuData && rootMenuData?.length > 0 ? rootMenuData[0].children :[]
 
+    const rootFlattenMenudata = flattenMenuData(rootMenuData || [])
     
     // locale menu data
     const antdMenuData = transformToAntdMenuData(menuData)    
 
-    const location = useLocation()
-    console.log(location)
+    const location = useLocation() 
 
     const matches = useMatches()  
     const {pathname} = location
     const menuKeys = matchPathToKeys(pathname) 
-    const lastRoute = matches[matches.length-1]
-
-    const title = lastRoute.handle = getRouterLabel(lastRoute,layoutConfig.disabledLocale ? undefined : intl)
+    const lastRoute = matches[matches.length-1]    
 
     let headerSelectKeys:string[]=[]
     let asideSelectKeys:string[]=[]
@@ -102,12 +100,17 @@ function MainLayout(props:MainLayoutProps){
         avatarPopoverContent,
         brandPopoverContent,
         toolbarExtraItems,
+        flattenMenuMap:rootFlattenMenudata,
         setCollapsed
-    }),[collapsed,headerHeight,props.layoutIcons])      
+    }),[collapsed,headerHeight,props.layoutIcons,rootFlattenMenudata])      
 
     const navigation = useNavigation();
     const isNavigating = Boolean(navigation.location);
     console.log(navigation)
+  
+    const lastRouteMenu = rootFlattenMenudata[lastRoute.pathname]
+
+    const title = lastRouteMenu.label || ""
     document.title = title
 
     return(
@@ -121,7 +124,6 @@ function MainLayout(props:MainLayoutProps){
                     <MainHeader height={headerHeight} menuData={headerMenuData} selectedKeys={headerSelectKeys} title={title} />
                 </BaseLayout.Header>
                 <BaseLayout.Content>
-                    { isNavigating && <Spin />}
                     <Outlet context={{title:title,footer:contentFooter}} />                    
                 </BaseLayout.Content>
                 <BaseLayout.Background>
