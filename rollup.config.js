@@ -15,7 +15,7 @@ module.exports = [
       { file: `dist/${name}.esm.js`, format: 'es' },
       { file: `dist/${name}.cjs.js`, format: 'cjs' },
     ],
-    external: ['react', 'react-dom','antd','@ant-design/colors','@ant-design/icons','react-intl','react-router','react-router-dom'],
+    external: ['react', 'react-dom','antd','@ant-design/colors','react-intl','react-router','react-router-dom'],
     plugins: [
       resolve(),
       commonjs(),

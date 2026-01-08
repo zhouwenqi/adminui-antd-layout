@@ -1,7 +1,6 @@
-import { useNavigate,useMatches } from "react-router"
+import { useNavigate } from "react-router"
 import React, { useState, useRef } from 'react'
-import type {ReactNode} from 'react'
-import type { MenuProps,SubMenuProps } from 'antd'
+import type { MenuProps } from 'antd'
 import { Menu, Layout,theme,Grid } from 'antd'
 import { hexToRgbaString, useConfigState } from "@adminui-dev/layout"
 import styles from "./index.module.css"
@@ -30,7 +29,7 @@ export default function(props:AsideLayoutProps){
     const {asideWidth} = layoutConfig
     const asideCollapsedWidth = props.headerHeight
     const {collapsed,setCollapsed} = useMainContext()
-    const { token } = useToken()
+    const { token,theme } = useToken()
     const navigate = useNavigate()  
     const breakpoint = useBreakpoint()
 
@@ -41,8 +40,8 @@ export default function(props:AsideLayoutProps){
     const borderRight = layoutConfig.hideBorder || (collaspedWidth == 0 && collapsed) ? "0px" : "1px solid " + borderColor
 
     // sider size
-    const siderTop = layoutConfig.layoutType=="headMenu" ? props.headerHeight : 0
-    const siderHeight = layoutConfig.layoutType == "headMenu" ? "calc(100% - " + props.headerHeight + "px)" : "100%"
+    const siderTop = layoutConfig.layoutType=="headMenu" || collaspedWidth == 0 ? props.headerHeight : 0
+    const siderHeight = layoutConfig.layoutType == "headMenu" ||  collaspedWidth == 0 ? "calc(100% - " + props.headerHeight + "px)" : "100%"
     let siderStyles:React.CSSProperties = {            
         width: `${layoutConfig.asideWidth}px`,    
         height: `${siderHeight}`,  
@@ -70,7 +69,7 @@ export default function(props:AsideLayoutProps){
     const iconSize = token.Menu?.iconSize
 
     // theme
-    const menuTheme = layoutConfig.theme == "dark" ? "dark" : "light"    
+    const menuTheme = theme.id == 1 ? "dark" : "light"    
     const siderTheme = menuTheme
 
     // collapsed button
@@ -103,6 +102,9 @@ export default function(props:AsideLayoutProps){
 
     // menu navigate event
     const onClick: MenuProps['onClick'] = (e) => {
+      if(collaspedWidth==0){
+        setCollapsed(true)
+      }  
       navigate(e.key)
     }
 

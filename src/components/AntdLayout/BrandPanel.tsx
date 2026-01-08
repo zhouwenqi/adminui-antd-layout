@@ -68,9 +68,9 @@ function BrandPanel(props:BrandPanelProps){
     let logoElement:React.ReactNode = <></>
     if(brandInfo?.logo){
         if(typeof brandInfo.logo == "string"){
-            logoElement = <LazyImage style={{ width:logoSize}} src={brandInfo.logo} alt={brandInfo.name} />
+            logoElement = <LazyImage style={{ width:logoSize,minWidth:logoSize}} src={brandInfo.logo} alt={brandInfo.name} />
         }else{
-            logoElement = <div className={styles.brandNodeBox} style={{width:logoSize}}>{brandInfo.logo}</div>
+            logoElement = <div className={styles.brandNodeBox} style={{width:logoSize,minWidth:logoSize}}>{brandInfo.logo}</div>
         }
     }
     const moreIcon = layoutIcons?.itemMoreIcon || <ChevronsUpDown /> 
@@ -147,9 +147,9 @@ function BrandAsidePanel(props:BrandPanelProps){
     let logoElement:React.ReactNode = <></>
     if(brandInfo?.logo){
         if(typeof brandInfo.logo == "string"){
-            logoElement = <LazyImage style={{ width:logoSize}} src={brandInfo.logo} alt={brandInfo.name} />
+            logoElement = <LazyImage style={{ width:logoSize,minWidth:logoSize}} src={brandInfo.logo} alt={brandInfo.name} />
         }else{
-            logoElement = <div className={styles.brandNodeBox} style={{width:logoSize}}>{brandInfo.logo}</div>
+            logoElement = <div className={styles.brandNodeBox} style={{width:logoSize,minWidth:logoSize}}>{brandInfo.logo}</div>
         }
     }
 

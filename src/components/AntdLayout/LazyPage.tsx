@@ -1,6 +1,5 @@
 import {lazy, Suspense, useEffect} from "react"
 import nprogress from "nprogress"
-import "nprogress/nprogress.css"
 
 export function LazyPage<T extends React.ComponentType<any>>(
     loader:()=>Promise<{default:T}>

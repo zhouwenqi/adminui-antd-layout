@@ -76,7 +76,7 @@ function Container(props:ContainerProps){
     }
     
     const breadcrumbPanel =  hideBreadcrumb ? <></> : <MainBreadcrumb style={breadcrumbStyles} />
-    const titlePanel = hideTitle ? <></> : <h3>{title}</h3>   
+    const titlePanel = hideTitle ? <></> : <h3>{ props.title || title}</h3>   
 
     contentStyles = {
         ...contentStyles,

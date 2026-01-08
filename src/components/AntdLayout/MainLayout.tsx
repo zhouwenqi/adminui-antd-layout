@@ -106,7 +106,6 @@ function MainLayout(props:MainLayoutProps){
 
     const navigation = useNavigation();
     const isNavigating = Boolean(navigation.location);
-    console.log(navigation)
   
     const lastRouteMenu = rootFlattenMenudata[lastRoute.pathname]
 

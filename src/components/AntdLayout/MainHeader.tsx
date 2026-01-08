@@ -17,16 +17,18 @@ const { useToken } = antdTheme
 export default function(props:HeaderLayoutProps){  
     const {layoutConfig} = useConfigState()
     
-    const {token} = useToken()
+    const {token,theme} = useToken()
     const navigate = useNavigate()
 
     const onClick: MenuProps['onClick'] = (e) => {      
       navigate(e.key)
     }
 
+    
+
     const borderColor = layoutConfig.headerTransparent || layoutConfig.headerBlur ? hexToRgbaString(token.colorBorderSecondary,0.6) : token.colorBorderSecondary
     const borderBottom = layoutConfig.hideBorder ? "0px" : "1px solid " + borderColor  
-    const headTheme = layoutConfig.flated && layoutConfig.layoutType=="headMenu" ? "dark" : layoutConfig.theme == "dark" ? "dark" : "light"
+    const headTheme = layoutConfig.flated && layoutConfig.layoutType=="headMenu" ? "dark" : theme.id == 1 ? "dark" : "light"
     const menuTheme = (layoutConfig.flated && layoutConfig.layoutType=="headMenu") ? "dark" : "light"
     const menuBgColor = layoutConfig.flated && layoutConfig.layoutType=="headMenu" ? token.colorPrimary : token.colorBgContainer
 

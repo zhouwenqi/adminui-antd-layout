@@ -1,6 +1,6 @@
 {
   "name": "@adminui-dev/antd-layout",
-  "version": "1.0.7",
+  "version": "1.1.6",
   "description": "this project name is @adminui-dev/antd-layout",
   "keywords": [
     "layut",
@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "tslib": "^2.6.0",
-    "@adminui-dev/layout":"1.0.9"
+    "@adminui-dev/layout":"1.1.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.0",
@@ -79,7 +79,6 @@
     "react-router": ">=7.11.0",
     "react-router-dom": ">=7.11.0",
     "@ant-design/colors": ">=7.2.1",
-    "@ant-design/icons": ">=6.1.0",
     "antd": ">=6.1.1"
   }
 }
