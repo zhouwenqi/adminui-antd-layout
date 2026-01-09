@@ -76,7 +76,7 @@ function AntdLayout(props:RootLayoutProps<LocaleMessage> & {
     const matches = useMatches()
     const {pathname} = matches[0]
    
-    const defaultConfig = {...initConfig, ...props.layoutConfig,...getStorageConfig(pathname) }  
+    const defaultConfig = {...initConfig, ...props.layoutConfig,...( props.disabledStorageConfig ? {} : getStorageConfig(pathname)) }  
     // skins
     let themeSkins = props.themeSkins || []
     const themeSkinsData = useMemo(()=>{ return getThemeSkins(themeSkins)},[themeSkins])
@@ -135,7 +135,9 @@ function AntdLayout(props:RootLayoutProps<LocaleMessage> & {
 
     const onChangeLayoutConfig=(config:LayoutConfig)=>{        
         setLayoutConfig(config)
-        setStorageConfig(config,pathname)
+        if(!props.disabledStorageConfig){
+            setStorageConfig(config,pathname)
+        }
     }
 
     const configStatusContext:ConfigStateDispatcher =  useMemo(()=>({
