@@ -99,7 +99,8 @@ function MainLayout(props:MainLayoutProps){
         setCollapsed
     }),[collapsed,headerHeight,props.layoutIcons,rootFlattenMenudata]) 
   
-    const lastRouteMenu = rootFlattenMenudata[lastRoute.pathname]
+    const hideAside = layoutConfig.hideAsideMenuDataEmpty && (asideMenuData.length <= 0 && layoutConfig.layoutType == "headMenu")
+    const lastRouteMenu = rootFlattenMenudata[lastRoute.pathname]   
 
     const title = lastRouteMenu.label || ""
     document.title = title
@@ -109,7 +110,7 @@ function MainLayout(props:MainLayoutProps){
         <AsideContextProvider value={asideContextDispatcher}>
             <BaseLayout {...props} style={baseStyles}>                
                 <BaseLayout.Aside>
-                    <MainAside headerHeight={headerHeight} header={asideHeader} footer={asideFooter} menuData={asideMenuData} selectedKeys={asideSelectKeys} openerKeys={asideSelectKeys} />
+                    {hideAside ? <></> : <MainAside headerHeight={headerHeight} header={asideHeader} footer={asideFooter} menuData={asideMenuData} selectedKeys={asideSelectKeys} openerKeys={asideSelectKeys} /> }
                 </BaseLayout.Aside>
                 <BaseLayout.Header>
                     <MainHeader height={headerHeight} menuData={headerMenuData} selectedKeys={headerSelectKeys} title={title} />
