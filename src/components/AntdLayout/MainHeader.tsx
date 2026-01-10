@@ -1,4 +1,4 @@
-import { hexToRgbaString, useConfigState, useTheme } from "@adminui-dev/layout";
+import { hexToRgbaString, useConfigState } from "@adminui-dev/layout";
 import { BrandMobilePanel, BrandPanel } from "./BrandPanel"
 import styles from "./index.module.css"
 import { HeaderToolbar } from "./ToolbarPanel"
@@ -23,8 +23,6 @@ export default function(props:HeaderLayoutProps){
     const onClick: MenuProps['onClick'] = (e) => {      
       navigate(e.key)
     }
-
-    
 
     const borderColor = layoutConfig.headerTransparent || layoutConfig.headerBlur ? hexToRgbaString(token.colorBorderSecondary,0.6) : token.colorBorderSecondary
     const borderBottom = layoutConfig.hideBorder ? "0px" : "1px solid " + borderColor  

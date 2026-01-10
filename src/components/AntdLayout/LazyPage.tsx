@@ -1,5 +1,6 @@
 import {lazy, Suspense, useEffect} from "react"
 import nprogress from "nprogress"
+nprogress.configure({ showSpinner: false })
 
 export function LazyPage<T extends React.ComponentType<any>>(
     loader:()=>Promise<{default:T}>

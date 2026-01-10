@@ -386,8 +386,25 @@
     justify-content: center;
     align-items: center;
 }
+.breadcrumbBox li :global(.adminui-breadcrumb-link){
+    display: flex;
+    align-items: center;
+    gap:var(--adminui-margin-xxs);
+}
 
-
+.breadcrumbBox li :global(.adminui-breadcrumb-link)>span[role="img"],
+.breadcrumbBox li :global(.adminui-breadcrumb-link)>svg{
+    display: none;
+}
+.breadcrumbFirstIcon li:first-of-type :global(.adminui-breadcrumb-link)>span[role="img"],
+.breadcrumbFirstIcon li:first-of-type :global(.adminui-breadcrumb-link)>a>svg
+{
+    display: inline-flex;
+}
+.breadcrumbAllIcon li :global(.adminui-breadcrumb-link)>span[role="img"],
+.breadcrumbAllIcon li :global(.adminui-breadcrumb-link)>a>svg{
+    display: inline-flex;
+}
 
 /** container */
 .containerBox {

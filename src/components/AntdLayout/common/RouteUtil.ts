@@ -17,15 +17,14 @@ function pathToKeys(pathname:string){
 
 function matchPathToKeys(pathname:string) {
     let keys = pathToKeys(pathname)
-    if(keys && keys.length > 1 && keys[0]=="/"){
-        keys.splice(0,1)
-    }
+    
     return keys
 }
 
 function splitMenuKeys(arr: string[]): [string[], string[]] {
   const len = arr.length;
   if (len === 0) return [[], []];
+  if(len === 1) return [[arr[0]],[]];
   const first = [arr[1]];
   const rest = new Array<string>(len - 2);
 

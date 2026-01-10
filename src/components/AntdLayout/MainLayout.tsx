@@ -1,13 +1,13 @@
 import { BaseLayout, useConfigState } from "@adminui-dev/layout"
-import { Outlet, useLocation, useMatches,useNavigation } from "react-router"
-import { theme as antdTheme, Spin } from "antd"
+import { Outlet, useMatches } from "react-router"
+import { theme as antdTheme } from "antd"
 import MainHeader from "./MainHeader"
 import MainAside from "./MainAside"
 import type { AntdMenuData, MainDispatcher, MainLayoutProps } from "./typings"
 import React, {  useMemo, useState } from "react"
 import { createMainContext, ROLE_ASIDE_FOOTER, ROLE_ASIDE_HEADER, ROLE_AVATAR_POPOVER_CONTENT, ROLE_BRAND_POPOVER_CONTENT, ROLE_CONTENT_FOOTER, ROLE_SOLT_CONTENT, ROLE_TOOLBAR_EXTRA_ITEMS } from "./MainContext"
 import { flattenMenuData, localeMenuData, separateMenuData, transformToAntdMenuData } from "./common/MenuUtil"
-import { matchPathToKeys, splitMenuKeys } from "./common/RouteUtil"
+import { splitMenuKeys } from "./common/RouteUtil"
 import { useIntl } from "react-intl"
 
 const { useToken } = antdTheme
@@ -43,13 +43,10 @@ function MainLayout(props:MainLayoutProps){
     const rootFlattenMenudata = flattenMenuData(rootMenuData || [])
     
     // locale menu data
-    const antdMenuData = transformToAntdMenuData(menuData)    
-
-    const location = useLocation() 
+    const antdMenuData = transformToAntdMenuData(menuData)       
 
     const matches = useMatches()  
-    const {pathname} = location
-    const menuKeys = matchPathToKeys(pathname) 
+    const menuKeys = matches.map(item=>item.pathname)
     const lastRoute = matches[matches.length-1]    
 
     let headerSelectKeys:string[]=[]
@@ -65,11 +62,9 @@ function MainLayout(props:MainLayoutProps){
         headerSelectKeys = menuKeys
     }
 
-    if(layoutConfig.splitMenu && menuKeys.length > 1){   
-        const [first,rest] = splitMenuKeys(menuKeys)
-        
+    if(layoutConfig.splitMenu){  
+        const [first,rest] = splitMenuKeys(menuKeys)                
         const {rootMenuItems,childrenMenuItems} = separateMenuData(antdMenuData!,menuKeys)
-
         if(layoutConfig.layoutType=="leftMenu") {
             asideMenuData = rootMenuItems
             headerMenuData = childrenMenuItems
@@ -81,7 +76,7 @@ function MainLayout(props:MainLayoutProps){
             headerSelectKeys = first
             asideSelectKeys = rest
         }
-    }
+    }   
     
     // loading layout extra element
     const childrenArray = React.Children.toArray(props.children)
@@ -102,10 +97,7 @@ function MainLayout(props:MainLayoutProps){
         toolbarExtraItems,
         flattenMenuMap:rootFlattenMenudata,
         setCollapsed
-    }),[collapsed,headerHeight,props.layoutIcons,rootFlattenMenudata])      
-
-    const navigation = useNavigation();
-    const isNavigating = Boolean(navigation.location);
+    }),[collapsed,headerHeight,props.layoutIcons,rootFlattenMenudata]) 
   
     const lastRouteMenu = rootFlattenMenudata[lastRoute.pathname]
 
