@@ -10,10 +10,3 @@
         height: 100%;
     }
 }
-
-/** Menu icon automatic compact mode */
-.adminui-menu-icon {
-    font-size: var(--adminui-menu-icon-size);
-    width: var(--adminui-menu-icon-size);
-    height: var(--adminui-menu-icon-size);
-}

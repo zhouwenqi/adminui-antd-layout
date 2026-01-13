@@ -16,6 +16,7 @@ interface MainDispatcher {
     collapsed:boolean,
     headerHeight:number,
     layoutIcons?:IconComponents,
+    containerBackground:string,
     brandPopoverContent?:React.ReactNode,
     avatarPopoverContent?:React.ReactNode,
     toolbarExtraItems?:React.ReactNode,

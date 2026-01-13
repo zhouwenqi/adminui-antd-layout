@@ -77,8 +77,8 @@ function CollapsedTrack(props:CollapsedPanelProps&{offset?:number,top?:boolean,f
   } 
 
   const [leftIcon, rightIcon] = layoutIcons?.collapsedIcons?.slice(0, 2) || [
-    <ChevronLeft /> ,
-    <ChevronRight />,      
+    <ChevronRight />,
+    <ChevronLeft />,      
   ]
 
   return(

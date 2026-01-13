@@ -6,6 +6,7 @@ import type { BrandInfo, UserInfo,  OutletContainer } from "@adminui-dev/layout"
 const MainContext = createContext<MainDispatcher>({
     collapsed:false,
     headerHeight:50,
+    containerBackground:"transparent",
     flattenMenuMap:{},
     setCollapsed:()=>{}
 })

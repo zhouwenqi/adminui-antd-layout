@@ -1,4 +1,4 @@
-import { BaseLayout, useConfigState } from "@adminui-dev/layout"
+import { BaseLayout, hexToRgbaString, useConfigState } from "@adminui-dev/layout"
 import { Outlet, useMatches } from "react-router"
 import { theme as antdTheme } from "antd"
 import MainHeader from "./MainHeader"
@@ -78,6 +78,19 @@ function MainLayout(props:MainLayoutProps){
         }
     }   
     
+    // container background color
+    const bgColor = useMemo(
+        () =>
+            layoutConfig.asideBlur || layoutConfig.headerBlur
+            ? hexToRgbaString(token.colorBgContainer, 0.6)
+            : token.colorBgContainer,
+        [
+            layoutConfig.asideBlur,
+            layoutConfig.headerBlur,
+            token.colorBgContainer,
+        ]
+    )
+
     // loading layout extra element
     const childrenArray = React.Children.toArray(props.children)
     const asideHeader = childrenArray.find(c => React.isValidElement(c) && (c.type as any).role === ROLE_ASIDE_HEADER)
@@ -88,6 +101,7 @@ function MainLayout(props:MainLayoutProps){
     const soleContent = childrenArray.find(c => React.isValidElement(c) && (c.type as any).role === ROLE_SOLT_CONTENT)
     const toolbarExtraItems = childrenArray.find(c => React.isValidElement(c) && (c.type as any).role === ROLE_TOOLBAR_EXTRA_ITEMS)
     const AsideContextProvider = createMainContext()
+    
     const asideContextDispatcher:MainDispatcher = useMemo(()=>({
         collapsed,
         headerHeight,
@@ -95,9 +109,10 @@ function MainLayout(props:MainLayoutProps){
         avatarPopoverContent,
         brandPopoverContent,
         toolbarExtraItems,
+        containerBackground:bgColor,
         flattenMenuMap:rootFlattenMenudata,
         setCollapsed
-    }),[collapsed,headerHeight,props.layoutIcons,rootFlattenMenudata]) 
+    }),[collapsed,headerHeight,props.layoutIcons,rootFlattenMenudata,bgColor]) 
   
     const hideAside = layoutConfig.hideAsideMenuDataEmpty && (asideMenuData.length <= 0 && layoutConfig.layoutType == "headMenu")
     const lastRouteMenu = rootFlattenMenudata[lastRoute.pathname]   
