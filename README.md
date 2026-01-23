@@ -7,7 +7,7 @@
 This is a layout component based on Antd.
 
 English · [中文](./README-zh_CN.md)
-## ❤️ Supports multiple layout styles and custom themes/skins, supports various routing options and operates independently of UMI control, perfect for those who pay attention to detail.
+### ❤️ Supports multiple layout styles and custom themes/skins, supports various routing options and operates independently of UMI control, perfect for those who pay attention to detail.
 
 <img src="./docs/images/adminui.github.webp" alt="warden.vip">
 
