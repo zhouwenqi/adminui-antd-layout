@@ -411,6 +411,7 @@
     box-sizing: border-box;
     background-color: transparent;
     display: flex;
+    overflow: hidden;
     flex-flow: column;
     flex:auto;
 }

@@ -84,7 +84,7 @@ function Container(props:ContainerProps){
     } 
 
     const hideFooter = props.hideFooter || layoutConfig.hideFooter
-    let footerPanel =  !hideFooter && props.children ? <footer>{footer}</footer> : <></>
+    let footerPanel =  !hideFooter && props.children && footer ? <footer>{footer}</footer> : <></>
     return(
         <div className={styles.containerBox} style={layoutStyles}>
             {breadcrumbPanel}

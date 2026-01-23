@@ -1,14 +1,16 @@
 import { ROLE_SOLT_CONTENT} from "./MainContext"
-
+interface SlotPanelProps {
+  children?: React.ReactNode
+}
 /**
  * Solt - layout
  * @param props 
  * @returns 
  */
-function SoltPanel(props:React.HTMLAttributes<HTMLDivElement>){
+function SoltPanel({ children }: SlotPanelProps){
     return(
         <>
-        {props.children}
+        {children}
         </>
     )
 }
