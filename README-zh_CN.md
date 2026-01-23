@@ -11,6 +11,8 @@ English · [中文](./README-zh_CN.md)
 
 <img src="./docs/images/adminui.github.webp" alt="warden.vip">
 
+[演示👉](https://demo.warden.vip)
+
 </div>
 
 ## ✨ 特性
