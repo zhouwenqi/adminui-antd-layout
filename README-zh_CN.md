@@ -55,3 +55,48 @@ bun add @adminui-dev/antd-layout
 ```bash
 npx create-antd-layout@lastest your-app
 ```
+## 🔨 示例
+```jsx
+import { AntdLayout } from "@adminui-dev/antd-layout"
+import type { LayoutConfig,MenuData } from "@adminui-dev/antd-layout"
+
+// src/layouts/index.tsx
+
+/**
+* menu data
+*/
+const menuData:MenuData = {
+    name:"",
+    path:"/",
+    label:"Dashboard",
+    children:[
+        {name:"welcome",path:"welcome",label:"Welcome"},
+        {name:"transaction",path:"transaction",label:"Transaction",children:[
+            {name:"order",path:"order",label:"Order"},
+            {name:"order",path:"product",label:"Product"},
+        ]},
+        {name:"system",path:"system",label:"System",children:[
+            {name:"config",path:"config",label:"Config"},
+            {name:"logs",path:"logs",label:"Logs"},
+        ]},
+    ]
+}
+
+/**
+* dashboard layout
+*/
+const MainLayout = () => {
+  // layout config
+  const layoutConfig:LayoutConfig = {
+      disabledLocale:true,
+      layoutType:"leftMenu"  
+  }
+  return(
+  <>
+    <AntdLayout layoutConfig={layoutConfig} menuData={menuData} />
+  </>
+  )
+}
+export default MainLayout;
+```
+可参考🍸[https://github.com/zhouwenqi/adminui-demo-antd-layout-simple](https://github.com/zhouwenqi/adminui-demo-antd-layout-simple)
