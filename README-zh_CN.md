@@ -7,7 +7,7 @@
 这是一个基于Antd的布局组件
 
 [English](./README.md) · 中文
-## ❤️ 支持多种布局样式和自定义主题皮肤，支持多种路由且脱离UMI控制，细节控。
+### ❤️ 支持多种布局样式和自定义主题皮肤，支持多种路由且脱离UMI控制，细节控。
 
 <img src="./docs/images/adminui.github.webp" alt="warden.vip">
 
