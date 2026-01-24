@@ -11,7 +11,7 @@ English · [中文](./README-zh_CN.md)
 
 <img src="./docs/images/adminui.github.webp" alt="warden.vip">
 
-[demo👉](https://demo.warden.vip)
+[demo👉](https://demo.adminui.dev)
 
 </div>
 
