@@ -106,4 +106,4 @@ export default MainLayout;
 ## ✅ 更多配置请参考官方文档
 官网🔗[https://www.warden.vip](https://www.warden.vip)
 
-文档🔗[https://www.warden.vip/en/docs](https://www.warden.vip/en/docs.html)
+文档🔗[https://www.warden.vip/en/docs.html](https://www.warden.vip/en/docs.html)

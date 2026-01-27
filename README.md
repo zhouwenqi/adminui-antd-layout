@@ -11,7 +11,7 @@ English · [中文](./README-zh_CN.md)
 
 <img src="./docs/images/adminui.github.webp" alt="warden.vip">
 
-[demo👉](https://demo.warden.vip)
+[demo👉](https://demo.adminui.dev)
 
 </div>
 
@@ -104,6 +104,6 @@ export default MainLayout;
 For reference 🍸[https://github.com/zhouwenqi/adminui-demo-antd-layout-simple](https://github.com/zhouwenqi/adminui-demo-antd-layout-simple)
 
 ## ✅ For more configuration options, please refer to the official documentation.
-Website 🔗[https://www.warden.vip](https://www.warden.vip)
+Website 🔗[https://adminui.dev](https://adminui.dev)
 
-Docs 🔗[https://www.warden.vip/en/docs](https://www.warden.vip/en/docs.html)
+Docs 🔗[https://adminui.dev/docs](https://adminui.dev/docs)
