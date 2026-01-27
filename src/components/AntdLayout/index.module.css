@@ -100,7 +100,7 @@
     width: auto;    
 }
 
-.layoutBlur,:global(.adminui-layout-blur) {    
+.layoutBlur {    
     transform: translateZ(0);
     backdrop-filter: blur(8px);
 }
@@ -386,6 +386,11 @@
     justify-content: center;
     align-items: center;
 }
+.collapsedContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .breadcrumbBox li :global(.adminui-breadcrumb-link){
     display: flex;
     align-items: center;
@@ -411,15 +416,10 @@
     box-sizing: border-box;
     background-color: transparent;
     display: flex;
-    overflow: hidden;
     flex-flow: column;
     flex:auto;
 }
-.containerBox>h3 {
-    box-sizing: border-box;
-    line-height: var(--adminui-line-height);
-    margin:0 0 var(--adminui-margin);
-}
+
 .containerBox>footer{
     display: flex;
     flex-flow: column;
@@ -432,7 +432,36 @@
 .containerBox>footer>div{
     text-align: center;
 }
-
+.containerHeader {
+    display: flex;
+    justify-content:flex-start;
+    align-items: center;
+    padding-block-end: var(--adminui-padding-xs);
+}
+.containerHeaderCollapsed {
+    display: flex;
+    gap:6px;
+    align-items: center;
+}
+.contentHeaderMenu {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    padding-inline-start: var(--adminui-padding-xs);
+    gap:var(--adminui-margin-xs);
+}
+.contentHeaderMenu>h3{
+    box-sizing: border-box;
+    line-height: var(--adminui-line-height);
+    margin:0px;
+    padding:0px;
+}
+.containerHeaderToolbar {
+    flex:1;
+    display: flex;
+    justify-content: flex-end;    
+    align-items: center;
+}
 
 /** antd(adminui) */
 .headerLayout :global(.adminui-layout-header){
@@ -467,18 +496,6 @@
     display: inline-flex;
 }
 
-
-/** Menu icon automatic compact mode */
-:global(.adminui-menu-icon) {
-    font-size: var(--adminui-menu-icon-size);
-    width: var(--adminui-menu-icon-size);
-    height: var(--adminui-menu-icon-size);
-}
-
-:global(.adminui-menu) :global(.adminui-menu-title-content-with-extra) {
-  width: auto;
-}
-
 @container (max-width: 576px)  {  
     .headerLayout :global(.adminui-layout-header) {
         padding-inline-start: var(--adminui-padding-xs);
@@ -504,6 +521,9 @@
   }
   .collapsedMobile {
     display: flex;
+  }
+  .collapsedContainer {
+    display: none;
   }
   .collapsedTrack {
     visibility: collapse;

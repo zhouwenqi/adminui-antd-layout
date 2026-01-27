@@ -39,9 +39,13 @@ export default function(props:AsideLayoutProps){
     const borderColor = layoutConfig.headerTransparent || layoutConfig.headerBlur ? hexToRgbaString(token.colorBorderSecondary,0.6) : token.colorBorderSecondary
     const borderRight = layoutConfig.hideBorder || (collaspedWidth == 0 && collapsed) ? "0px" : "1px solid " + borderColor
 
+    // none header
+    const noneHeader = layoutConfig.noneHeader && layoutConfig.layoutType=="leftMenu"
+    const containerMargin = layoutConfig.containerMargin || 0
+
     // sider size
     const siderTop = layoutConfig.layoutType=="headMenu" || collaspedWidth == 0 ? props.headerHeight : 0
-    const siderHeight = layoutConfig.layoutType == "headMenu" ||  collaspedWidth == 0 ? "calc(100% - " + props.headerHeight + "px)" : "100%"
+    const siderHeight = layoutConfig.layoutType == "headMenu" ||  collaspedWidth == 0 ? "calc(100% - " + props.headerHeight + "px)" : "100%"    
     let siderStyles:React.CSSProperties = {            
         width: `${layoutConfig.asideWidth}px`,    
         height: `${siderHeight}`,  
@@ -49,7 +53,9 @@ export default function(props:AsideLayoutProps){
         maxWidth: `${layoutConfig.asideWidth}px`,
         minWidth: `${layoutConfig.asideWidth}px`,
         borderRight: borderRight,
+        boxShadow:collaspedWidth > 0 ? "none" : token.boxShadowTertiary,
         position: "fixed",
+        margin:noneHeader ? containerMargin / 2 : "0px",
         transition:'width 0.3s, min-width 0.3s, max-width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1)',
     }
 
@@ -79,7 +85,9 @@ export default function(props:AsideLayoutProps){
       collapsedBtnTop = layoutConfig.headerHeight || 0           
       brandPanel = layoutConfig.largeBrand ? <LargeBrandPanel collapsed={collapsed} iconSize={iconSize} /> : <BrandAsidePanel collapsed={collapsed} iconSize={iconSize} hideTitle />
     }
-    const menuBgColor = layoutConfig.asideTransparent ? "transparent" : ( layoutConfig.asideBlur ? hexToRgbaString(token.colorBgContainer,0.6) : token.colorBgContainer )
+
+    // Transparency is not supported on mobile devices.
+    const menuBgColor = layoutConfig.asideTransparent && collaspedWidth > 0 ? "transparent" : ( layoutConfig.asideBlur ? hexToRgbaString(token.colorBgContainer,0.6) : token.colorBgContainer )
     // sider transparent or blur
     siderStyles = {
       ...siderStyles,      
@@ -101,11 +109,11 @@ export default function(props:AsideLayoutProps){
     }
 
     // menu navigate event
-    const onClick: MenuProps['onClick'] = (e) => {
+    const onClick: MenuProps['onClick'] = (e) => {   
       if(collaspedWidth==0){
         setCollapsed(true)
-      }  
-      navigate(e.key)
+      }   
+      navigate(e.key)      
     }
 
     let siderClassNames = [styles.siderBaseStyle]
@@ -118,8 +126,10 @@ export default function(props:AsideLayoutProps){
         collapsedMenu = <CollapsedMenu iconSize={iconSize} style={{backgroundColor:menuBgColor,width:`${asideCollapsedWidth}px`,borderRight:borderRight}}  />
         break
       case "center":
+        collapsedMenu = <CollapsedTrack iconSize={12} flated={layoutConfig.flated} offset={collapsedBtnTop} style={{backgroundColor:menuBgColor}} />
+        break
       case "top":
-        collapsedMenu = <CollapsedTrack iconSize={12} top={layoutConfig.collapsedPosition=="top"} flated={layoutConfig.flated} offset={collapsedBtnTop} style={{backgroundColor:menuBgColor}} />
+        collapsedMenu = layoutConfig.noneHeader ? <></> : <CollapsedTrack iconSize={12} top={true} flated={layoutConfig.flated} offset={collapsedBtnTop} style={{backgroundColor:menuBgColor}} />
         break
         default:
     }

@@ -4,7 +4,7 @@ import { theme as antdTheme } from "antd"
 import MainHeader from "./MainHeader"
 import MainAside from "./MainAside"
 import type { AntdMenuData, MainDispatcher, MainLayoutProps } from "./typings"
-import React, {  useMemo, useState } from "react"
+import React, { useMemo, useState } from "react"
 import { createMainContext, ROLE_ASIDE_FOOTER, ROLE_ASIDE_HEADER, ROLE_AVATAR_POPOVER_CONTENT, ROLE_BRAND_POPOVER_CONTENT, ROLE_CONTENT_FOOTER, ROLE_SOLT_CONTENT, ROLE_TOOLBAR_EXTRA_ITEMS } from "./MainContext"
 import { flattenMenuData, localeMenuData, separateMenuData, transformToAntdMenuData } from "./common/MenuUtil"
 import { splitMenuKeys } from "./common/RouteUtil"
@@ -25,7 +25,7 @@ function MainLayout(props:MainLayoutProps){
     const { layoutConfig,themeSkin } = useConfigState()
     const intl = useIntl()
     const {token} = useToken()    
-    const [collapsed,setCollapsed] = useState(false)   
+    const [collapsed,setCollapsed] = useState(false)  
 
     const baseStyles = {
         backgroundColor:token.colorBgLayout,  
@@ -35,7 +35,7 @@ function MainLayout(props:MainLayoutProps){
     if(layoutConfig.compact){
       headerHeight -= 4
     }  
-
+    
 
     const rootMenuData = layoutConfig.disabledLocale ? props.menuData : localeMenuData(props.menuData,intl)
     const menuData = rootMenuData && rootMenuData?.length > 0 ? rootMenuData[0].children :[]
@@ -77,7 +77,7 @@ function MainLayout(props:MainLayoutProps){
             asideSelectKeys = rest
         }
     }   
-    
+
     // container background color
     const bgColor = useMemo(
         () =>
@@ -90,7 +90,7 @@ function MainLayout(props:MainLayoutProps){
             token.colorBgContainer,
         ]
     )
-
+    
     // loading layout extra element
     const childrenArray = React.Children.toArray(props.children)
     const asideHeader = childrenArray.find(c => React.isValidElement(c) && (c.type as any).role === ROLE_ASIDE_HEADER)
@@ -98,10 +98,10 @@ function MainLayout(props:MainLayoutProps){
     const contentFooter = childrenArray.find(c => React.isValidElement(c) && (c.type as any).role === ROLE_CONTENT_FOOTER)
     const avatarPopoverContent = childrenArray.find(c => React.isValidElement(c) && (c.type as any).role === ROLE_AVATAR_POPOVER_CONTENT)
     const brandPopoverContent = childrenArray.find(c => React.isValidElement(c) && (c.type as any).role === ROLE_BRAND_POPOVER_CONTENT)
-    const soleContent = childrenArray.find(c => React.isValidElement(c) && (c.type as any).role === ROLE_SOLT_CONTENT)
+    const soltContent = childrenArray.find(c => React.isValidElement(c) && (c.type as any).role === ROLE_SOLT_CONTENT)
     const toolbarExtraItems = childrenArray.find(c => React.isValidElement(c) && (c.type as any).role === ROLE_TOOLBAR_EXTRA_ITEMS)
     const AsideContextProvider = createMainContext()
-    
+
     const asideContextDispatcher:MainDispatcher = useMemo(()=>({
         collapsed,
         headerHeight,
@@ -111,14 +111,14 @@ function MainLayout(props:MainLayoutProps){
         toolbarExtraItems,
         containerBackground:bgColor,
         flattenMenuMap:rootFlattenMenudata,
-        setCollapsed
+        setCollapsed,
     }),[collapsed,headerHeight,props.layoutIcons,rootFlattenMenudata,bgColor]) 
   
     const hideAside = layoutConfig.hideAsideMenuDataEmpty && (asideMenuData.length <= 0 && layoutConfig.layoutType == "headMenu")
-    const lastRouteMenu = rootFlattenMenudata[lastRoute.pathname]   
+    const lastRouteMenu = rootFlattenMenudata[lastRoute.pathname]
 
     const title = lastRouteMenu.label || ""
-    document.title = title
+    document.title = title  
 
     return(
         <>
@@ -138,7 +138,7 @@ function MainLayout(props:MainLayoutProps){
                 </BaseLayout.Background>             
             </BaseLayout>
         </AsideContextProvider>
-        {soleContent}
+        {soltContent}
         </>
     )
 }

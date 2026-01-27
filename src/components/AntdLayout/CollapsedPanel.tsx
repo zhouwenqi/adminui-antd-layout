@@ -78,7 +78,7 @@ function CollapsedTrack(props:CollapsedPanelProps&{offset?:number,top?:boolean,f
 
   const [leftIcon, rightIcon] = layoutIcons?.collapsedIcons?.slice(0, 2) || [
     <ChevronRight />,
-    <ChevronLeft />,      
+    <ChevronLeft /> ,      
   ]
 
   return(
@@ -118,4 +118,31 @@ function CollapsedMobileMenu(props:CollapsedPanelProps){
     )   
 }
 
-export {CollapsedMenu,CollapsedTrack,CollapsedMobileMenu}
+/**
+ * Container collapsed button
+ * @param props 
+ * @returns 
+ */
+function CollapsedContainerMenu(props:CollapsedPanelProps){
+    const {collapsed,setCollapsed,layoutIcons} = useMainContext()
+  
+    const btnStyles:React.CSSProperties = {
+        cursor:"pointer",
+        display:"flex",
+        justifyContent:"center",
+        alignItems:"center"
+    }
+    
+    const [leftIcon, rightIcon] = layoutIcons?.mobileAsideIcons?.slice(0, 2) || [ 
+      <ListIndentIncrease />,
+      <ListIndentDecrease />
+    ]
+
+    return(
+        <div className={styles.collapsedContainer}>
+            <Button type="text" style={{...btnStyles,...props.style}} icon={ collapsed ? leftIcon : rightIcon} onClick={()=>{setCollapsed(!collapsed)}}></Button>            
+        </div>
+    )   
+}
+
+export {CollapsedMenu,CollapsedTrack,CollapsedMobileMenu,CollapsedContainerMenu}

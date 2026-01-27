@@ -1,6 +1,6 @@
 {
   "name": "@adminui-dev/antd-layout",
-  "version": "1.3.6",
+  "version": "1.3.9",
   "description": "this project name is @adminui-dev/antd-layout",
   "keywords": [
     "layut",
@@ -45,7 +45,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@adminui-dev/layout": "1.1.6",    
+    "@adminui-dev/layout": "1.2.2",    
     "tslib": "^2.6.0"
   },
   "devDependencies": {

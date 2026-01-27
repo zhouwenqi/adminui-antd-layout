@@ -79,6 +79,10 @@ export default function(props:HeaderLayoutProps){
     }
     let algorithms = headTheme=="dark" ? [antdTheme.darkAlgorithm] : [antdTheme.defaultAlgorithm] 
 
+    if(layoutConfig.noneHeader){
+      return <></>
+    }
+
     return(
         <>          
             {headMaskElement}

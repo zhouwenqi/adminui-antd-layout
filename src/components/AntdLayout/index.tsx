@@ -1,4 +1,4 @@
-import { createConfigActionContext,createConfigStateContext,getLayoutTheme,defaultConfig as initConfig, } from "@adminui-dev/layout"
+import { createConfigActionContext,createConfigStateContext,getLayoutTheme,hexToRgb,hexToRgbaString,defaultConfig as initConfig, } from "@adminui-dev/layout"
 import type { LayoutConfig, RootLayoutProps, Language, ConfigActionDispatcher,ConfigStateDispatcher,Theme, ThemeSkin, SkinType } from "@adminui-dev/layout"
 import { useEffect, useMemo, useState } from "react"
 import {ConfigProvider,App,theme as antdTheme} from 'antd'
@@ -6,7 +6,7 @@ import  "./index.css"
 import type { IconComponents, LocaleMessage } from "./typings"
 import { IntlProvider } from "react-intl"
 import MainLayout from "./MainLayout"
-import { getBlackColors } from './common/ColorUtil'
+import { DEFAULT_PRIMARY_COLOR, generate, getBlackColors, getWhiteColors } from './common/ColorUtil'
 import { AsideHeader, AsideFooter} from "./AsidePanel"
 import { getStorageConfig, setSkinConfig, setStorageConfig } from "./common/StringUtil"
 import { transformMenuData} from "./common/RouteUtil"
@@ -19,6 +19,10 @@ import { ToolbarExtraItems } from "./ToolbarPanel"
 
 // localStorage key for Local
 const LOCALE_STORAGE_KEY = "adminui-locale"
+
+// Blacklist and whitelist
+const blackColors = getBlackColors()
+const whiteColors = getWhiteColors()
 
 // get language list
 const getLanguages=(data:Record<string, LocaleMessage>):Language[]=>{
@@ -157,6 +161,7 @@ function AntdLayout(props:RootLayoutProps<LocaleMessage> & {
     const currentLocaleData = localeMessageData[locale] || localeMessageData["en-US"];
     const direction =  ['he', 'ar', 'fa', 'ku'].filter(lng => locale.startsWith(lng)).length ? 'rtl' : 'ltr';
 
+    // antd token styles
     let algorithms = layoutTheme === "dark" ? [antdTheme.darkAlgorithm] : [antdTheme.defaultAlgorithm] 
     let menuIconSize = layoutConfig.menuIconSize || 14
     const iconMarginInlineEnd = layoutConfig.menuIconSize ? (menuIconSize - 10) * 0.1 + 10 : 10
@@ -165,7 +170,12 @@ function AntdLayout(props:RootLayoutProps<LocaleMessage> & {
         menuIconSize -= 2;
     }
 
-    let menuStyles = {
+
+    const backColors = layoutTheme === "dark" ? whiteColors : blackColors
+    const foreColors = layoutTheme === "dark" ? blackColors : whiteColors
+    const primaryColors = generate(layoutConfig.primaryColor || DEFAULT_PRIMARY_COLOR)
+
+    let menuStyles:any = {
         "darkSubMenuItemBg":"transparent",
         "subMenuItemBg":"transparent",      
         "iconSize":menuIconSize,
@@ -173,8 +183,19 @@ function AntdLayout(props:RootLayoutProps<LocaleMessage> & {
         "itemMarginInline": layoutConfig.flated ? 0 : 4,
         "iconMarginInlineEnd":iconMarginInlineEnd,
         "activeBarHeight": layoutConfig.compact ? 2 : 4,
-        "darkPopupBg": getBlackColors()[4]
+        "darkPopupBg": blackColors[4],        
     }
+
+    if(layoutConfig.menuItemSelectColor && layoutConfig.menuItemSelectColor != "default"){
+        const invertColor = layoutConfig.menuItemSelectColor == "invert"
+        menuStyles = {
+            ...menuStyles,
+            itemActiveBg:invertColor ? backColors[0] : primaryColors[1],
+            itemSelectedBg: invertColor ? backColors[3] : layoutConfig.primaryColor,
+            itemSelectedColor: invertColor ? foreColors[2] : whiteColors[2],            
+        }
+    }
+
     let layoutStyles = {
         "siderBg":"transparent",
         "triggerBg":"transparent",

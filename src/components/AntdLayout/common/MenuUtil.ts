@@ -1,7 +1,6 @@
-import type { MenuData } from "@adminui-dev/layout";
-import type { AntdMenuData } from "../typings";
+import type { MenuData } from "@adminui-dev/layout"
+import type { AntdMenuData } from "../typings"
 import { type IntlShape } from "react-intl"
-import { type UIMatch } from "react-router-dom"
 
 /**
  * flatten menu data
