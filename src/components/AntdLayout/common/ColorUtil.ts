@@ -1,3 +1,4 @@
+import { hexToRgbaString, useConfigState } from '@adminui-dev/layout';
 import { generate } from '@ant-design/colors';
 
 const DEFAULT_BLACK_COLOR = '#000000';
@@ -13,5 +14,18 @@ const getBlackColors=():string[]=>{
 const getWhiteColors=():string[]=>{
     return getColors(DEFAULT_WHITE_COLOR)
 }
+const useBlurBackgroundColor=(conainerBgColor:string)=>{
+    let { layoutConfig } = useConfigState()    
+    return layoutConfig.containerBlur ? hexToRgbaString(conainerBgColor,0.6) : conainerBgColor
+}
 
-export { generate, getBlackColors, getWhiteColors,DEFAULT_PRIMARY_COLOR }
+const useBlurStyles = (conainerBgColor:string):React.CSSProperties => {
+    const bgColor = useBlurBackgroundColor(conainerBgColor)
+    return {
+        backgroundColor: bgColor,
+        transform: "translateZ(0)",
+        backdropFilter: "blur(8px)"
+    }
+}
+
+export { generate, getBlackColors, getWhiteColors,useBlurBackgroundColor,useBlurStyles,DEFAULT_PRIMARY_COLOR }

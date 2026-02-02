@@ -75,18 +75,20 @@ const setStorageConfig=(config:LayoutConfig,name?:string)=>{
 const setSkinConfig=(layoutConfig:LayoutConfig, themeSkin?:ThemeSkin):LayoutConfig => {
     let config:LayoutConfig = {...layoutConfig}
     if(themeSkin){
-        const theme = themeSkin.theme.length < 2 ? themeSkin.theme[0] as Theme : config.theme
         config = {
             ...config,
-            primaryColor:themeSkin.primaryColor ?? config.primaryColor,
-            containerBlur:themeSkin.containerBlur ?? config.containerBlur,
-            asideBlur:themeSkin.asideBlur ?? config.asideBlur,
-            asideWidth:themeSkin.asideWidth ?? config.asideWidth,
-            headerBlur:themeSkin.asideBlur ?? config.headerBlur,            
-            theme,
+            ...themeSkin.layoutConfig,
+        }
+        if(config.brandInfo && themeSkin.logo){
+            config = {
+                ...config,
+                brandInfo:{
+                    ...config.brandInfo,
+                    logo:themeSkin.logo
+                }
+            }
         }
     }
     return config
 }
-
 export {useAppIntl,getAppIntl,getStorageConfig, setStorageConfig,getBasicLayoutConfig, setSkinConfig}

@@ -1,5 +1,5 @@
-import { createConfigActionContext,createConfigStateContext,getLayoutTheme,hexToRgb,hexToRgbaString,defaultConfig as initConfig, } from "@adminui-dev/layout"
-import type { LayoutConfig, RootLayoutProps, Language, ConfigActionDispatcher,ConfigStateDispatcher,Theme, ThemeSkin, SkinType } from "@adminui-dev/layout"
+import { createConfigActionContext,createConfigStateContext,getLayoutTheme,defaultConfig as initConfig, } from "@adminui-dev/layout"
+import type { LayoutConfig, RootLayoutProps, Language, ConfigActionDispatcher,ConfigStateDispatcher, ThemeSkin, SkinType } from "@adminui-dev/layout"
 import { useEffect, useMemo, useState } from "react"
 import {ConfigProvider,App,theme as antdTheme} from 'antd'
 import  "./index.css"
@@ -40,14 +40,14 @@ const getLanguages=(data:Record<string, LocaleMessage>):Language[]=>{
 // get theme skin list
 const getThemeSkins=(data:ThemeSkin[]):Record<string,ThemeSkin[]>=> {
     let skinsMap:Record<SkinType,ThemeSkin[]> = {
-        "tidy":[],
-        "rich":[]
+        "system":[],
+        "custom":[]
     }
     data.forEach((item)=>{
-        if(item.skinType == "rich"){
-            skinsMap["rich"].push(item)
+        if(item.skinType == "system"){
+            skinsMap["system"].push(item)
         }else{
-            skinsMap["tidy"].push(item)
+            skinsMap["custom"].push(item)
         }
     })
 
@@ -170,7 +170,6 @@ function AntdLayout(props:RootLayoutProps<LocaleMessage> & {
         menuIconSize -= 2;
     }
 
-
     const backColors = layoutTheme === "dark" ? whiteColors : blackColors
     const foreColors = layoutTheme === "dark" ? blackColors : whiteColors
     const primaryColors = generate(layoutConfig.primaryColor || DEFAULT_PRIMARY_COLOR)
@@ -179,20 +178,53 @@ function AntdLayout(props:RootLayoutProps<LocaleMessage> & {
         "darkSubMenuItemBg":"transparent",
         "subMenuItemBg":"transparent",      
         "iconSize":menuIconSize,
-        "fontSize":menuIconSize,
+        "fontSize":layoutConfig.menuFontSize || 14,
         "itemMarginInline": layoutConfig.flated ? 0 : 4,
         "iconMarginInlineEnd":iconMarginInlineEnd,
         "activeBarHeight": layoutConfig.compact ? 2 : 4,
         "darkPopupBg": blackColors[4],        
     }
 
-    if(layoutConfig.menuItemSelectColor && layoutConfig.menuItemSelectColor != "default"){
-        const invertColor = layoutConfig.menuItemSelectColor == "invert"
+    if(layoutConfig.menuItemSelectColor){
+        let resolvedStyles: Partial<typeof menuStyles> = {}
+        switch (layoutConfig.menuItemSelectColor) {
+            case "invert":
+                resolvedStyles = {
+                    itemActiveBg: backColors[0],
+                    itemSelectedBg: backColors[3],
+                    itemSelectedColor: foreColors[2],
+                    darkItemActiveBg: backColors[0],
+                    darkItemSelectedBg: backColors[3],
+                    darkItemSelectedColor: foreColors[2],
+                }
+            break
+
+            case "primary":
+                resolvedStyles = {
+                    itemActiveBg: primaryColors[1],
+                    itemSelectedBg: layoutConfig.primaryColor,
+                    itemSelectedColor: whiteColors[2],
+                    darkItemActiveBg: primaryColors[1],
+                    darkItemSelectedBg: layoutConfig.primaryColor,
+                    darkItemSelectedColor: whiteColors[2],
+                }
+            break
+
+            case "default":
+                resolvedStyles = {
+                    itemActiveBg: foreColors[1],
+                    itemSelectedBg: foreColors[5],
+                    itemSelectedColor: layoutConfig.primaryColor,
+                    darkItemActiveBg: foreColors[1],
+                    darkItemSelectedBg: foreColors[3],
+                    darkItemSelectedColor: layoutConfig.primaryColor,
+                }
+            break
+        }
+
         menuStyles = {
             ...menuStyles,
-            itemActiveBg:invertColor ? backColors[0] : primaryColors[1],
-            itemSelectedBg: invertColor ? backColors[3] : layoutConfig.primaryColor,
-            itemSelectedColor: invertColor ? foreColors[2] : whiteColors[2],            
+            ...resolvedStyles,
         }
     }
 
@@ -208,6 +240,7 @@ function AntdLayout(props:RootLayoutProps<LocaleMessage> & {
         token:{
             colorPrimary:layoutConfig.primaryColor,     
             borderRadius:layoutConfig.flated ? 0 : 6,
+            colorLink:layoutConfig.colorLink
         },
         components:{
             "Menu":menuStyles,

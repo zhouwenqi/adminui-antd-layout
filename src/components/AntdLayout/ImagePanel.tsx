@@ -58,6 +58,11 @@ function LazyImage(props:React.ImgHTMLAttributes<HTMLImageElement>&{hasChild?:bo
     return props.hasChild ? imageElement : <div style={imgBox}>{imageElement}</div>  
 }
 
+/**
+ * Spin image
+ * @param props 
+ * @returns 
+ */
 function SpinImage(props:React.ImgHTMLAttributes<HTMLImageElement>&{hasChild?:boolean}){
     const [loaded, setLoaded] = useState(false);    
     const {hasChild,...domProps} = props
@@ -87,5 +92,37 @@ function SpinImage(props:React.ImgHTMLAttributes<HTMLImageElement>&{hasChild?:bo
     )
 }
 
+/**
+ * lazy images
+ * @param imgs image list
+ * @returns 
+ */
+const useLazyImages=(imgs:string[])=>{  
+  const [loading,setLoading] = useState<boolean>(false)
+  useEffect(()=>{
+      setLoading(true);
+      let loaded = 0;
+      imgs.forEach((src) => {
+        const img = new Image();
+        img.src = src;
+        img.onload = () => {
+          loaded++;
+          if(loaded === imgs.length){
+            setLoading(false);
+          }
+        };
+        img.onerror=()=>{
+          loaded++;
+          if(loaded === imgs.length){
+            setLoading(false);
+          }
+        }
+      });    
+  },[])
+  return {
+    loading
+  }
+}
 
-export { LazyAvatar,LazyImage,SpinImage }
+
+export { LazyAvatar,LazyImage,useLazyImages,SpinImage }

@@ -10,3 +10,29 @@
         height: 100%;
     }
 }
+/** Menu icon automatic compact mode */
+.adminui-menu-icon,
+.adminui-menu-item .lucide,
+.adminui-menu-submenu .lucide {
+    font-size: var(--adminui-menu-icon-size);
+    width: var(--adminui-menu-icon-size);
+    height: var(--adminui-menu-icon-size);    
+}
+.adminui-btn-icon {
+    display: inline-flex;
+    justify-items: center;
+    align-items: center;
+}
+.adminui-menu .adminui-menu-title-content-with-extra {
+  width: auto;
+}
+.adminui-menu .adminui-menu-title-content-with-extra .adminui-menu-item-extra {
+    display: inline-flex;
+}
+.adminui-tag {
+    display: inline-flex;
+    align-items: center;
+}
+.adminui-tag>svg{
+    margin-right: 4px;
+}

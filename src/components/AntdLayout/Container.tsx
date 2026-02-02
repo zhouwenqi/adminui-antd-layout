@@ -1,4 +1,4 @@
-import { useConfigState, } from "@adminui-dev/layout"
+import { hexToRgbaString, useConfigState, } from "@adminui-dev/layout"
 import type { ContainerProps, LayoutProps } from "@adminui-dev/layout"
 import { useContainerOutlet } from "./MainContext"
 import {Divider, theme,Grid} from "antd"
@@ -8,6 +8,7 @@ import MainBreadcrumb from "./MainBreadcrumb"
 import { HeaderToolbar } from "./ToolbarPanel"
 import { BrandMobilePanel } from "./BrandPanel"
 import { CollapsedContainerMenu, CollapsedMobileMenu } from "./CollapsedPanel"
+import { useBlurStyles } from "./common/ColorUtil"
 
 const {useToken} = theme
 const { useBreakpoint } = Grid
@@ -42,6 +43,9 @@ function Container(props:ContainerProps){
     const hideTitle = props.hideTitle || layoutConfig.hideTitle
 
     const noneHeader = layoutConfig.noneHeader && layoutConfig.layoutType=="leftMenu"
+    
+    // border color
+    const borderColor = layoutConfig.headerTransparent || layoutConfig.headerBlur ? hexToRgbaString(token.colorBorderSecondary,0.6) : token.colorBorderSecondary
 
     // conainter style
     if(mode=="box" || mode=="panel"){
@@ -58,7 +62,7 @@ function Container(props:ContainerProps){
             if(!hideBorder){
                 contentStyles = {
                     ...contentStyles,
-                    border:`solid 1px ${token.colorBorderSecondary}`
+                    border:`solid 1px ${borderColor}`
                 }
             }
         }
@@ -83,9 +87,9 @@ function Container(props:ContainerProps){
         layoutStyles = {
             ...layoutStyles,
             backgroundColor:token.colorBgContainer,
-            borderRadius:containerMargin > 0 ? token.padding : `${token.padding}px 0px 0px ${token.padding}px`,
+            borderRadius:xs ? "0px" : (containerMargin > 0 ? token.padding : `${token.padding}px 0px 0px ${token.padding}px`),
             padding:"0px",
-            margin:containerMargin
+            margin: xs ? "0px" : `${containerMargin}px ${containerMargin}px ${containerMargin}px 0px` 
         }
 
         headerStyles = {
@@ -98,10 +102,38 @@ function Container(props:ContainerProps){
     const breadcrumbPanel =  hideBreadcrumb ? <></> : <MainBreadcrumb />
     const titlePanel = hideTitle ? <></> : <h3>{ props.title || title}</h3>   
 
+    // container blur
+    if(layoutConfig.containerBlur) {
+        const blurStyles = useBlurStyles(token.colorBgContainer)
+        if(noneHeader){
+            layoutStyles = {
+                ...layoutStyles,
+                ...blurStyles
+            }
+            contentStyles = {
+                ...contentStyles,  
+                backgroundColor: "transparent"
+            }
+        }else{
+            contentStyles = {
+                ...contentStyles,
+                ...blurStyles,
+            }
+        } 
+    }
+
+    // container transparent
+    if(props.transparent || layoutConfig.containerTransparent) {
+        contentStyles = {
+            ...contentStyles,
+            backgroundColor: "transparent"
+        }
+    }
+
     contentStyles = {
         ...contentStyles,
         ...props.style
-    } 
+    }
     
     const mobileBrandPanel = noneHeader ? <BrandMobilePanel>{props.title || title}</BrandMobilePanel> : <></>
     const mobileCollapsedMenu = noneHeader ? <CollapsedMobileMenu iconSize={layoutConfig.compact ? 12 : 14} /> : <></>
@@ -109,7 +141,7 @@ function Container(props:ContainerProps){
 
     const hideFooter = props.hideFooter || layoutConfig.hideFooter
     const footerPanel =  !hideFooter && props.children && footer ? <footer>{footer}</footer> : <></>
-    const toolbarPanel = noneHeader ? <HeaderToolbar showAvatar={layoutConfig.avatarPosition == "rightTop"} /> : <></>
+    const toolbarPanel = noneHeader ? <HeaderToolbar showAvatar={layoutConfig.avatarPosition == "rightTop" || xs} /> : <></>
     const headerPanel = noneHeader && xs ? <></> : (<div className={styles.contentHeaderMenu}>{breadcrumbPanel}{titlePanel}</div>)
     return(
         <div className={styles.containerBox} style={layoutStyles}>

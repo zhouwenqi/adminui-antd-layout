@@ -4,19 +4,19 @@ import styles from "./index.module.css"
 import { HeaderToolbar } from "./ToolbarPanel"
 
 import type { MenuProps } from 'antd';
-import { Menu,Layout, ConfigProvider, theme as antdTheme } from 'antd'
+import { Menu,Layout, ConfigProvider, Grid, theme as antdTheme } from 'antd'
 import type { CSSProperties } from "react";
 import { useNavigate } from "react-router";
 import type { HeaderLayoutProps } from "./typings";
 import { CollapsedMobileMenu } from "./CollapsedPanel";
 
-
+const { useBreakpoint } = Grid
 const {Header} = Layout
 const { useToken } = antdTheme
 
 export default function(props:HeaderLayoutProps){  
     const {layoutConfig} = useConfigState()
-    
+    const { xs } = useBreakpoint()    
     const {token,theme} = useToken()
     const navigate = useNavigate()
 
@@ -101,7 +101,7 @@ export default function(props:HeaderLayoutProps){
                       classNames={{root:styles.headerMenu}}
                       items={props.menuData || []}
                       />
-                  <HeaderToolbar showAvatar={layoutConfig.avatarPosition == "rightTop"} />
+                  <HeaderToolbar showAvatar={layoutConfig.avatarPosition == "rightTop" || xs} />
               </Header>
             </Layout>
             </ConfigProvider>

@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@adminui-dev/layout@1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@adminui-dev/layout/-/layout-1.2.2.tgz#25dff8167703513dcf31b5c3bef4df6143fad875"
-  integrity sha512-jN3GvkqffHmz03XEZBHQjD01nSe0b/fs4Obo3wjTE7kB5lbAW3hqWS8+EpdkIrix6R8jrv535ecIjDvehmrkYQ==
+"@adminui-dev/layout@1.2.7":
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/@adminui-dev/layout/-/layout-1.2.7.tgz#78581eebd6148b2e350f59d2d75de078e15a1e95"
+  integrity sha512-iZTQD9cce63sZN29J2m4fU+itzoZnIEwPgyi/0XsxU0b2BiI9IVsAuvri5Io97MHrKjbPt9QXdszmx09QjQUMA==
   dependencies:
     tslib "^2.6.0"
 

@@ -400,6 +400,7 @@
 .breadcrumbBox li :global(.adminui-breadcrumb-link)>span[role="img"],
 .breadcrumbBox li :global(.adminui-breadcrumb-link)>svg{
     display: none;
+    width: var(--adminui-breadcrumb-icon-font-size);
 }
 .breadcrumbFirstIcon li:first-of-type :global(.adminui-breadcrumb-link)>span[role="img"],
 .breadcrumbFirstIcon li:first-of-type :global(.adminui-breadcrumb-link)>svg
@@ -487,13 +488,7 @@
     flex-flow: column;
     margin-top: 0px;
     padding-top: 0px;
-
-}
-.siderBaseStyle :global(.adminui-menu-title-content-with-extra),.headerLayout :global(.adminui-menu-title-content-with-extra){
-    width: auto;    
-}
-.siderBaseStyle :global(.adminui-menu-item-extra),.headerLayout :global(.adminui-menu-item-extra){
-    display: inline-flex;
+    padding:var(--container-margin);
 }
 
 @container (max-width: 576px)  {  

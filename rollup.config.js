@@ -22,7 +22,6 @@ module.exports = [
       typescript({ tsconfig: './tsconfig.json' }),
       terser(),
       postcss({
-        modules: true, 
         autoModules: true, 
         inject: true,
       }),

@@ -47,15 +47,15 @@ export default function(props:AsideLayoutProps){
     const siderTop = layoutConfig.layoutType=="headMenu" || collaspedWidth == 0 ? props.headerHeight : 0
     const siderHeight = layoutConfig.layoutType == "headMenu" ||  collaspedWidth == 0 ? "calc(100% - " + props.headerHeight + "px)" : "100%"    
     let siderStyles:React.CSSProperties = {            
-        width: `${layoutConfig.asideWidth}px`,    
+        width: `${layoutConfig.asideWidth}px`,            
         height: `${siderHeight}`,  
+        ["--container-margin" as any]: noneHeader ? (collapsed ? `${containerMargin}px 0px` : `${containerMargin}px`) : "0px",
         insetBlockStart: siderTop + "px",
         maxWidth: `${layoutConfig.asideWidth}px`,
         minWidth: `${layoutConfig.asideWidth}px`,
         borderRight: borderRight,
         boxShadow:collaspedWidth > 0 ? "none" : token.boxShadowTertiary,
-        position: "fixed",
-        margin:noneHeader ? containerMargin / 2 : "0px",
+        position: "fixed",        
         transition:'width 0.3s, min-width 0.3s, max-width 0.3s cubic-bezier(0.645, 0.045, 0.355, 1)',
     }
 
@@ -87,15 +87,16 @@ export default function(props:AsideLayoutProps){
     }
 
     // Transparency is not supported on mobile devices.
-    const menuBgColor = layoutConfig.asideTransparent && collaspedWidth > 0 ? "transparent" : ( layoutConfig.asideBlur ? hexToRgbaString(token.colorBgContainer,0.6) : token.colorBgContainer )
+    const menuBgColor =  token.colorBgContainer
     // sider transparent or blur
     siderStyles = {
       ...siderStyles,      
-      backgroundColor: menuBgColor
+      backgroundColor: layoutConfig.asideTransparent && collaspedWidth > 0 ? "transparent" : menuBgColor
     }
     if(layoutConfig.asideBlur){
       siderStyles = {
         ...siderStyles,
+        backgroundColor: hexToRgbaString(menuBgColor,0.6),
         transform: "translateZ(0)",
         backdropFilter: "blur(8px)"
       }
@@ -116,8 +117,8 @@ export default function(props:AsideLayoutProps){
       navigate(e.key)      
     }
 
-    let siderClassNames = [styles.siderBaseStyle]
-    siderClassNames.push(styles.layoutBlur) 
+    let siderClassNames = [styles.siderBaseStyle]   
+
 
     // collapsed button
     let collapsedMenu = <></>
@@ -158,7 +159,7 @@ export default function(props:AsideLayoutProps){
               <Sider 
                   width={asideWidth}
                   className={siderClassNames.join(' ')} 
-                  style={siderStyles}
+                  style={siderStyles}                  
                   theme={siderTheme}
                   collapsedWidth={collaspedWidth}                
                   collapsible
@@ -186,7 +187,7 @@ export default function(props:AsideLayoutProps){
                           />
                   </div>
                   { props.footer }
-                  {layoutConfig.avatarPosition  == "leftBottom" ? <AvatarPanel collapsed={collapsed} iconSize={iconSize} /> : <></>}
+                  {layoutConfig.avatarPosition  == "leftBottom" && collaspedWidth > 0  ? <AvatarPanel collapsed={collapsed} iconSize={iconSize} /> : <></>}
                   {collapsedMenu}
               </Sider>
         </>
