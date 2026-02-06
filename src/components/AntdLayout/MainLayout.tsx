@@ -120,6 +120,23 @@ function MainLayout(props:MainLayoutProps){
     const title = lastRouteMenu.label || ""
     document.title = title  
 
+    if(lastRouteMenu && lastRouteMenu.layout == false){
+        return(
+            <>
+            <AsideContextProvider value={asideContextDispatcher}>
+                <BaseLayout {...props} style={baseStyles}> 
+                    <BaseLayout.Content>
+                        <Outlet context={{title:title,footer:contentFooter}} />                    
+                    </BaseLayout.Content>
+                    <BaseLayout.Background>
+                        {themeSkin ? themeSkin.backgroundContent : <></>}
+                    </BaseLayout.Background>             
+                </BaseLayout>
+            </AsideContextProvider>
+            {soltContent}
+            </>
+        )
+    }
     return(
         <>
         <AsideContextProvider value={asideContextDispatcher}>

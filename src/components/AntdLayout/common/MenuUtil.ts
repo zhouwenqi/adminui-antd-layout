@@ -48,9 +48,11 @@ const transformToAntdMenuData=(menuData?:MenuData[])=>{
         return undefined
     }
     menuData.forEach((item)=>{
-        let menuItem = getAntdMenuItem(item)
-        menuItem.children = transformToAntdMenuData(item.children)
-        antdMenuData.push(menuItem)
+        if(item.layout != false){        
+            let menuItem = getAntdMenuItem(item)
+            menuItem.children = transformToAntdMenuData(item.children)
+            antdMenuData.push(menuItem)
+        }
     })
     return antdMenuData
 }

@@ -17,7 +17,9 @@ function pathToKeys(pathname:string){
 
 function matchPathToKeys(pathname:string) {
     let keys = pathToKeys(pathname)
-    
+    if(keys && keys.length > 1 && keys[0]=="/"){
+        keys.splice(0,1)
+    }
     return keys
 }
 
@@ -61,6 +63,7 @@ function transformMenuItem(parentPath:string,routeItem:MenuData) {
       name:spath,
       path:spath,
       label:routeItem.label,
+      layout:routeItem.layout,
       originalPath:spath,
       extra:convertToNode(routeItem.extra),
       icon:convertToNode(routeItem.icon)
