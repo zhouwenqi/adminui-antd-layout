@@ -11,7 +11,7 @@
 
 <img src="./docs/images/adminui.github.webp" alt="warden.vip">
 
-[演示👉](https://demo.warden.vip)
+[演示👉](https://demo.adminui.dev)
 
 </div>
 

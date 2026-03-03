@@ -148,6 +148,7 @@ function AntdLayout(props:RootLayoutProps<LocaleMessage> & {
         layoutConfig,              
         locale,        
         languages,
+        originalConfig:props.layoutConfig,
         themeSkin:currentSkinData,
         themeSkinMap:themeSkinsData
     }),[languages,locale,languages,themeSkinsData,currentSkinData,layoutConfig])
@@ -211,13 +212,15 @@ function AntdLayout(props:RootLayoutProps<LocaleMessage> & {
             break
 
             case "default":
-                resolvedStyles = {
-                    itemActiveBg: foreColors[1],
-                    itemSelectedBg: foreColors[5],
-                    itemSelectedColor: layoutConfig.primaryColor,
-                    darkItemActiveBg: foreColors[1],
-                    darkItemSelectedBg: foreColors[3],
-                    darkItemSelectedColor: layoutConfig.primaryColor,
+                if(layoutConfig.noneHeader){
+                    resolvedStyles = {
+                        itemActiveBg: foreColors[1],
+                        itemSelectedBg: foreColors[5],
+                        itemSelectedColor: layoutConfig.primaryColor,
+                        darkItemActiveBg: foreColors[1],
+                        darkItemSelectedBg: foreColors[3],
+                        darkItemSelectedColor: layoutConfig.primaryColor,
+                    }
                 }
             break
         }
