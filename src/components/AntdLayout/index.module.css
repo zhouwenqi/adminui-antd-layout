@@ -231,7 +231,6 @@
 .brandPanel h4{
     margin:0px;
     padding:0px;
-    line-height: 1rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

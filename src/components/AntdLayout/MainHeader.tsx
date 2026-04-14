@@ -53,7 +53,6 @@ export default function(props:HeaderLayoutProps){
    
     let headerStyles:CSSProperties = {
       ...layoutStyles,
-      fontSize:token.Menu?.iconSize,
       backgroundColor:"transparent",     
       flex:"none" 
     }
