@@ -5,7 +5,7 @@ import MainHeader from "./MainHeader"
 import MainAside from "./MainAside"
 import type { AntdMenuData, MainDispatcher, MainLayoutProps } from "./typings"
 import React, { useMemo, useState } from "react"
-import { createMainContext, ROLE_ASIDE_FOOTER, ROLE_ASIDE_HEADER, ROLE_AVATAR_POPOVER_CONTENT, ROLE_BRAND_POPOVER_CONTENT, ROLE_CONTENT_FOOTER, ROLE_SOLT_CONTENT, ROLE_TOOLBAR_EXTRA_ITEMS } from "./MainContext"
+import { createMainContext, ROLE_ASIDE_FOOTER, ROLE_ASIDE_HEADER, ROLE_AVATAR_POPOVER_CONTENT, ROLE_BRAND_POPOVER_CONTENT, ROLE_CONTENT_FOOTER, ROLE_SLOT_CONTENT, ROLE_TOOLBAR_EXTRA_ITEMS } from "./MainContext"
 import { flattenMenuData, localeMenuData, separateMenuData, transformToAntdMenuData } from "./common/MenuUtil"
 import { splitMenuKeys } from "./common/RouteUtil"
 import { useIntl } from "react-intl"
@@ -98,7 +98,7 @@ function MainLayout(props:MainLayoutProps){
     const contentFooter = childrenArray.find(c => React.isValidElement(c) && (c.type as any).role === ROLE_CONTENT_FOOTER)
     const avatarPopoverContent = childrenArray.find(c => React.isValidElement(c) && (c.type as any).role === ROLE_AVATAR_POPOVER_CONTENT)
     const brandPopoverContent = childrenArray.find(c => React.isValidElement(c) && (c.type as any).role === ROLE_BRAND_POPOVER_CONTENT)
-    const soltContent = childrenArray.find(c => React.isValidElement(c) && (c.type as any).role === ROLE_SOLT_CONTENT)
+    const slotContent = childrenArray.find(c => React.isValidElement(c) && (c.type as any).role === ROLE_SLOT_CONTENT)
     const toolbarExtraItems = childrenArray.find(c => React.isValidElement(c) && (c.type as any).role === ROLE_TOOLBAR_EXTRA_ITEMS)
     const AsideContextProvider = createMainContext()
 
@@ -133,7 +133,7 @@ function MainLayout(props:MainLayoutProps){
                     </BaseLayout.Background>             
                 </BaseLayout>
             </AsideContextProvider>
-            {soltContent}
+            {slotContent}
             </>
         )
     }
@@ -155,7 +155,7 @@ function MainLayout(props:MainLayoutProps){
                 </BaseLayout.Background>             
             </BaseLayout>
         </AsideContextProvider>
-        {soltContent}
+        {slotContent}
         </>
     )
 }

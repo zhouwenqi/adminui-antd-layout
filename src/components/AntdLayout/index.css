@@ -29,9 +29,6 @@
 .adminui-menu .adminui-menu-title-content-with-extra .adminui-menu-item-extra {
     display: inline-flex;
 }
-.adminui-menu-dark.adminui-menu-horizontal >.adminui-menu-item {
-    display: inline-flex;
-}
 .adminui-tag {
     display: inline-flex;
     align-items: center;

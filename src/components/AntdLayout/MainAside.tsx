@@ -75,7 +75,7 @@ export default function(props:AsideLayoutProps){
     const iconSize = token.Menu?.iconSize
 
     // theme
-    const menuTheme = theme.id == 1 ? "dark" : "light"    
+    const menuTheme = theme.id == 1 ? "dark" : "light"   
     const siderTheme = menuTheme
 
     // collapsed button

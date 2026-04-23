@@ -1,6 +1,6 @@
 import { createConfigActionContext,createConfigStateContext,getLayoutTheme,defaultConfig as initConfig, } from "@adminui-dev/layout"
-import type { LayoutConfig, RootLayoutProps, Language, ConfigActionDispatcher,ConfigStateDispatcher, ThemeSkin, SkinType } from "@adminui-dev/layout"
-import { useEffect, useMemo, useState } from "react"
+import type { LayoutConfig, RootLayoutProps, Language, ConfigActionDispatcher,ConfigStateDispatcher, ThemeSkin, SkinType,LayoutTheme } from "@adminui-dev/layout"
+import { useEffect, useMemo, useState,useRef } from "react"
 import {ConfigProvider,App,theme as antdTheme} from 'antd'
 import  "./index.css"
 import type { IconComponents, LocaleMessage } from "./typings"
@@ -14,7 +14,7 @@ import { useMatches } from "react-router"
 import { ContainerFooter } from "./Container"
 import { AvatarPopoverContent } from "./AvatarPanel"
 import { BrandPopoverContent } from "./BrandPanel"
-import { SoltPanel } from "./SoltPanel"
+import { SlotPanel } from "./SlogPanel"
 import { ToolbarExtraItems } from "./ToolbarPanel"
 
 // localStorage key for Local
@@ -89,14 +89,18 @@ function AntdLayout(props:RootLayoutProps<LocaleMessage> & {
 
     const menuData = props.menuData ?  transformMenuData("/",[props.menuData]) : []
 
-    const [layoutConfig,setLayoutConfig] = useState<LayoutConfig>(()=>{        
+    const stateConfig = useMemo(()=>{ 
+        console.log(defaultConfig.skinName)
         if(defaultConfig.skinName){
             const currentThemeSkin =  getCurrentThemeSkin(defaultConfig.skinName,themeSkinsData)
             return setSkinConfig(defaultConfig,currentThemeSkin)
         }
-        return defaultConfig
-    })       
+        return defaultConfig 
+    },[defaultConfig.skinName])
+
+    const [layoutConfig,setLayoutConfig] = useState<LayoutConfig>(stateConfig)       
     const [locale,setLocale]=useState<string>(defaultLocale)
+    const [layoutTheme,setLayoutTheme] = useState<LayoutTheme>(()=>{return getLayoutTheme(layoutConfig.theme!)})
     const LayoutStateProviderContext = createConfigStateContext()
     const LayoutActionProviderContext = createConfigActionContext()    
     
@@ -116,16 +120,25 @@ function AntdLayout(props:RootLayoutProps<LocaleMessage> & {
     document.documentElement.style.setProperty('--pageload-bar-color', layoutConfig.primaryColor!);
  
     // save theme to localStorage
+    const themeRef = useRef(layoutConfig.theme)
     useEffect(()=>{        
-        const root = window.document.documentElement        
-        root.classList.remove("light", "dark")         
-        if (layoutConfig.theme === "system") {
-            const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"  
-            root.classList.add(systemTheme)
-            return
+        themeRef.current = layoutConfig.theme       
+        setLayoutTheme(getLayoutTheme(layoutConfig.theme!))
+    },[layoutConfig.theme]) 
+    
+    
+    useEffect(() => {
+        const handler = (e:MediaQueryListEvent) => {
+            if (themeRef.current === "system") {
+                const systemTheme = e.matches ? "dark" : "light"
+                setLayoutTheme(systemTheme)
+            }
         }
-        root.classList.add(layoutConfig.theme as string)
-    },[layoutConfig.theme])   
+        const media = window.matchMedia("(prefers-color-scheme: dark)")
+        media.addEventListener("change", handler)
+
+        return () => media.removeEventListener("change", handler)
+    }, [])
 
     const currentSkinData = useMemo(()=>{ 
         
@@ -134,8 +147,6 @@ function AntdLayout(props:RootLayoutProps<LocaleMessage> & {
         }     
         return undefined   
      },[themeSkins,layoutConfig.skinName]) 
-
-    const layoutTheme = getLayoutTheme(layoutConfig.theme!)
 
     const onChangeLayoutConfig=(config:LayoutConfig)=>{        
         setLayoutConfig(config)
@@ -283,7 +294,7 @@ AntdLayout.AsideFooter = AsideFooter
 AntdLayout.Footer = ContainerFooter
 AntdLayout.AvatarPopoverContent = AvatarPopoverContent
 AntdLayout.BrandPopoverContent = BrandPopoverContent
-AntdLayout.SoltContent = SoltPanel
+AntdLayout.SlotContent = SlotPanel
 AntdLayout.HeaderToolbarExtra = ToolbarExtraItems
 
 export {AntdLayout}

@@ -23,7 +23,7 @@ export const ROLE_ASIDE_CONTENT_ITEM = Symbol("AsideContentItem")
 export const ROLE_CONTENT_FOOTER = Symbol("ContentFooter")
 export const ROLE_AVATAR_POPOVER_CONTENT = Symbol("AvatarPopoverContent")
 export const ROLE_BRAND_POPOVER_CONTENT = Symbol("BrandPopoverContent")
-export const ROLE_SOLT_CONTENT = Symbol("SoltContent")
+export const ROLE_SLOT_CONTENT = Symbol("SlotContent")
 export const ROLE_TOOLBAR_EXTRA_ITEMS = Symbol("ToolbarExtraItems")
 
 export const createMainContext=()=>MainContext

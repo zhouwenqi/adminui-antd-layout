@@ -487,6 +487,7 @@
     flex-flow: column;
     margin-top: 0px;
     padding-top: 0px;
+    overflow: hidden;
     padding:var(--container-margin);
 }
 
