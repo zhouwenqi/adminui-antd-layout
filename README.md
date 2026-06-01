@@ -106,4 +106,4 @@ For reference 🍸[https://github.com/zhouwenqi/adminui-demo-antd-layout-simple]
 ## ✅ For more configuration options, please refer to the official documentation.
 Website 🔗[https://adminui.dev](https://adminui.dev)
 
-Docs 🔗[https://adminui.dev/docs](https://adminui.dev/docs)
+Docs 🔗[https://adminui.dev/en/docs](https://adminui.dev/en/docs)
