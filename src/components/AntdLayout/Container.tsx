@@ -92,10 +92,11 @@ function Container(props:ContainerProps){
             margin: xs ? "0px" : `${containerMargin}px ${containerMargin}px ${containerMargin}px 0px` 
         }
 
+        const headerBorderBolor = layoutConfig.containerBlur ? hexToRgbaString(token.colorPrimary,0.1) : token.colorBorderSecondary
         headerStyles = {
             ...headerStyles,
             padding:token.paddingXS,
-            borderBlockEnd:`solid 1px ${token.colorBorderSecondary} `
+            borderBlockEnd:`solid 1px ${headerBorderBolor} `
         }
     }
     
