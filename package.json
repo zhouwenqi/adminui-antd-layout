@@ -1,13 +1,20 @@
 {
   "name": "@adminui-dev/antd-layout",
-  "version": "1.8.1",
-  "description": "this project name is @adminui-dev/antd-layout",
+  "version": "1.8.5",
+  "description": "This is a layout component based on the ant design framework, which only supports SPA mode and supports multiple layout modes, themes, and custom skin effects",
   "keywords": [
     "layout",
     "antd-layout",
     "adminui",
     "admin-layout",
     "layout",
+    "adminui-layout",
+    "adminui",
+    "dashboard",
+    "admin",
+    "admin-ui",
+    "mananger",
+    "adminui-dev/antd-layout",
     "react-layout"
   ],
   "license": "MIT",
@@ -45,7 +52,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@adminui-dev/layout": "1.3.0",    
+    "@adminui-dev/layout": "1.3.1",    
     "tslib": "^2.6.0"
   },
   "devDependencies": {

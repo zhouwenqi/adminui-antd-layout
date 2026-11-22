@@ -90,7 +90,6 @@ function AntdLayout(props:RootLayoutProps<LocaleMessage> & {
     const menuData = props.menuData ?  transformMenuData("/",[props.menuData]) : []
 
     const stateConfig = useMemo(()=>{ 
-        console.log(defaultConfig.skinName)
         if(defaultConfig.skinName){
             const currentThemeSkin =  getCurrentThemeSkin(defaultConfig.skinName,themeSkinsData)
             return setSkinConfig(defaultConfig,currentThemeSkin)

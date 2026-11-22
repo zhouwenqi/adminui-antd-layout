@@ -27,6 +27,10 @@ interface PopoverDispatcher<T>{
     close?:()=>void,
     record?:T
 }
+
+/**
+ * Layout Display Content Attributes
+ */
 interface MainLayoutProps extends React.HTMLAttributes<HTMLDivElement>  {
    menuData?:MenuData[],
    layoutIcons?:IconComponents,
