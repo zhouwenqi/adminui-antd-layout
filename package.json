@@ -1,6 +1,6 @@
 {
   "name": "@adminui-dev/antd-layout",
-  "version": "1.8.5",
+  "version": "1.8.6",
   "description": "This is a layout component based on the ant design framework, which only supports SPA mode and supports multiple layout modes, themes, and custom skin effects",
   "keywords": [
     "layout",
@@ -52,7 +52,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@adminui-dev/layout": "1.3.1",    
+    "@adminui-dev/layout": "1.3.2",    
     "tslib": "^2.6.0"
   },
   "devDependencies": {
