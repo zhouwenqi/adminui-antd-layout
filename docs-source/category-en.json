@@ -1,0 +1,72 @@
+[
+    {
+        "id":"introduction",
+        "name":"introduction",
+        "label":"Introduction",
+        "children":[
+            {
+                "id":"introduction/what-is-antd-layout",
+                "name":"what-is-antd-layout",
+                "label":"What's antd-layout",
+                "route":"introduction/what-is-antd-layout"                
+            },
+            {
+                "id":"introduction/getting-started",
+                "name":"getting-started",
+                "label":"Getting started",
+                "route":"introduction/getting-started"                
+            }
+        ]
+    },
+    {
+        "id":"guide",
+        "name":"guide",
+        "label":"Guide",
+        "children":[
+            {
+                "id":"guide/layout-component",
+                "name":"layout-component",
+                "label":"Layout component",
+                "route":"guide/layout-component"                
+            },
+            {
+                "id":"guide/router-menu",
+                "name":"router-menu",
+                "label":"Router & menu",
+                "route":"guide/router-menu"                
+            },            
+            {
+                "id":"guide/layout-config",
+                "name":"layout-config",
+                "label":"Layout configuration",
+                "route":"guide/layout-config"                
+            },
+            {
+                "id":"guide/layout-hook",
+                "name":"layout-hook",
+                "label":"Hooks",
+                "route":"guide/layout-hook"                
+            },
+            {
+                "id":"guide/container",
+                "name":"container",
+                "label":"Container",
+                "route":"guide/container"                
+            }
+            ,
+            {
+                "id":"guide/locales",
+                "name":"locales",
+                "label":"Locales",
+                "route":"guide/locales"                
+            },
+            {
+                "id":"guide/theme-skin",
+                "name":"theme-skin",
+                "label":"Skins",
+                "route":"guide/theme-skin"                
+            }
+            
+        ]
+    }
+]

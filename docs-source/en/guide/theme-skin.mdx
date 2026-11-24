@@ -1,0 +1,122 @@
+---
+title: Theme Skins
+author: zhouwenqi
+description: In addition to basic light/dark modes and single-color themes, antd-layout also supports highly customizable appearance themes.
+category: Development Guide
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# Theme Skins
+
+In addition to basic light/dark modes and single-color theme effects, `antd-layout` also supports highly customizable appearance themes. For example, you can add dynamic backgrounds and layered blur effects to the entire layout, or even transform the UI into a `shadcn-ui`-like style.
+
+## System Skins 
+
+Official skin themes can be installed into your project using `npx create-antd-skin@latest`. System skins will be added periodically.
+
+**Installation Method**
+1. Run `npx create-antd-skin@latest <skin-name>`.
+2. If you don't know `<skin-name>`, you can leave it blank, skin names will be automatically listed for selection.
+3. Set the skin name in [`LayoutConfig`](../layout-config#layoutconfig) for `skinName`.
+
+## Custom Theme Skins
+
+Based on the `ThemeSkin` constraints provided by `antd-layout`, you can define more detailed properties and combine them with image-based background assets to create a skin component.
+
+These skins can then be imported into the system just like menu and i18n data. Finally, set `skinName` in `layoutConfig` to activate the theme skin.
+
+### Creating a Custom Skin
+<TabCode title="src/components/skins/blueSkyDark.ts">
+<div>
+```tsx
+import type { ThemeSkin } from "@adminui-dev/antd-layout"
+
+const BackgroundElement = <div><img style={{width:"100%"}} src="/images/skins/blue-sky/bg.webp" alt="bg.webp" /></div>
+
+const blueSkyDark:ThemeSkin = {
+    "name":"blueSkyDark",    
+    "skinType":"custom",
+    "backgroundColor":"#090a0b",
+    "layoutConfig":{
+        "theme":"dark",
+        "primaryColor":"#4dbae9",        
+        "noneHeader":false,
+        "hideBorder":false,
+        "asideBlur":true,
+        "headerBlur":true,
+        "largeBrand":true,
+        "containerBlur":true,
+        "menuItemSelectColor":"primary",
+    },        
+    "logo":"/images/skins/blue-sky/app-logo-light.webp",
+    "icon":"/images/skins/blue-sky/skin-icon-dark.webp",
+    "backgroundContent":<BackgroundElement />
+}
+export { blueSkyDark }
+```
+</div>
+</TabCode>
+> You can also use the `defineThemeSkin` helper for a cleaner definition:
+>
+> `const blueSkyDark  = defineThemeSkin({...})`
+### Using a Skin
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx
+import { blueSkyDark } from "@components/skins/blueSkyDark"
+import { AntdLayout } from "@adminui-dev/antd-layout"
+...
+export default function(){   
+    // layout config
+    const layoutConfig:LayoutConfig = {
+        disabledLocale:true,
+        largeBrand:true,    
+        skinName:"blueSkyDark", // Using a Skin
+    }
+    return(
+        <AntdLayout layoutConfig={layoutConfig} menuData={...} themeSkins={[blueSkyDark]}>        
+    )
+}
+```
+</div>
+</TabCode>
+> `themeSkins` accepts an array because multiple skins can be registered.
+### Switching Skins
+Use the [`setLayoutConfig`](../layout-config#dynamically-updating-layout-configuration) method to switch themes.
+<TabCode title='src/pages/welcome.tsx'>
+<div>
+```tsx
+import { Container, setSkinConfig, useConfigAction, useConfigState } from '@adminui-dev/antd-layout';
+...
+const { setLayoutConfig } = useConfigAction()
+const { layoutConfig } = useConfigState()
+...
+const config = setSkinConfig(layoutConfig,skin)          
+setLayoutConfig({
+    ...config,
+    skinName:"customeSkinName"
+})
+...
+```
+</div>
+</TabCode>
+## Skin Properties
+### ThemeSkin
+| Name | Type |Default| Description |
+|-------|-------|-------|-------|
+|name|`string`|-|**Unique identifier**|
+|label|`string`|-|Display name|
+|skinType|[`SkinType`](#skinType)|custom|Skin type|
+|layoutConfig|[`LayoutConfig`](../layout-config#layoutconfig)|-|Layout configuration overrides|
+|backgroundColor|`string`|-|Background color|
+|antdToken|`json`|-|ant-design token|
+|logo|`string / ReactNode`|-|Brand logo|
+|icon|`string`|-|Skin thumbnail|
+|headerStyle|`string`|-|Header style|
+|asideStyle|`string`|-|Sidebar style|
+
+
+### SkinType
+- system `string` - System skin (reserved)
+- custom `string` - Custom skin

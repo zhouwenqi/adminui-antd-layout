@@ -1,0 +1,26 @@
+# AdminUI / antd-layout
+
+> AI reference entry point for the `@adminui-dev/antd-layout` React layout component.
+> Source documentation snapshot: `doc-fix2.zip` (18 bilingual documentation pages and 2 category files).
+
+## Product identity
+- Main user-facing package: `@adminui-dev/antd-layout`
+- Repository: https://github.com/zhouwenqi/adminui-antd-layout
+- Documentation: https://adminui.dev/en/docs and https://adminui.dev/zh/docs
+- Demo: https://demo.adminui.dev
+- This is a React + Ant Design + React Router layout component for SPA projects.
+
+## Read these references
+- `llms-full.txt`: complete text of the supplied bilingual documentation snapshot.
+- `.agents/skills/adminui/SKILL.md`: workflow and usage rules for coding agents.
+- `.agents/skills/adminui/references/api-verified.md`: API facts checked against the repository's current `main` source.
+- `.agents/skills/adminui/references/known-issues.md`: documentation defects and unresolved API claims.
+- `.agents/skills/adminui/references/compatibility.md`: version and dependency notes.
+
+## Important agent cautions
+- Use `@adminui-dev/antd-layout` as the application-facing import path.
+- Do not assume every helper mentioned in the docs is exported by the public package entry point.
+- `setSkinConfig` is exported through the core package barrel via the `StringUtil` star export. `defineThemeSkin` was not found in the current public barrel; do not generate imports for it until a newer installed package declaration confirms the export.
+- `ThemeSkin` is re-exported as a type through the core package entry point.
+- The supplied docs contain known contradictions and code defects. Consult `known-issues.md` before generating code from the affected sections.
+- Repository `main` reports version 1.8.6, while the npm page inspected during this audit reported published version 1.8.4. Do not claim that repository `main` is already published to npm.

@@ -1,0 +1,93 @@
+---
+title: 布局组件
+author: zhouwenqi
+description: antd-layout最核心的组件是<AntdLayout />, 放置在布局中，通常位于 `src/layouts` 下，而且可能有多个，它们之间的状态效果都是隔离的。
+category: 开发指南
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# 布局组件
+最核心的组件 `<AntdLayout />`，放置在布局中，通常位于 `src/layouts` 下，而且可能有多个，它们之间的状态效果都是隔离的，包括存储在浏览器上的配置，使用布局组件后，所有页面都带上配置好的菜单和工具栏及品牌信息，使用布局组件前需要先配置好 [`路由`](./router-menu) 和 [`菜单`](./router-menu#配置菜单) 属性参数，参数一共分两块：`属性` 和 `子元素标签`。
+
+## 使用示例
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx
+import { AntdLayout } from "@adminui-dev/antd-layout"
+import type { LayoutConfig, MenuData } from "@adminui-dev/antd-layout"
+
+/** menu data */
+const menuData:MenuData = {
+    name:"",
+    path:"/",
+    label:"Dashboard",
+    children:[
+        {name:"welcome",path:"welcome",label:"Welcome"},
+        {name:"transaction",path:"transaction",label:"Transaction",children:[
+            {name:"order",path:"order",label:"Order"},
+            {name:"product",path:"product",label:"Product"},
+        ]}
+    ]
+}
+export default function(){  
+    // layout config
+    const layoutConfig:LayoutConfig = {
+        disabledLocale:true,
+        layoutType:"leftMenu",  
+        primaryColor:"#4dbae9"        
+    }
+    return(
+        <>
+            <AntdLayout layoutConfig={layoutConfig} menuData={menuData} />
+        </>
+    )
+}
+```
+</div>
+</TabCode>
+
+## 属性
+属性主要配置一些初始化参数，绝大部分可以动态响应。
+| 参数名 | 类型 |默认值| 说明 |
+|-------|-------|-------|-------|
+|layoutConfig|[`LayoutConfig`](../layout-config#layoutconfig)|-|[布局配置](../layout-config)(包括主题模式、主题颜色、布局类型、菜单展示形态等)|
+|menuData|`MenuData`|-|[菜单](../router-menu#菜单配置)配置数据|
+|themeSkins|[`ThemeSkin[]`](../theme-skin#themeskin)|-|[自定义皮肤](../theme-skin#自定义皮肤主题)资源|
+|localeMessages|[`Record<string, LocaleMessage>`](../locales#localeMessage)|-|[i18n国际化](../locales)数据|
+|locale|`string`|`en-US`|强制使用一个地本化(例如：`en-US`)|
+|theme|`string`|-|强制明亮度模式(例如：`light`)|
+|disabledStorageConfig|`bool`|`false`|禁用本地储存配置|
+> 属性中的强制参数会覆盖 `layoutConfig` 参数，且 `setLayoutConfig` 修改不起作用。
+
+
+## 子元素标签
+子元素挂载了一些带UI组件，例如：用户信息、品牌信息、扩展工具栏组件等。
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx
+<AntdLayout layoutConfig={...} menuData={...}>
+    <AntdLayout.BrandPopoverContent>
+        <div className="brandContent">
+            <dl>
+                <dt>Title</dt>
+                <dd>Username</dt>
+                <dd>Email<dt>
+            <dl>
+        </div>
+    </AntdLayout.BrandPopoverContent>
+</AntdLayout>
+```
+</div>
+</TabCode>
+
+| 参数名 | 类型 |默认值| 说明 |
+|-------|-------|-------|-------|
+|BrandPopoverContent|`ReactNode`|-|左上角品牌popover内容|
+|AvatarPopoverContent|`ReactNode`|-|用户信息popover内容|
+|HeaderToolbarExtra|`ReactNode[]`|-|工具栏扩展内容|
+|AsideHeader|`ReactNode[]`|-|侧滑面版头部内容|
+|AsideFooter|`ReactNode[]`|-|侧滑面版页脚内容|
+|Footer|`ReactNode[]`|-|正文页脚内容|
+|SlotContent|`ReactNode`|-|不影响布局的插槽内容|
+

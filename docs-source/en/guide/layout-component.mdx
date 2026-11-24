@@ -1,0 +1,97 @@
+---
+title: Layout Component
+author: zhouwenqi
+description: The core component of antd-layout is AntdLayout, which is placed inside layout files
+category: Development Guide
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# Layout Component
+The core component is `<AntdLayout />`, which is placed inside layout files, typically under `src/layouts`. There may be multiple instances, and their states are isolated from each other—including configuration stored in the browser.
+
+After using the layout component, all pages will include the configured menu, toolbar, and branding information. Before using it, you need to configure the [`routes`](./router-menu) and [`menu`](./router-menu#menu-configuration) properties.
+
+The parameters are divided into two parts: `props` and `child component slots`.
+
+## Usage Example
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx
+import { AntdLayout } from "@adminui-dev/antd-layout"
+import type { LayoutConfig, MenuData } from "@adminui-dev/antd-layout"
+
+/** menu data */
+const menuData:MenuData = {
+    name:"",
+    path:"/",
+    label:"Dashboard",
+    children:[
+        {name:"welcome",path:"welcome",label:"Welcome"},
+        {name:"transaction",path:"transaction",label:"Transaction",children:[
+            {name:"order",path:"order",label:"Order"},
+            {name:"product",path:"product",label:"Product"},
+        ]}
+    ]
+}
+export default function(){  
+    // layout config
+    const layoutConfig:LayoutConfig = {
+        disabledLocale:true,
+        layoutType:"leftMenu",  
+        primaryColor:"#4dbae9"        
+    }
+    return(
+        <>
+            <AntdLayout layoutConfig={layoutConfig} menuData={menuData} />
+        </>
+    )
+}
+```
+</div>
+</TabCode>
+
+## Props
+Props are mainly used to configure initialization parameters, most of which support dynamic updates.
+
+| Name | Type |Default| Description |
+|-------|-------|-------|-------|
+|layoutConfig|[`LayoutConfig`](../layout-config#layoutconfig)|-|[Layout configuration](../layout-config)(including theme mode, primary color, layout type, menu display style, etc.)|
+|menuData|`MenuData`|-|[menu](../router-menu#menu-configuration) configuration data|
+|themeSkins|[`ThemeSkin[]`](../theme-skin#themeskin)|-|[Custom theme skins](../theme-skin#customer-skins) resources|
+|localeMessages|[`Record<string, LocaleMessage>`](../locales#localeMessage)|-|[i18n localization](../locales) data|
+|locale|`string`|`en-US`|Force a specific locale (e.g.,`en-US`)|
+|theme|`string`|-|Force brightness mode (e.g.,`light`)|
+|disabledStorageConfig|`bool`|`false`|Disable local storage configuration|
+
+> Forced props will override values in `layoutConfig` and `setLayoutConfig` will not take effect.
+
+## Child Component Slots
+Child elements provide mount points for UI components such as user info, branding, and extended toolbar content.
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx
+<AntdLayout layoutConfig={...} menuData={...}>
+    <AntdLayout.BrandPopoverContent>
+        <div className="brandContent">
+            <dl>
+                <dt>Title</dt>
+                <dd>Username</dt>
+                <dd>Email<dt>
+            <dl>
+        </div>
+    </AntdLayout.BrandPopoverContent>
+</AntdLayout>
+```
+</div>
+</TabCode>
+| Name | Type | Default | Description |
+|-------|-------|-------|-------|
+|BrandPopoverContent|`ReactNode`|-|Brand popover content in the top-left corner|
+|AvatarPopoverContent|`ReactNode`|-|User info popover content|
+|HeaderToolbarExtra|`ReactNode[]`|-|Extra content in the toolbar|
+|AsideHeader|`ReactNode[]`|-|Header content of the side panel|
+|AsideFooter|`ReactNode[]`|-|ooter content of the side panel|
+|Footer|`ReactNode[]`|-|Page footer content|
+|SlotContent|`ReactNode`|-|	Slot content that does not affect layout|
+

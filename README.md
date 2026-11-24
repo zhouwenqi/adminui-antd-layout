@@ -107,3 +107,10 @@ For reference 🍸[https://github.com/zhouwenqi/adminui-demo-antd-layout-simple]
 Website 🔗[https://adminui.dev](https://adminui.dev)
 
 Docs 🔗[https://adminui.dev/en/docs](https://adminui.dev/en/docs)
+
+## Agents
+`public/llms.txt` — compact AI entry point.
+`public/llms-full.txt` — concatenated source documentation snapshot.
+`.agents/skills/adminui/SKILL.md` — coding-agent skill.
+`.agents/skills/adminui/references/` — source-verified API notes, compatibility notes, and audit findings.
+`docs-source/` — exact Markdown/MDX and category JSON files from the uploaded archive.

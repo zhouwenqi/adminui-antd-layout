@@ -1,0 +1,71 @@
+---
+title: Global Hooks
+author: zhouwenqi
+description: Global hooks refer to hooks provided by antd-layout used within <AntdLayout>. They are designed for global layout and container-level state management and methods.
+category: Development Guide
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# Global Hooks
+
+Global hooks refer to hooks provided by `antd-layout` and used within `<AntdLayout>`. They are designed for global layout and container-level state management and methods.
+
+## Usage
+<TabCode title='src/pages/welcome.tsx'>
+<div>
+```tsx
+import { useConfigAction, useConfigState } from '@adminui-dev/antd-layout';
+
+export default function(){    
+    const { layoutConfig} = useConfigState() // read-only
+    const { setLayoutConfig } = useConfigAction() // write
+    ...
+    setLayoutConfig({...})
+    return(
+        <div>
+            <p>primaryColor: {layoutConfig.primaryColor}</p>
+            <p>layoutType: {layoutConfig.layoutType}</p>
+            <p>
+                <button onClick={()=>{setLayoutConfig({...layoutConfig,layoutType:'headMenu'})}}>Update</button>
+            </p>
+        </div>
+    )
+}
+```
+</div>
+</TabCode>
+## useConfigAction
+Hook for modifying layout configuration:
+- setLayoutConfig `void`- Update layout configuration
+- setLocale `void` - Set internationalization language
+
+## useConfigState
+Hook for accessing layout state, theme, and language data:
+- layoutConfig [`LayoutConfig`](../layout-config#layoutconfig) - Current layout configuration
+- locale `string` - Current locale
+- originalConfig [`LayoutConfig`](../layout-config#layoutconfig) - Original layout configuration
+- themeSkin [`ThemeSkin`](../theme-skin#themeskin) - Current theme skin
+- themeSkinMap `Record<SkinType,ThemeSkin[]>` - All available theme skins
+- languages [`Language[]`](../locales#language) - Loaded language list
+- menuDataMap `Record<string,MenuData[]>` - Menu data mapping
+
+## useContainerOutlet
+Hook for container content management:
+- title `string`- Page title
+- breadcrumbData `any[]` - Breadcrumb data
+- footer `ReactNode`- Container footer content
+- toolbar `ReactNode` - Container toolbar content
+
+## useMainCollapsed
+Returns the collapsed state(`bool`) of the sidebar menu:
+
+## useBrandPopover
+Brand popover hook:
+- close `void`- Close brand popover
+
+## useAvatarPopover
+User avatar popover hook:
+- close `void`- Close user popover
+
+> Except for `useConfigAction` and `useConfigState`, all other hooks are only effective when used under the `<Container />` [Container](../container) component。

@@ -1,0 +1,181 @@
+---
+title: 布局配置
+author: zhouwenqi
+description: 布局配置 `LayoutConfig` 涵盖布局组件 `<AntdLayout />` 几乎所有初始化和动态参数，这些配置基本上都可以再进行动态修改。
+category: 开发指南
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# 布局配置
+布局配置 `LayoutConfig` 涵盖布局组件 `<AntdLayout />` 几乎所有初始化和动态参数，这些配置基本上都可以再进行动态修改，但有些参数特殊场景被刻意阻断，配置信息可根据路由存储在本地浏览器 (`localStorage`) 环境中。需要通过指定的方法（`setLayoutConfig`）进行修改。
+同时可以通过 `setLayoutConfig` 方法，动态修改相关参数信息，通过 `layoutConfig` 可实时获取相关参数改动，这两个方法需要分别通过写入（`setLayoutConfig`）和 只读（`useConfigState`）钩子获取。
+
+## 初始化布局配置
+首次加载进布局组件的配置参数
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx 
+import { AntdLayout } from "@adminui-dev/antd-layout"
+import type { LayoutConfig } from "@adminui-dev/antd-layout"
+
+const layoutConfig:LayoutConfig = {
+    layoutType:"leftMenu",  
+    asideMenuInline:true,
+    hideAsideMenuDataEmpty:true,
+    skinName:"parkWavesLight",
+    collapsedPosition:"center",
+    menuIconSize:16,
+    disabledLocale:false,
+    menuItemSelectColor:"default",
+    largeBrand:true,
+}
+export default function(){    
+    return(
+        <AntdLayout layoutConfig={layoutConfig} menuData={...}>        
+    )
+}
+```
+</div>
+</TabCode>
+
+## 动态修改布局配置
+这里分两种情况：
+1. 在组件外部用状态机（不推荐）
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx 
+export default function(){    
+    const [config,setConfig] = useState<LayoutConfig>({...})
+    return(
+        <AntdLayout layoutConfig={config} menuData={...}>        
+    )
+}
+```
+</div>
+</TabCode>
+> 基本可行，但完全不推荐，因为配置参数根据场景需要[阻断](#配置阻断)。
+
+2. 组件内部用钩子修改布局参数（推荐）
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx 
+export default function(){    
+    const config:LayoutConfig = {
+        layoutType:"leftMenu",  
+        asideMenuInline:true,
+        ...
+    }
+    return(
+        <AntdLayout layoutConfig={config} menuData={...}>        
+    )
+}
+```
+</div>
+</TabCode>
+
+在页面中使用钩子 `useConfigAction` 和专用的方法 `setLayoutConfig`
+<TabCode title='src/pages/transaction/order.tsx'>
+<div>
+```tsx 
+const { layoutConfig } = useConfigState()
+const { setLayoutConfig } = useConfigAction()
+...
+setLayoutConfig( {...layoutConfig, layoutType:'headMenu' })
+...
+```
+</div>
+</TabCode>
+
+## 配置阻断
+有些项目业务只需要初始布局配置就够了，但有些需要动态修改指定参数，有些还要在此基础上保存参数，刷新或下次打开继续上次的效果等等，为此就在业务功能上就需要产生阻断。例如：
+- 存储在本地浏览器的配置参数；
+- 国际化语言、自动明亮度切换；
+- 自定义皮肤的预装载；
+- 强制国际化：提供了多种语言，但只允许使用一种；
+
+> 布局组件关闭 `disabledStorageConfig = true` 浏览器存储后，刷新将失去修改配置信息。
+
+## 属性与类型
+### LayoutConfig
+| 参数名 | 类型 | 默认值 | 说明 |
+|-------|-------|-------|-------|
+|layoutType|[`LayoutType`](#layoutType)|leftMenu|布局版式类型|
+|primaryColor|`string`|rgb(65, 127, 251)|全局主题色|
+|theme|`Theme`|system|布局主题|
+|locale|`string`|en-US|国际化语言|
+|skinName|`string`|-|当前皮肤名称|
+|headerHeight|`number`|56|布局头部高度|
+|asideWidth|`number`|260|滑动侧栏最大宽度|
+|colorLink|`string`|rgb(65, 127, 251)|链接颜色|
+|menuIconSize|`number`|16|菜单图标大小|
+|menuFontSize|`number`|14|菜单字体大小|
+|containerMargin|`number`|0|容器外边距|
+|compact|`bool`|false|紧凑布局|
+|splitMenu|`bool`|false|上下分隔菜单|
+|flated|`bool`|false|扁平模式|
+|noneHeader|`bool`|false|去掉布局头部|
+|largeBrand|`bool`|false|品牌Logo放大|
+|asideMenuInline|`bool`|false|滑动菜单内联|
+|asideMenuGroup|`bool`|false|滑动菜单分组|
+|disabledLocale|`bool`|false|禁用国际化|
+|hideBorder|`bool`|false|隐藏线条|
+|hideTitle|`bool`|false|隐藏标题|
+|hideFooter|`bool`|false|隐藏页脚|
+|hideBreadcrumb|`bool`|false|隐藏面条屑|
+|asideTransparent|`bool`|false|滑动菜单透明|
+|headerTransparent|`bool`|false|顶部菜单透明|
+|containerTransparent|`bool`|false|容器透明|
+|asideBlur|`bool`|false|顶部背景模糊|
+|headerBlur|`bool`|false|滑动背景模糊|
+|containerBlur|`bool`|false|容器背景模糊|
+|hideAsideMenuDataEmpty|`bool`|false|滑动菜单为空时隐藏|
+|menuItemSelectColor|[`MenuItemSelectColor`](#menuitemselectcolor)|default|菜单选中项效果|
+|collapsedPosition|[`Position`](#position)|center|折叠按钮位置|
+|avatarPosition|[`AvatarPosition`](#avatarPosition)|rightTop|用户形象位置|
+|visibleBreadcrumbIcon|[`BreadcrumbIconVisible`](#breadcrumbiconvisible)|none|面包屑菜单图标显示效果|
+|userInfo|[`UserInfo`](#userinfo)|-|用户信息|
+|brandInfo|[`BrandInfo`](#brandinfo)|-|品牌形信|
+
+### LayoutType
+- leftMenu `string` - 左侧主菜单
+- headMenu `string` - 头部主菜单
+
+### Theme
+- light `string` - 明亮模式
+- dark `string` - 黑暗模式
+- system `string` - 跟随系统
+
+### MenuItemSelectColor
+- default `string` - 默认
+- primary `string` - 主题色
+- invert `string` - 反色
+
+### Position
+- top `string` - 顶部
+- center `string` - 中间
+- bottom `string`  底部
+
+### AvatarPosition
+- none `string` - 不展示
+- rightTop `string` - 右上角
+- leftBottom `string` - 左下角
+
+### BreadcrumbIconVisible
+- none `string` - 不显示
+- first `string` - 第一个
+- all `string` - 所有项
+
+### UserInfo
+- id `number` - 主键
+- uid `string` - 用户名
+- title `string` - 标题
+- avatar `string/ReactNode` - 头像
+
+### BrandInfo
+- id `number` - 主键
+- name `string` - 名称
+- title `string` - 标题
+- url `string` - 网址
+- logo `string | ReactNode` - Logo
+

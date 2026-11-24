@@ -1,0 +1,178 @@
+---
+title: Routing and Menu
+author: zhouwenqi
+description: The menu is the core of the layout component. It must be manually configured based on the routing structure.
+category: Development Guide
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# Routing and Menu
+
+The menu is the core of the layout component. In `antd-layout`, menus must be manually configured based on the routing structure, and routing must use [react-router](https://reactrouter.com/).
+
+## Route Lazy Loading
+
+If you need route lazy loading, you should use the [Data Mode](https://reactrouter.com/start/data/routing) routing configuration. Combined with the `LazyPage` helper provided by `antd-layout`, you can assemble lazy-loaded routes.
+
+<TabCode title='src/routers.ts'>
+<div>
+```ts
+import { LazyPage } from "@adminui-dev/antd-layout"
+import { createBrowserRouter,redirect } from "react-router-dom"
+
+const DashboardLayout = LazyPage(()=>import("@/layouts"))
+const OrderPage = LazyPage(()=>import("@/pages/transaction/order"))
+const ProductPage = LazyPage(()=>import("@/pages/transaction/product"))
+const WelcomePage = LazyPage(()=>import("@/pages/welcome"))
+
+const routers = createBrowserRouter(
+    [
+       {path:"/",Component:DashboardLayout, children:[
+        {index:true,loader:()=>redirect("/welcome")},
+        {path:"welcome",Component:WelcomePage},     
+        {path:"transaction",children:[
+            {index:true,loader:()=>redirect("/transaction/order")},
+            {path:"order",Component:OrderPage},
+            {path:"product",Component:ProductPage}
+        ]}
+       ]}
+    ]
+)
+export { routers }
+```
+</div>
+</TabCode>
+Then mount the router at the application root. Note that you must include the `nprogress.css` style. Lazy loading uses a top progress bar indicator.
+<TabCode title='src/App.ts'>
+<div>
+```ts
+import { Suspense } from 'react'
+import './App.css'
+import 'nprogress/nprogress.css'; 
+import { RouterProvider } from 'react-router'
+import { routers } from './routes'
+
+function App() {  
+  return (
+    <>
+      <Suspense>
+        <RouterProvider router={routers} />
+      </Suspense>
+    </>
+  )
+}
+
+export default App
+```
+</div>
+</TabCode>
+For more routing configuration details, please refer to the [react-router](https://reactrouter.com/start/data/route-object)
+
+## Configuring the Menu
+Menus must be configured according to the routing structure and then passed into the `antd-layout` component.
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx
+import { AntdLayout } from "@adminui-dev/antd-layout"
+import type { LayoutConfig, MenuData } from "@adminui-dev/antd-layout"
+
+const menuData:MenuData = {
+    name:"",
+    path:"/",
+    label:"Dashboard",
+    children:[
+        {name:"welcome",path:"welcome",label:"Welcome"},
+        {name:"transaction",path:"transaction",label:"Transaction",children:[
+            {name:"order",path:"order",label:"Order"},
+            {name:"product",path:"product",label:"Product"},
+        ]}
+    ]
+}
+
+export default function(){      
+    // layout config
+    const layoutConfig:LayoutConfig = {
+        disabledLocale:true,
+        largeBrand:true,    
+    }
+    return(
+        <>
+            <AntdLayout layoutConfig={layoutConfig} menuData={menuData} />
+        </>
+    )
+}
+
+```
+</div>
+</TabCode>
+> The root of the menu corresponds to the root route, so it is an object `{...}`, rather than an array `[...]`。
+
+### Icon
+The icon field is `icon` ，which is a `Component` object. Icons must be installed separately. All mainstream icon libraries are supported. It is recommended to use either `@ant-design/icons` or `lucide-react` , and keep a consistent style by using only one library.
+<TabCode>
+<div>
+```ts
+{ name:"visit", path:"./visit", label:"Visit", icon:<Globe /> }
+```
+</div>
+</TabCode>
+### Menu localization
+Menu i18n is enabled in sync with the layout component's `localeMessages`. the `key` is automatically generated based on `path` and `name`, All menu i18n keys must start with `menu.`, The root menu uses `menu.`, These keys are also used in breadcrumbs. Menu i18n data is usually stored in a separate file, such as `.menus.ts`. Example:
+<TabCode title="src/locales/en-US/menus.ts">
+<div>
+```ts
+export default {
+    "menu.":"Dashboard",  
+    "menu.login":"Login",    
+    "menu.welcome":"Welcome",  
+    "menu.workbench":"Workbench",
+    "menu.workbench.notifications":"Notifications",
+    "menu.workbench.monitoring":"Monitoring",
+    "menu.workbench.report":"Report",
+    "menu.workbench.report.visit":"Visit",
+    "menu.workbench.report.sales":"Sales",
+    "menu.workbench.logs":"Logs",
+    "menu.workbench.logs.login":"Login logs",
+    "menu.workbench.logs.operation":"Operation logs"
+}
+```
+</div>
+</TabCode>
+
+<TabCode title="src/locales/zn-CN/menus.ts">
+<div>
+```ts
+export default {
+    "menu.":"仪表盘",    
+    "menu.login":"登录",
+    "menu.welcome":"欢迎页",
+    "menu.workbench":"工作台",    
+    "menu.workbench.notifications":"我的消息",
+    "menu.workbench.monitoring":"数据监控",
+    "menu.workbench.report":"统计报表",
+    "menu.workbench.report.visit":"访问统计",
+    "menu.workbench.report.sales":"销售统计",
+    "menu.workbench.logs":"日志记录",
+    "menu.workbench.logs.login":"登录日志",
+    "menu.workbench.logs.operation":"操作日志"
+}
+```
+</div>
+</TabCode>
+> To disable menu i18n, set `disabledLocale` to `false` in the [layout configuration](../layout-config)。
+>
+> When i18n is disabled, menu names will fall back to the `label` field.
+
+## Menu Properties
+### MenuData
+| Name | Type |Default| Description |
+|-------|-------|-------|-------|
+|name|`string`|-|**Unique name**,corresponding to a route node|
+|label|`string`|-|Display name|
+|path|`string`|-|Navigation route|
+|icon|`ReactNode`|-|Icon component|
+|extra|`ReactNode`|-|Extra UI such as `<Brage>`,`<Tag>`|
+|params|`Record<string,string>`|-|Route parameters|
+|children|`MenuData[]`|-|Child menus|
+> It is not recommended for menus to exceed 3 levels. The structure should remain clear, concise, and intuitive.

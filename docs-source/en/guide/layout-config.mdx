@@ -1,0 +1,185 @@
+---
+title: Layout Configuration
+author: zhouwenqi
+description: The LayoutConfig covers almost all initialization and dynamic parameters of the layout component <AntdLayout />. Most of these configurations can be dynamically updated.
+category: Development Guide
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# Layout Configuration
+The `LayoutConfig` covers almost all initialization and dynamic parameters of the layout component `<AntdLayout />`. Most of these configurations can be dynamically updated. However, some parameters are intentionally restricted in specific scenarios.
+
+Configuration data can be persisted in the browser (`localStorage`) based on the routing context. Updates must be performed using the designated method (`setLayoutConfig`).
+
+At the same time, configuration changes can be dynamically updated via `setLayoutConfig`, and the latest state can be accessed through `layoutConfig`. These two operations are handled separately via a write hook (`setLayoutConfig`) and a read-only hook (`useConfigState`).
+
+## Initial Layout Configuration
+These are the initial parameters passed into the layout component on first load.
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx 
+import { AntdLayout } from "@adminui-dev/antd-layout"
+import type { LayoutConfig } from "@adminui-dev/antd-layout"
+
+const layoutConfig:LayoutConfig = {
+    layoutType:"leftMenu",  
+    asideMenuInline:true,
+    hideAsideMenuDataEmpty:true,
+    skinName:"parkWavesLight",
+    collapsedPosition:"center",
+    menuIconSize:16,
+    disabledLocale:false,
+    menuItemSelectColor:"default",
+    largeBrand:true,
+}
+export default function(){    
+    return(
+        <AntdLayout layoutConfig={layoutConfig} menuData={...}>        
+    )
+}
+```
+</div>
+</TabCode>
+
+## Dynamically Updating Layout Configuration
+There are two approaches:
+1. Using external state management (not recommended)
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx 
+export default function(){    
+    const [config,setConfig] = useState<LayoutConfig>({...})
+    return(
+        <AntdLayout layoutConfig={config} menuData={...}>        
+    )
+}
+```
+</div>
+</TabCode>
+> This works in practice, but is not recommended because some configuration parameters are intentionally [restricted](#Restricted)。
+
+2. Using hooks inside components (recommended)
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx 
+export default function(){    
+    const config:LayoutConfig = {
+        layoutType:"leftMenu",  
+        asideMenuInline:true,
+        ...
+    }
+    return(
+        <AntdLayout layoutConfig={config} menuData={...}>        
+    )
+}
+```
+</div>
+</TabCode>
+
+Inside pages, you can use the hooks `useConfigAction` and the action method `setLayoutConfig`
+<TabCode title='src/pages/transaction/order.tsx'>
+<div>
+```tsx 
+const { layoutConfig } = useConfigState()
+const { setLayoutConfig } = useConfigAction()
+...
+setLayoutConfig( {...layoutConfig, layoutType:'headMenu' })
+...
+```
+</div>
+</TabCode>
+
+## Configuration Restrictions
+Some projects only require an initial layout configuration, while others need dynamic updates and persistence. In more advanced scenarios, configurations may need to be saved locally and restored on reload or next visit.
+To support these cases, certain behaviors are restricted at the framework level, for example:
+- Configuration persistence in browser storage
+- Internationalization and automatic theme switching
+- Preloaded custom themes
+- Forced locale mode (only allowing a single language despite multiple options)
+
+> When `disabledStorageConfig = true`, browser-based storage is disabled. After refresh, configuration changes will not persist.
+
+## Properties and Types
+### LayoutConfig
+| Name | Type | Default | Description |
+|-------|-------|-------|-------|
+|layoutType|[`LayoutType`](#layoutType)|leftMenu|Layout type|
+|primaryColor|`string`|rgb(65, 127, 251)|Global theme color|
+|theme|`Theme`|system|Layout theme|
+|locale|`string`|en-US|Locale|
+|skinName|`string`|-|Current theme skin name|
+|headerHeight|`number`|56|Header height|
+|asideWidth|`number`|260|Maximum sidebar width|
+|colorLink|`string`|rgb(65, 127, 251)|Link color|
+|menuIconSize|`number`|16|Menu icon size|
+|menuFontSize|`number`|14|Menu font size|
+|containerMargin|`number`|0|Container margin|
+|compact|`bool`|false|Compact layout|
+|splitMenu|`bool`|false|Split top/bottom menu|
+|flated|`bool`|false|Flat mode|
+|noneHeader|`bool`|false|Remove header|
+|largeBrand|`bool`|false|Enlarge brand logo|
+|asideMenuInline|`bool`|false|Inline sidebar menu|
+|asideMenuGroup|`bool`|false|Group sidebar menu|
+|disabledLocale|`bool`|false|Disable i18n|
+|hideBorder|`bool`|false|Hide borders|
+|hideTitle|`bool`|false|Hide title|
+|hideFooter|`bool`|false|Hide footer|
+|hideBreadcrumb|`bool`|false|Hide breadcrumb|
+|asideTransparent|`bool`|false|Transparent sidebar|
+|headerTransparent|`bool`|false|Transparent header|
+|containerTransparent|`bool`|false|Transparent container|
+|asideBlur|`bool`|false|Sidebar blur effect|
+|headerBlur|`bool`|false|Header blur effect|
+|containerBlur|`bool`|false|Container blur effect|
+|hideAsideMenuDataEmpty|`bool`|false|Hide empty sidebar menus|
+|menuItemSelectColor|[`MenuItemSelectColor`](#menuitemselectcolor)|default|Menu selection style|
+|collapsedPosition|[`Position`](#position)|center|Collapse button position|
+|avatarPosition|[`AvatarPosition`](#avatarPosition)|rightTop|Avatar position|
+|visibleBreadcrumbIcon|[`BreadcrumbIconVisible`](#breadcrumbiconvisible)|none|Breadcrumb icon visibility|
+|userInfo|[`UserInfo`](#userinfo)|-|User information|
+|brandInfo|[`BrandInfo`](#brandinfo)|-|Brand information|
+
+### LayoutType
+- leftMenu `string` - Left-side main menu
+- headMenu `string` - Top navigation menu
+
+### Theme
+- light `string` - Light mode
+- dark `string` - Dark mode
+- system `string` - Follow system theme
+
+### MenuItemSelectColor
+- default `string` - Default style
+- primary `string` - Primary color
+- invert `string` - Inverted color
+
+### Position
+- top `string` - Top
+- center `string` - Center
+- bottom `string`  Bottom
+
+### AvatarPosition
+- none `string` - Hidden
+- rightTop `string` - Top right
+- leftBottom `string` - Bottom left
+
+### BreadcrumbIconVisible
+- none `string` - Hidden
+- first `string` - First item only
+- all `string` - All items
+
+### UserInfo
+- id `number` - Primary key
+- uid `string` - Username
+- title `string` - Title
+- avatar `string/ReactNode` - Avator
+
+### BrandInfo
+- id `number` - Primary key
+- name `string` - Company name
+- title `string` - Title
+- url `string` - Website url
+- logo `string | ReactNode` - Logo
+

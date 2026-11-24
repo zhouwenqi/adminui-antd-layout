@@ -1,0 +1,79 @@
+---
+title: Getting Started
+author: zhouwenqi
+description: The basic development environment requires Node.js 18 or above. You can directly run npx create-antd-layout@latest your-project to install. It provides many pre-configured templates for quick setup.
+category: Introduction
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# Getting Started
+The basic development environment requires [Node.js](https://nodejs.org) version 18 or above.
+
+## Installation Method 1 (Recommended)
+You can directly run `npx create-antd-layout@latest your-project` to install. It provides many pre-configured templates, making setup quick and convenient.
+
+## Installation Method 2
+Integrate into an existing project.
+
+1. Add `@adminui-dev/antd-layout` to your project
+<TabCode items={['npm','pnpm','yarn','bun']} defaultItem="npm">
+<div data-tab="npm" class="is-active">
+```bash
+npm i @adminui-dev/antd-layout
+```
+</div>
+<div data-tab="pnpm">
+```bash
+pnpm i @adminui-dev/antd-layout
+```
+</div>
+<div data-tab="yarn">
+```bash
+yarn add @adminui-dev/antd-layout
+```
+</div>
+<div data-tab="bun">
+```bash
+bun add @adminui-dev/antd-layout
+```
+</div>
+</TabCode>
+
+2. Add the required dependencies
+<TabCode title='package.json'>
+<div>
+```json
+"dependencies": {
+    "@adminui-dev/antd-layout": "^1.8.3",
+    "@ant-design/colors": "^7.2.1",
+    "nprogress": "^0.2.0",
+    "antd": "^6.1.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-intl": "^8.0.4",
+    "react-router": "^7.11.0",
+    "react-router-dom": "^7.11.0"
+}
+```
+</div>
+</TabCode>
+3. Use and configure the component in your layout file
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx
+// src/layout/index.tsx
+...
+import { AntdLayout } from "@adminui-dev/antd-layout"
+...
+export default function(){      
+    return(
+        <>
+            <AntdLayout layoutConfig={...} menuData={...} />
+        </>
+    )
+}
+```
+</div>
+</TabCode>
+> Prerequisites: Node, ant-design, react, and react-dom environment are required.

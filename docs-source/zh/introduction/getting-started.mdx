@@ -1,0 +1,80 @@
+---
+title: 快速开始
+author: zhouwenqi
+description: 基本开发环境需要Node.js18以上版本,直接使用 npx create-antd-layout@latest your-project 安装，它提供许多已定制好的模版，方便快捷。
+category: 简介
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# 快速开始
+基本开发环境需要 [Node.js](https://nodejs.org)18 以上版本
+
+## 安装方式-1 (推荐)
+直接使用 ```npx create-antd-layout@latest your-project``` 安装，它提供许多已定制好的模版，方便快捷。
+
+## 安装方式-2
+
+集成到已有项目中
+
+1. 添加 `@adminui-dev/antd-layout` 到项目中
+<TabCode items={['npm','pnpm','yarn','bun']} defaultItem="npm">
+<div data-tab="npm" class="is-active">
+```bash
+npm i @adminui-dev/antd-layout
+```
+</div>
+<div data-tab="pnpm">
+```bash
+pnpm i @adminui-dev/antd-layout
+```
+</div>
+<div data-tab="yarn">
+```bash
+yarn add @adminui-dev/antd-layout
+```
+</div>
+<div data-tab="bun">
+```bash
+bun add @adminui-dev/antd-layout
+```
+</div>
+</TabCode>
+
+2. 添加相关依赖项
+<TabCode title='package.json'>
+<div>
+```json
+"dependencies": {
+    "@adminui-dev/antd-layout": "^1.8.3",
+    "@ant-design/colors": "^7.2.1",
+    "nprogress": "^0.2.0",
+    "antd": "^6.1.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-intl": "^8.0.4",
+    "react-router": "^7.11.0",
+    "react-router-dom": "^7.11.0"
+}
+```
+</div>
+</TabCode>
+3. 在布局文件中使用并配置组件
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx
+// src/layout/index.tsx
+...
+import { AntdLayout } from "@adminui-dev/antd-layout"
+...
+export default function(){      
+    return(
+        <>
+            <AntdLayout layoutConfig={...} menuData={...} />
+        </>
+    )
+}
+```
+</div>
+</TabCode>
+> 前提条件：需要node、ant-desing、react、react-dom环境

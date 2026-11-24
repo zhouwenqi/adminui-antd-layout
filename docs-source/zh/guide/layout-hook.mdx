@@ -1,0 +1,68 @@
+---
+title: 全局钩子
+author: zhouwenqi
+description: 全局钩子指的是在 <AntdLayout> 使用的由 antd-layout 提供的钩子，适用于全局布局和容器的全局方法和状态。
+category: 开发指南
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# 全局钩子
+全局钩子指的是在 `<AntdLayout>` 使用的由 `antd-layout` 提供的钩子，适用于全局 `布局` 和 `容器` 的全局方法和状态。获取方法：
+<TabCode title='src/pages/welcome.tsx'>
+<div>
+```tsx
+import { useConfigAction, useConfigState } from '@adminui-dev/antd-layout';
+
+export default function(){    
+    const { layoutConfig} = useConfigState() // 只读
+    const { setLayoutConfig } = useConfigAction() // 写入
+    ...
+    setLayoutConfig({...})
+    return(
+        <div>
+            <p>primaryColor: {layoutConfig.primaryColor}</p>
+            <p>layoutType: {layoutConfig.layoutType}</p>
+            <p>
+                <button onClick={()=>{setLayoutConfig({...layoutConfig,layoutType:'headMenu'})}}>Update</button>
+            </p>
+        </div>
+    )
+}
+```
+</div>
+</TabCode>
+## useConfigAction
+获取修改布局配置相关方法的钩子：
+- setLayoutConfig `void`- 设置布局配置参数
+- setLocale `void` - 设置国际化语言
+
+## useConfigState
+获取布局配置、皮肤和语言等数据的钩子：
+- layoutConfig [`LayoutConfig`](../layout-config#layoutconfig) - 布局配置参数
+- locale `string` - 当前国际化语言
+- originalConfig [`LayoutConfig`](../layout-config#layoutconfig) - 原始布局配置参数
+- themeSkin [`ThemeSkin`](../theme-skin#themeskin) - 当前皮肤信息
+- themeSkinMap `Record<SkinType,ThemeSkin[]>` - 所有皮肤信息
+- languages [`Language[]`](../locales#language) - 当前已装载的语言列表
+- menuDataMap `Record<string,MenuData[]>` - 所有皮肤信息
+
+## useContainerOutlet
+容器内容相关的钩子：
+- title `string`- 标题
+- breadcrumbData `any[]` - 面包屑数据
+- footer `ReactNode`- 容器页面内容
+- toolbar `ReactNode` - 容器工具栏内容
+
+## useMainCollapsed
+获取侧滑菜单折叠状态，返回一个 `bool` 值。
+
+## useBrandPopover
+品牌popover钩子
+- close `void`- 关闭品牌popover
+
+## useAvatarPopover
+用户popover钩子
+- close `void`- 关闭用户popover
+
+> 除了 `useConfigAction` 和 `useConfigState` 之外，其它钩子都需要在使用 `<Container />` [容器组件](../container)下才有效。

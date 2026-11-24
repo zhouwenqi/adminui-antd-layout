@@ -1,0 +1,169 @@
+---
+title: Internationalization
+author: zhouwenqi
+description: Internationalization in antd-layout is implemented using react-intl and is designed to stay as consistent as possible with the ant-design structure.
+category: Development Guide
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# Internationalization
+
+Internationalization in `antd-layout` is implemented using `react-intl` and is designed to stay as consistent as possible with the `ant-design` structure.
+
+## i18n Data
+
+All localization data is stored under `src/locales`, using standard language codes as folder names. For better organization, data can be further split by pages and business domains.
+
+For example:
+- `menus.ts` is used for [menu i18n](./router-menu#menu-localization)
+- `pages.ts` is used for page-level translations
+- `components.ts` is used for component-level translations
+
+These conventions are not strictly required, but they help keep the project more maintainable. The key requirement is that the final merged structure passed into the layout component is correct.
+
+You should also merge Ant Design's built-in i18n data together with your own, as shown below:
+<TabCode items={["en-US.ts","zh-CN.ts"]} defaultItem="en-US.ts">
+<div data-tab="zh-CN.ts">
+```ts
+// src/locales/zh-CN.ts
+
+import components from "./zh-CN/components";
+import menus from "./zh-CN/menus";
+import pages from "./zh-CN/pages";
+    
+export default {
+    ...menus,
+    ...pages,
+    ...components,
+    "skin.blue.label":"蔚蓝天空"
+}
+```
+</div>
+<div data-tab="en-US.ts" class="is-active">
+```ts
+// src/locales/en-US.ts
+
+import components from "./en-US/components";
+import menus from "./en-US/menus";
+import pages from "./en-US/pages";
+    
+export default {
+    ...menus,
+    ...pages,
+    ...components,
+    "skin.blue.label":"Azure sky"
+}
+```
+</div>
+</TabCode>
+Using i18n in Layout
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx
+import { AntdLayout } from "@adminui-dev/antd-layout"
+import type { LayoutConfig, LocaleMessage } from "@adminui-dev/antd-layout"
+import menuData from "./menuData"
+import antdZhCN from 'antd/locale/zh_CN'
+import antdEnUS from 'antd/locale/en_US'
+import zhCN from "@/locales/zh-CN"
+import enUS from "@/locales/en-US"
+
+const localeMessages:Record<string,LocaleMessage> = {   
+    "zh-CN":{
+        locale:antdZhCN.locale,
+        name:"简体中文",
+        flag:"🇨🇳",
+        messages:{...zhCN,...settingsZhCN},            
+        antdLocale:antdZhCN
+    },
+    "en-US":{
+        locale:antdEnUS.locale,
+        name:"English",
+        flag:"🇺🇸",
+        messages:{...enUS,...settingsEnUS}, 
+        antdLocale:antdEnUS
+    },
+}
+const layoutConfig:LayoutConfig = {
+    layoutType:"leftMenu",  
+    asideMenuInline:true,        
+}
+
+export default function(){
+    return(
+        <AntdLayout layoutConfig={...} menuData={...} localeMessages={localeMessages}>
+    )
+}
+```
+</div>
+</TabCode>
+> Note: The `keys` in `localeMessages` must be correct and follow standard language code conventions.
+>
+
+> Also note that `ant-design` requires its own `import antdZhCN from antd/locale/zh_CN`, which is merged here for convenience.
+
+## Content localization
+You can use standard react-intl APIs directly.
+<TabCode items={['useIntl','FormattedMessage']} defaultItem='useIntl'>
+<div data-tab="useIntl" class="is-active">
+```tsx
+import { useIntl } from 'react-intl'
+
+export default function(){
+    const intl = useIntl()
+    const skinName = intl.formatMessage({id:`skin.blue.label`})
+    return(
+        <span>{skinName}</span>
+    )
+}
+```
+</div>
+<div data-tab="FormattedMessage">
+```tsx
+import { FormattedMessage } from 'react-intl'
+
+export default function(){
+    return(
+        <FormattedMessage
+            id='skin.blue.label'
+            description='skin name'
+            defaultMessage='blue'
+            />
+    )
+}
+
+```
+</div>
+</TabCode>
+
+## Switching Languages
+The above only configures supported languages. The `[layout component](../layout-component)` defaults to `en-US`，or reads the value stored in the browser.
+You can switch languages using the global hook [`setLocale`](../layout-hook#useconfigaction).
+<TabCode title='src/pages/welcome.tsx'>
+<div>
+```tsx
+setLocale("zh-CN")
+```
+</div>
+</TabCode>
+
+## Getting the Language List
+You can access the currently loaded languages via the [useConfigState](../layout-hook#useconfigstate) hook. This can be used to build a `language` switcher.
+### Language
+- name `string` - Display name
+- locale `string` - Locale code
+- flag `string` - Country flag identifier
+
+### LocaleMessageData 
+- locale `string` - Regional language
+- name `string` - Name
+- flag `string` - Flag icon
+- messages `Record<string, string>` - Localized data
+
+### LocaleMessage
+- antdLocale `string` - ant-design regional language
+- locale `string` - Regional language
+- name `string` - Name
+- flag `string` - Flag icon
+- messages `Record<string, string>` - Localized data

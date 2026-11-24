@@ -1,0 +1,175 @@
+---
+title: 路由和菜单
+author: zhouwenqi
+description: 菜单是布局组件的核心，菜单需要基于路由结构手动配置。
+category: 开发指南
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# 路由和菜单
+菜单是布局组件的核心，`antd-layout` 菜单需要基于路由结构手动配置，且路由需要采用 [react-router](https://reactrouter.com/) 提供路由。
+
+## 路由懒加载
+如果需要对路由进行懒加载？需要采用 [Data Mode](https://reactrouter.com/start/data/routing) 配置路由，同时配合 `antd-layout` 提供的 `LazyPage` 加载方法装配路由。
+<TabCode title='src/routers.ts'>
+<div>
+```ts
+import { LazyPage } from "@adminui-dev/antd-layout"
+import { createBrowserRouter,redirect } from "react-router-dom"
+
+const DashboardLayout = LazyPage(()=>import("@/layouts"))
+const OrderPage = LazyPage(()=>import("@/pages/transaction/order"))
+const ProductPage = LazyPage(()=>import("@/pages/transaction/product"))
+const WelcomePage = LazyPage(()=>import("@/pages/welcome"))
+
+const routers = createBrowserRouter(
+    [
+       {path:"/",Component:DashboardLayout, children:[
+        {index:true,loader:()=>redirect("/welcome")},
+        {path:"welcome",Component:WelcomePage},     
+        {path:"transaction",children:[
+            {index:true,loader:()=>redirect("/transaction/order")},
+            {path:"order",Component:OrderPage},
+            {path:"product",Component:ProductPage}
+        ]}
+       ]}
+    ]
+)
+export { routers }
+```
+</div>
+</TabCode>
+再将路由配置项目根节点，注意要带上 `nprogress.css` 样式，懒加载状态采用页面顶部的进度条加载效果。
+<TabCode title='src/App.ts'>
+<div>
+```ts
+import { Suspense } from 'react'
+import './App.css'
+import 'nprogress/nprogress.css'; 
+import { RouterProvider } from 'react-router'
+import { routers } from './routes'
+
+function App() {  
+  return (
+    <>
+      <Suspense>
+        <RouterProvider router={routers} />
+      </Suspense>
+    </>
+  )
+}
+
+export default App
+```
+</div>
+</TabCode>
+更多路由配置信息请参考 [react-router官网](https://reactrouter.com/start/data/route-object)
+
+## 配置菜单
+菜单需要根据路由结构进行配置，然后装入 `antd-layout` 布局组件，
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx
+import { AntdLayout } from "@adminui-dev/antd-layout"
+import type { LayoutConfig, MenuData } from "@adminui-dev/antd-layout"
+
+const menuData:MenuData = {
+    name:"",
+    path:"/",
+    label:"Dashboard",
+    children:[
+        {name:"welcome",path:"welcome",label:"Welcome"},
+        {name:"transaction",path:"transaction",label:"Transaction",children:[
+            {name:"order",path:"order",label:"Order"},
+            {name:"product",path:"product",label:"Product"},
+        ]}
+    ]
+}
+
+export default function(){      
+    // layout config
+    const layoutConfig:LayoutConfig = {
+        disabledLocale:true,
+        largeBrand:true,    
+    }
+    return(
+        <>
+            <AntdLayout layoutConfig={layoutConfig} menuData={menuData} />
+        </>
+    )
+}
+
+```
+</div>
+</TabCode>
+> 注意：菜单根结构对应根路由所以是一对象 `{...}`，而不是数组 `[...]`。
+
+### 图标
+图标参数字段是 `icon` ，是 `Component` 对象，图标需要自行安装，支持所有主流图标库，推荐采用官方的 `@ant-design/icons` 或 `lucide-react` ，建议只用一套保持风格一致。
+<TabCode>
+<div>
+```ts
+{ name:"visit", path:"./visit", label:"Visit", icon:<Globe /> }
+```
+</div>
+</TabCode>
+### 菜单国际化
+菜单国际化数据随布局组件国际化 `localeMessages` 同步启用，它是 `key` 是基于 `path` 和 `name` 一起自动拼接的，它的规则是所有菜单国际化数据的key都以 `menu.` 开头，根菜单就是 `menu.`，在面包屑菜单中会有显示，菜单国际化数据一般都单独一个文件命名 `menus.ts` ，示例：
+<TabCode title="src/locales/en-US/menus.ts">
+<div>
+```ts
+export default {
+    "menu.":"Dashboard",  
+    "menu.login":"Login",    
+    "menu.welcome":"Welcome",  
+    "menu.workbench":"Workbench",
+    "menu.workbench.notifications":"Notifications",
+    "menu.workbench.monitoring":"Monitoring",
+    "menu.workbench.report":"Report",
+    "menu.workbench.report.visit":"Visit",
+    "menu.workbench.report.sales":"Sales",
+    "menu.workbench.logs":"Logs",
+    "menu.workbench.logs.login":"Login logs",
+    "menu.workbench.logs.operation":"Operation logs"
+}
+```
+</div>
+</TabCode>
+
+<TabCode title="src/locales/zn-CN/menus.ts">
+<div>
+```ts
+export default {
+    "menu.":"仪表盘",    
+    "menu.login":"登录",
+    "menu.welcome":"欢迎页",
+    "menu.workbench":"工作台",    
+    "menu.workbench.notifications":"我的消息",
+    "menu.workbench.monitoring":"数据监控",
+    "menu.workbench.report":"统计报表",
+    "menu.workbench.report.visit":"访问统计",
+    "menu.workbench.report.sales":"销售统计",
+    "menu.workbench.logs":"日志记录",
+    "menu.workbench.logs.login":"登录日志",
+    "menu.workbench.logs.operation":"操作日志"
+}
+```
+</div>
+</TabCode>
+> 禁用菜单国际化：可以在[布局配置](../layout-config)中设置 `disabledLocale` 为 `false`。
+>
+> 禁用国际化菜单名会回退显示 `label`。
+
+## 菜单属性
+### MenuData
+| 参数名 | 类型 |默认值| 说明 |
+|-------|-------|-------|-------|
+|name|`string`|-|**唯一名称**，对应路由节点|
+|label|`string`|-|显示名称|
+|path|`string`|-|导航路由|
+|icon|`ReactNode`|-|图标组件|
+|extra|`ReactNode`|-|扩展组件例如：`<Brage>`、`<Tag>`|
+|params|`Record<string,string>`|-|路由参数|
+|children|`MenuData[]`|-|子菜单|
+> 菜单数据不建议超过3级，应该尽可能清晰且直观合理。

@@ -1,0 +1,155 @@
+---
+title: 国际化
+author: zhouwenqi
+description: antd-layout 国际化采用 react-intl 实现并与 ant-design 结构尽可能保持一持。
+category: 开发指南
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# 国际化
+`antd-layout` 国际化采用 `react-intl` 实现并与 `ant-design` 结构尽可能保持一持。
+## 国际化数据
+数据统一放置在 `src/locales` 下，用通用语言名命名隔开，如果数据太多进一步用页面和业务分类，例如：`menus.ts` 用于存放[菜单国际化](./router-menu#菜单国际化)数据，`pages.ts` 用于存放页面国际化数据，`components.ts` 用于存放组件国际化数据等等，注意这些规则都不强制的，只是为了更清晰的方便管理，重点是最后放入布局组件中的结构正确就行了，同时要合并ant-design的组件国际化数据一起放入，如下：
+<TabCode items={["en-US.ts","zh-CN.ts"]} defaultItem="en-US.ts">
+<div data-tab="zh-CN.ts">
+```ts
+// src/locales/zh-CN.ts
+
+import components from "./zh-CN/components";
+import menus from "./zh-CN/menus";
+import pages from "./zh-CN/pages";
+    
+export default {
+    ...menus,
+    ...pages,
+    ...components,
+    "skin.blue.label":"蔚蓝天空"
+}
+```
+</div>
+<div data-tab="en-US.ts" class="is-active">
+```ts
+// src/locales/en-US.ts
+
+import components from "./en-US/components";
+import menus from "./en-US/menus";
+import pages from "./en-US/pages";
+    
+export default {
+    ...menus,
+    ...pages,
+    ...components,
+    "skin.blue.label":"Azure sky"
+}
+```
+</div>
+</TabCode>
+布局中使用国际化数据
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx
+import { AntdLayout } from "@adminui-dev/antd-layout"
+import type { LayoutConfig, LocaleMessage } from "@adminui-dev/antd-layout"
+import menuData from "./menuData"
+import antdZhCN from 'antd/locale/zh_CN'
+import antdEnUS from 'antd/locale/en_US'
+import zhCN from "@/locales/zh-CN"
+import enUS from "@/locales/en-US"
+
+const localeMessages:Record<string,LocaleMessage> = {   
+    "zh-CN":{
+        locale:antdZhCN.locale,
+        name:"简体中文",
+        flag:"🇨🇳",
+        messages:{...zhCN,...settingsZhCN},            
+        antdLocale:antdZhCN
+    },
+    "en-US":{
+        locale:antdEnUS.locale,
+        name:"English",
+        flag:"🇺🇸",
+        messages:{...enUS,...settingsEnUS}, 
+        antdLocale:antdEnUS
+    },
+}
+const layoutConfig:LayoutConfig = {
+    layoutType:"leftMenu",  
+    asideMenuInline:true,        
+}
+
+export default function(){
+    return(
+        <AntdLayout layoutConfig={...} menuData={...} localeMessages={localeMessages}>
+    )
+}
+```
+</div>
+</TabCode>
+> 注意 `localeMessages` 中的 `key` 不能错就行了，请自行参考相应的语言名规范。
+>
+> 另外因为 `ant-design` 本身也需要导入组件国际化 `import antdZhCN from 'antd/locale/zh_CN'`, 所以刚好这里直接进行了合并。
+
+## 内容国际化
+直接使用通用方法。
+<TabCode items={['useIntl','FormattedMessage']} defaultItem='useIntl'>
+<div data-tab="useIntl" class="is-active">
+```tsx
+import { useIntl } from 'react-intl'
+
+export default function(){
+    const intl = useIntl()
+    const skinName = intl.formatMessage({id:`skin.blue.label`})
+    return(
+        <span>{skinName}</span>
+    )
+}
+```
+</div>
+<div data-tab="FormattedMessage">
+```tsx
+import { FormattedMessage } from 'react-intl'
+
+export default function(){
+    return(
+        <FormattedMessage
+            id='skin.blue.label'
+            description='skin name'
+            defaultMessage='blue'
+            />
+    )
+}
+
+```
+</div>
+</TabCode>
+
+## 国际化切换
+上面只是配置了项目所支持的国际化语言，`[布局组件](../layout-component)` 默认将采用 `en-US`，获者读取浏览器客户端存储的国际化值，并且可以通用钩子中 [`setLocale`](../layout-hook#useconfigaction) 进行切换。
+<TabCode title='src/pages/welcome.tsx'>
+<div>
+```tsx
+setLocale("zh-CN")
+```
+</div>
+</TabCode>
+
+## 获取语言列表
+通过 [钩子](../layout-hook#useconfigstate) 可获取 `languags` 当前已装载的语言列表，可用于显示切换。
+### Language
+- name `string` - 显示名称
+- locale `string` - 国际语言名称
+- flag `string` - 国旗标识
+
+### LocaleMessageData 
+- locale `string` - 区域语言
+- name `string` - 名称
+- flag `string` - 旗帜标识
+- messages `Record<string, string>` - 本地化数据
+
+### LocaleMessage
+- antdLocale `string` - ant-design区域语言
+- locale `string` - 区域语言
+- name `string` - 名称
+- flag `string` - 旗帜标识
+- messages `Record<string, string>` - 本地化数据

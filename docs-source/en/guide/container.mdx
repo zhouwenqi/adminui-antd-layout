@@ -1,0 +1,113 @@
+---
+title: Container Component
+author: zhouwenqi
+description: The Container component helps maintain a consistent UI style with the overall layout, including transparency and blur effects. It is optional (but highly recommended) and can be added to any page as needed. It provides unified title, breadcrumb navigation, footer, and related hooks, with flexible customization via props.
+category: Development Guide
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# Container Component
+
+`antd-layout` provides a layout-integrated wrapper component called `Container`. It helps maintain a consistent UI style with the overall layout, including transparency and blur effects. It is optional (but highly recommended) and can be added to any page as needed.
+
+The Container component includes a unified title, breadcrumb navigation, footer, and related hooks. These can also be customized individually through props, making it highly flexible.
+
+## Using the Container
+
+It must be used as the root node of a page, and only one Container should be used per page.
+<TabCode title='src/pages/welcome.tsx'>
+<div>
+```tsx
+import { Container } from '@adminui-dev/antd-layout';
+
+export default function(){ 
+    return(
+        <Container mode="panel">
+            <div>
+                <h1>Welcome</h1>
+            </div>
+        </Container>
+    )
+}
+```
+</div>
+</TabCode>
+## Container Props
+These props control the detailed appearance of the container.
+| Name | Type |Default| Description |
+|-------|-------|-------|-------|
+|mode|`ContainerMode`|inline|Container appearance (mainly margin control)|
+|stretch|`ContainerStretch`|inline|Container height behavior|
+|hideBorder|`bool`|false|Controls border visibility|
+|hideTitle|`bool`|false|Controls title visibility|
+|hideBreadcrumb|`bool`|false|Hides breadcrumb navigation|
+|hideFooter|`bool`|false|Hides footer|
+|title|`string`|-|Override the title|
+|transparent|`bool`|false|Makes container background transparent|
+> The layout configuration also includes `hideFooter`,`hideBreadcrumb`,`hideFooter`, etc., which apply globally. The props here only affect the current container.
+### ContainerMode
+- inline `string`- No outer margin
+- box `string`- Adds Ant Design padding
+- panel `string`- Adds an inner border on top of box
+> The panel mode includes border and background, but the title, breadcrumb, and footer are rendered outside the panel.
+
+### ContainerStretch
+- inline `string`- Container and panel height are automatic
+- auto `string`- Panel height is automatic
+- fill `string`- Both container and panel take full height
+> You can observe different effects by checking the footer behavior in panel mode.
+
+<TabCode items={['Preview','Code']} defaultItem="Preview">
+<div data-tab="Preview" class="is-active" data-viewmode="frame">
+    <iframe style="width:100%;height:900px" data-src="/components/container" />
+</div>
+<div data-tab="Code">
+```tsx
+import { Container, useConfigState } from "@adminui-dev/antd-layout";
+import type {ContainerStretch,ContainerMode} from "@adminui-dev/antd-layout";
+import { Checkbox, Result, Segmented, Space } from 'antd';
+import { useState } from 'react';
+
+export default function(){    
+  const {layoutConfig} = useConfigState();
+  const [mode,setMode]= useState<ContainerMode>()
+  const [stretch,setStretch] = useState<ContainerStretch>()
+
+  const [hideTitle,setHideTitle]= useState(layoutConfig.hideTitle)
+  const [hideBreadcrumb,setHideBreadcrumb] = useState(layoutConfig.hideBreadcrumb)
+  const [hideFooter,setHideFooter] = useState(layoutConfig.hideFooter)
+    return (
+        <Container mode={mode} stretch={stretch} hideTitle={hideTitle} hideBreadcrumb={hideBreadcrumb} hideFooter={hideFooter}>
+            <Result
+                status="info"
+                title="Set container style!"
+                subTitle="Each<Container/>component can have three basic styles and can display the title bar and breadcrumb navigation separately."
+                extra={[
+                    <Segmented key="mode_segmented" defaultValue={mode} options={["inline","box","panel"]} onChange={(e)=>{setMode(e as ContainerMode)}} />
+                ]} />
+                <div style={{textAlign:"center",padding:"0px 0px 12px 0px"}}>
+                <h4>Set container stretch for height</h4>
+                    <div>
+                        <Space>
+                            <Segmented disabled={mode!="panel"} key="stretch_segmented" defaultValue={stretch} options={["inline ","auto","fill"]} onChange={(e)=>{setStretch(e as ContainerStretch)}} />
+                        </Space>
+                    </div> 
+                    <h4>Set the display of breadcrumbs, title, and footer for the current page separately</h4>
+                    <div style={{display:"flex",justifyContent:"center"}}>
+                        <Space>              
+                            <Checkbox defaultChecked={!hideFooter} checked={!hideFooter} onClick={()=>{setHideFooter(!hideFooter)}}>Footer</Checkbox>
+                            <Checkbox defaultChecked={!hideBreadcrumb} checked={!hideBreadcrumb} onClick={()=>{setHideBreadcrumb(!hideBreadcrumb)}}>Breadcrumb</Checkbox>
+                            <Checkbox defaultChecked={!hideTitle} checked={!hideTitle} onClick={()=>{setHideTitle(!hideTitle)}}>Title</Checkbox>                    
+                        </Space>                 
+                    </div>                    
+                </div>
+        </Container>
+    )
+}
+```
+</div>
+</TabCode>
+
+## Container Hooks
+The Container also provides several related hooks, which are mentioned in [global hooks](../layout-hook#usemaincollapsed).

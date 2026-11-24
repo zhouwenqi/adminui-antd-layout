@@ -107,3 +107,10 @@ export default MainLayout;
 官网🔗[https://adminui.dev](https://adminui.dev/zh)
 
 文档🔗[https://adminui.dev/zh/docs](https://adminui.dev/zh/docs)
+
+## Agents
+`public/llms.txt` — compact AI entry point.
+`public/llms-full.txt` — concatenated source documentation snapshot.
+`.agents/skills/adminui/SKILL.md` — coding-agent skill.
+`.agents/skills/adminui/references/` — source-verified API notes, compatibility notes, and audit findings.
+`docs-source/` — exact Markdown/MDX and category JSON files from the uploaded archive.

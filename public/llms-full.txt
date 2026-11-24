@@ -1,0 +1,2334 @@
+# AdminUI / antd-layout — Full Documentation Snapshot
+
+This file concatenates the exact Markdown/MDX and category JSON files supplied in `doc-fix2.zip`.
+It is a source snapshot, not a correction of the documentation. Known defects are listed in `.agents/skills/adminui/references/known-issues.md`.
+
+
+========================================================================================
+## SOURCE FILE: category-en.json
+========================================================================================
+
+[
+    {
+        "id":"introduction",
+        "name":"introduction",
+        "label":"Introduction",
+        "children":[
+            {
+                "id":"introduction/what-is-antd-layout",
+                "name":"what-is-antd-layout",
+                "label":"What's antd-layout",
+                "route":"introduction/what-is-antd-layout"                
+            },
+            {
+                "id":"introduction/getting-started",
+                "name":"getting-started",
+                "label":"Getting started",
+                "route":"introduction/getting-started"                
+            }
+        ]
+    },
+    {
+        "id":"guide",
+        "name":"guide",
+        "label":"Guide",
+        "children":[
+            {
+                "id":"guide/layout-component",
+                "name":"layout-component",
+                "label":"Layout component",
+                "route":"guide/layout-component"                
+            },
+            {
+                "id":"guide/router-menu",
+                "name":"router-menu",
+                "label":"Router & menu",
+                "route":"guide/router-menu"                
+            },            
+            {
+                "id":"guide/layout-config",
+                "name":"layout-config",
+                "label":"Layout configuration",
+                "route":"guide/layout-config"                
+            },
+            {
+                "id":"guide/layout-hook",
+                "name":"layout-hook",
+                "label":"Hooks",
+                "route":"guide/layout-hook"                
+            },
+            {
+                "id":"guide/container",
+                "name":"container",
+                "label":"Container",
+                "route":"guide/container"                
+            }
+            ,
+            {
+                "id":"guide/locales",
+                "name":"locales",
+                "label":"Locales",
+                "route":"guide/locales"                
+            },
+            {
+                "id":"guide/theme-skin",
+                "name":"theme-skin",
+                "label":"Skins",
+                "route":"guide/theme-skin"                
+            }
+            
+        ]
+    }
+]
+
+========================================================================================
+## SOURCE FILE: category-zh.json
+========================================================================================
+
+[
+    {
+        "id":"introduction",
+        "name":"introduction",
+        "label":"简介",
+        "children":[
+            {
+                "id":"introduction/what-is-antd-layout",
+                "name":"what-is-antd-layout",
+                "label":"antd-layout 是什么？",
+                "route":"introduction/what-is-antd-layout"                
+            },
+            {
+                "id":"introduction/getting-started",
+                "name":"getting-started",
+                "label":"快速开始",
+                "route":"introduction/getting-started"                
+            }
+        ]
+    },
+    {
+        "id":"guide",
+        "name":"guide",
+        "label":"开发指南",
+        "children":[
+            {
+                "id":"guide/layout-component",
+                "name":"layout-component",
+                "label":"布局组件",
+                "route":"guide/layout-component"                
+            },
+            {
+                "id":"guide/router-menu",
+                "name":"router-menu",
+                "label":"路由和菜单",
+                "route":"guide/router-menu"                
+            },            
+            {
+                "id":"guide/layout-config",
+                "name":"layout-config",
+                "label":"布局配置",
+                "route":"guide/layout-config"                
+            },
+            {
+                "id":"guide/layout-hook",
+                "name":"layout-hook",
+                "label":"全局钩子",
+                "route":"guide/layout-hook"                
+            },
+            {
+                "id":"guide/container",
+                "name":"container",
+                "label":"容器组件",
+                "route":"guide/container"                
+            }
+            ,
+            {
+                "id":"guide/locales",
+                "name":"locales",
+                "label":"国际化",
+                "route":"guide/locales"                
+            },
+            {
+                "id":"guide/theme-skin",
+                "name":"theme-skin",
+                "label":"主题皮肤",
+                "route":"guide/theme-skin"                
+            }
+            
+        ]
+    }
+]
+
+========================================================================================
+## SOURCE FILE: en/guide/container.mdx
+========================================================================================
+
+---
+title: Container Component
+author: zhouwenqi
+description: The Container component helps maintain a consistent UI style with the overall layout, including transparency and blur effects. It is optional (but highly recommended) and can be added to any page as needed. It provides unified title, breadcrumb navigation, footer, and related hooks, with flexible customization via props.
+category: Development Guide
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# Container Component
+
+`antd-layout` provides a layout-integrated wrapper component called `Container`. It helps maintain a consistent UI style with the overall layout, including transparency and blur effects. It is optional (but highly recommended) and can be added to any page as needed.
+
+The Container component includes a unified title, breadcrumb navigation, footer, and related hooks. These can also be customized individually through props, making it highly flexible.
+
+## Using the Container
+
+It must be used as the root node of a page, and only one Container should be used per page.
+<TabCode title='src/pages/welcome.tsx'>
+<div>
+```tsx
+import { Container } from '@adminui-dev/antd-layout';
+
+export default function(){ 
+    return(
+        <Container mode="panel">
+            <div>
+                <h1>Welcome</h1>
+            </div>
+        </Container>
+    )
+}
+```
+</div>
+</TabCode>
+## Container Props
+These props control the detailed appearance of the container.
+| Name | Type |Default| Description |
+|-------|-------|-------|-------|
+|mode|`ContainerMode`|inline|Container appearance (mainly margin control)|
+|stretch|`ContainerStretch`|inline|Container height behavior|
+|hideBorder|`bool`|false|Controls border visibility|
+|hideTitle|`bool`|false|Controls title visibility|
+|hideBreadcrumb|`bool`|false|Hides breadcrumb navigation|
+|hideFooter|`bool`|false|Hides footer|
+|title|`string`|-|Override the title|
+|transparent|`bool`|false|Makes container background transparent|
+> The layout configuration also includes `hideFooter`,`hideBreadcrumb`,`hideFooter`, etc., which apply globally. The props here only affect the current container.
+### ContainerMode
+- inline `string`- No outer margin
+- box `string`- Adds Ant Design padding
+- panel `string`- Adds an inner border on top of box
+> The panel mode includes border and background, but the title, breadcrumb, and footer are rendered outside the panel.
+
+### ContainerStretch
+- inline `string`- Container and panel height are automatic
+- auto `string`- Panel height is automatic
+- fill `string`- Both container and panel take full height
+> You can observe different effects by checking the footer behavior in panel mode.
+
+<TabCode items={['Preview','Code']} defaultItem="Preview">
+<div data-tab="Preview" class="is-active" data-viewmode="frame">
+    <iframe style="width:100%;height:900px" data-src="/components/container" />
+</div>
+<div data-tab="Code">
+```tsx
+import { Container, useConfigState } from "@adminui-dev/antd-layout";
+import type {ContainerStretch,ContainerMode} from "@adminui-dev/antd-layout";
+import { Checkbox, Result, Segmented, Space } from 'antd';
+import { useState } from 'react';
+
+export default function(){    
+  const {layoutConfig} = useConfigState();
+  const [mode,setMode]= useState<ContainerMode>()
+  const [stretch,setStretch] = useState<ContainerStretch>()
+
+  const [hideTitle,setHideTitle]= useState(layoutConfig.hideTitle)
+  const [hideBreadcrumb,setHideBreadcrumb] = useState(layoutConfig.hideBreadcrumb)
+  const [hideFooter,setHideFooter] = useState(layoutConfig.hideFooter)
+    return (
+        <Container mode={mode} stretch={stretch} hideTitle={hideTitle} hideBreadcrumb={hideBreadcrumb} hideFooter={hideFooter}>
+            <Result
+                status="info"
+                title="Set container style!"
+                subTitle="Each<Container/>component can have three basic styles and can display the title bar and breadcrumb navigation separately."
+                extra={[
+                    <Segmented key="mode_segmented" defaultValue={mode} options={["inline","box","panel"]} onChange={(e)=>{setMode(e as ContainerMode)}} />
+                ]} />
+                <div style={{textAlign:"center",padding:"0px 0px 12px 0px"}}>
+                <h4>Set container stretch for height</h4>
+                    <div>
+                        <Space>
+                            <Segmented disabled={mode!="panel"} key="stretch_segmented" defaultValue={stretch} options={["inline ","auto","fill"]} onChange={(e)=>{setStretch(e as ContainerStretch)}} />
+                        </Space>
+                    </div> 
+                    <h4>Set the display of breadcrumbs, title, and footer for the current page separately</h4>
+                    <div style={{display:"flex",justifyContent:"center"}}>
+                        <Space>              
+                            <Checkbox defaultChecked={!hideFooter} checked={!hideFooter} onClick={()=>{setHideFooter(!hideFooter)}}>Footer</Checkbox>
+                            <Checkbox defaultChecked={!hideBreadcrumb} checked={!hideBreadcrumb} onClick={()=>{setHideBreadcrumb(!hideBreadcrumb)}}>Breadcrumb</Checkbox>
+                            <Checkbox defaultChecked={!hideTitle} checked={!hideTitle} onClick={()=>{setHideTitle(!hideTitle)}}>Title</Checkbox>                    
+                        </Space>                 
+                    </div>                    
+                </div>
+        </Container>
+    )
+}
+```
+</div>
+</TabCode>
+
+## Container Hooks
+The Container also provides several related hooks, which are mentioned in [global hooks](../layout-hook#usemaincollapsed).
+
+========================================================================================
+## SOURCE FILE: en/guide/layout-component.mdx
+========================================================================================
+
+---
+title: Layout Component
+author: zhouwenqi
+description: The core component of antd-layout is AntdLayout, which is placed inside layout files
+category: Development Guide
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# Layout Component
+The core component is `<AntdLayout />`, which is placed inside layout files, typically under `src/layouts`. There may be multiple instances, and their states are isolated from each other—including configuration stored in the browser.
+
+After using the layout component, all pages will include the configured menu, toolbar, and branding information. Before using it, you need to configure the [`routes`](./router-menu) and [`menu`](./router-menu#menu-configuration) properties.
+
+The parameters are divided into two parts: `props` and `child component slots`.
+
+## Usage Example
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx
+import { AntdLayout } from "@adminui-dev/antd-layout"
+import type { LayoutConfig, MenuData } from "@adminui-dev/antd-layout"
+
+/** menu data */
+const menuData:MenuData = {
+    name:"",
+    path:"/",
+    label:"Dashboard",
+    children:[
+        {name:"welcome",path:"welcome",label:"Welcome"},
+        {name:"transaction",path:"transaction",label:"Transaction",children:[
+            {name:"order",path:"order",label:"Order"},
+            {name:"product",path:"product",label:"Product"},
+        ]}
+    ]
+}
+export default function(){  
+    // layout config
+    const layoutConfig:LayoutConfig = {
+        disabledLocale:true,
+        layoutType:"leftMenu",  
+        primaryColor:"#4dbae9"        
+    }
+    return(
+        <>
+            <AntdLayout layoutConfig={layoutConfig} menuData={menuData} />
+        </>
+    )
+}
+```
+</div>
+</TabCode>
+
+## Props
+Props are mainly used to configure initialization parameters, most of which support dynamic updates.
+
+| Name | Type |Default| Description |
+|-------|-------|-------|-------|
+|layoutConfig|[`LayoutConfig`](../layout-config#layoutconfig)|-|[Layout configuration](../layout-config)(including theme mode, primary color, layout type, menu display style, etc.)|
+|menuData|`MenuData`|-|[menu](../router-menu#menu-configuration) configuration data|
+|themeSkins|[`ThemeSkin[]`](../theme-skin#themeskin)|-|[Custom theme skins](../theme-skin#customer-skins) resources|
+|localeMessages|[`Record<string, LocaleMessage>`](../locales#localeMessage)|-|[i18n localization](../locales) data|
+|locale|`string`|`en-US`|Force a specific locale (e.g.,`en-US`)|
+|theme|`string`|-|Force brightness mode (e.g.,`light`)|
+|disabledStorageConfig|`bool`|`false`|Disable local storage configuration|
+
+> Forced props will override values in `layoutConfig` and `setLayoutConfig` will not take effect.
+
+## Child Component Slots
+Child elements provide mount points for UI components such as user info, branding, and extended toolbar content.
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx
+<AntdLayout layoutConfig={...} menuData={...}>
+    <AntdLayout.BrandPopoverContent>
+        <div className="brandContent">
+            <dl>
+                <dt>Title</dt>
+                <dd>Username</dt>
+                <dd>Email<dt>
+            <dl>
+        </div>
+    </AntdLayout.BrandPopoverContent>
+</AntdLayout>
+```
+</div>
+</TabCode>
+| Name | Type | Default | Description |
+|-------|-------|-------|-------|
+|BrandPopoverContent|`ReactNode`|-|Brand popover content in the top-left corner|
+|AvatarPopoverContent|`ReactNode`|-|User info popover content|
+|HeaderToolbarExtra|`ReactNode[]`|-|Extra content in the toolbar|
+|AsideHeader|`ReactNode[]`|-|Header content of the side panel|
+|AsideFooter|`ReactNode[]`|-|ooter content of the side panel|
+|Footer|`ReactNode[]`|-|Page footer content|
+|SlotContent|`ReactNode`|-|	Slot content that does not affect layout|
+
+
+
+========================================================================================
+## SOURCE FILE: en/guide/layout-config.mdx
+========================================================================================
+
+---
+title: Layout Configuration
+author: zhouwenqi
+description: The LayoutConfig covers almost all initialization and dynamic parameters of the layout component <AntdLayout />. Most of these configurations can be dynamically updated.
+category: Development Guide
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# Layout Configuration
+The `LayoutConfig` covers almost all initialization and dynamic parameters of the layout component `<AntdLayout />`. Most of these configurations can be dynamically updated. However, some parameters are intentionally restricted in specific scenarios.
+
+Configuration data can be persisted in the browser (`localStorage`) based on the routing context. Updates must be performed using the designated method (`setLayoutConfig`).
+
+At the same time, configuration changes can be dynamically updated via `setLayoutConfig`, and the latest state can be accessed through `layoutConfig`. These two operations are handled separately via a write hook (`setLayoutConfig`) and a read-only hook (`useConfigState`).
+
+## Initial Layout Configuration
+These are the initial parameters passed into the layout component on first load.
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx 
+import { AntdLayout } from "@adminui-dev/antd-layout"
+import type { LayoutConfig } from "@adminui-dev/antd-layout"
+
+const layoutConfig:LayoutConfig = {
+    layoutType:"leftMenu",  
+    asideMenuInline:true,
+    hideAsideMenuDataEmpty:true,
+    skinName:"parkWavesLight",
+    collapsedPosition:"center",
+    menuIconSize:16,
+    disabledLocale:false,
+    menuItemSelectColor:"default",
+    largeBrand:true,
+}
+export default function(){    
+    return(
+        <AntdLayout layoutConfig={layoutConfig} menuData={...}>        
+    )
+}
+```
+</div>
+</TabCode>
+
+## Dynamically Updating Layout Configuration
+There are two approaches:
+1. Using external state management (not recommended)
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx 
+export default function(){    
+    const [config,setConfig] = useState<LayoutConfig>({...})
+    return(
+        <AntdLayout layoutConfig={config} menuData={...}>        
+    )
+}
+```
+</div>
+</TabCode>
+> This works in practice, but is not recommended because some configuration parameters are intentionally [restricted](#Restricted)。
+
+2. Using hooks inside components (recommended)
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx 
+export default function(){    
+    const config:LayoutConfig = {
+        layoutType:"leftMenu",  
+        asideMenuInline:true,
+        ...
+    }
+    return(
+        <AntdLayout layoutConfig={config} menuData={...}>        
+    )
+}
+```
+</div>
+</TabCode>
+
+Inside pages, you can use the hooks `useConfigAction` and the action method `setLayoutConfig`
+<TabCode title='src/pages/transaction/order.tsx'>
+<div>
+```tsx 
+const { layoutConfig } = useConfigState()
+const { setLayoutConfig } = useConfigAction()
+...
+setLayoutConfig( {...layoutConfig, layoutType:'headMenu' })
+...
+```
+</div>
+</TabCode>
+
+## Configuration Restrictions
+Some projects only require an initial layout configuration, while others need dynamic updates and persistence. In more advanced scenarios, configurations may need to be saved locally and restored on reload or next visit.
+To support these cases, certain behaviors are restricted at the framework level, for example:
+- Configuration persistence in browser storage
+- Internationalization and automatic theme switching
+- Preloaded custom themes
+- Forced locale mode (only allowing a single language despite multiple options)
+
+> When `disabledStorageConfig = true`, browser-based storage is disabled. After refresh, configuration changes will not persist.
+
+## Properties and Types
+### LayoutConfig
+| Name | Type | Default | Description |
+|-------|-------|-------|-------|
+|layoutType|[`LayoutType`](#layoutType)|leftMenu|Layout type|
+|primaryColor|`string`|rgb(65, 127, 251)|Global theme color|
+|theme|`Theme`|system|Layout theme|
+|locale|`string`|en-US|Locale|
+|skinName|`string`|-|Current theme skin name|
+|headerHeight|`number`|56|Header height|
+|asideWidth|`number`|260|Maximum sidebar width|
+|colorLink|`string`|rgb(65, 127, 251)|Link color|
+|menuIconSize|`number`|16|Menu icon size|
+|menuFontSize|`number`|14|Menu font size|
+|containerMargin|`number`|0|Container margin|
+|compact|`bool`|false|Compact layout|
+|splitMenu|`bool`|false|Split top/bottom menu|
+|flated|`bool`|false|Flat mode|
+|noneHeader|`bool`|false|Remove header|
+|largeBrand|`bool`|false|Enlarge brand logo|
+|asideMenuInline|`bool`|false|Inline sidebar menu|
+|asideMenuGroup|`bool`|false|Group sidebar menu|
+|disabledLocale|`bool`|false|Disable i18n|
+|hideBorder|`bool`|false|Hide borders|
+|hideTitle|`bool`|false|Hide title|
+|hideFooter|`bool`|false|Hide footer|
+|hideBreadcrumb|`bool`|false|Hide breadcrumb|
+|asideTransparent|`bool`|false|Transparent sidebar|
+|headerTransparent|`bool`|false|Transparent header|
+|containerTransparent|`bool`|false|Transparent container|
+|asideBlur|`bool`|false|Sidebar blur effect|
+|headerBlur|`bool`|false|Header blur effect|
+|containerBlur|`bool`|false|Container blur effect|
+|hideAsideMenuDataEmpty|`bool`|false|Hide empty sidebar menus|
+|menuItemSelectColor|[`MenuItemSelectColor`](#menuitemselectcolor)|default|Menu selection style|
+|collapsedPosition|[`Position`](#position)|center|Collapse button position|
+|avatarPosition|[`AvatarPosition`](#avatarPosition)|rightTop|Avatar position|
+|visibleBreadcrumbIcon|[`BreadcrumbIconVisible`](#breadcrumbiconvisible)|none|Breadcrumb icon visibility|
+|userInfo|[`UserInfo`](#userinfo)|-|User information|
+|brandInfo|[`BrandInfo`](#brandinfo)|-|Brand information|
+
+### LayoutType
+- leftMenu `string` - Left-side main menu
+- headMenu `string` - Top navigation menu
+
+### Theme
+- light `string` - Light mode
+- dark `string` - Dark mode
+- system `string` - Follow system theme
+
+### MenuItemSelectColor
+- default `string` - Default style
+- primary `string` - Primary color
+- invert `string` - Inverted color
+
+### Position
+- top `string` - Top
+- center `string` - Center
+- bottom `string`  Bottom
+
+### AvatarPosition
+- none `string` - Hidden
+- rightTop `string` - Top right
+- leftBottom `string` - Bottom left
+
+### BreadcrumbIconVisible
+- none `string` - Hidden
+- first `string` - First item only
+- all `string` - All items
+
+### UserInfo
+- id `number` - Primary key
+- uid `string` - Username
+- title `string` - Title
+- avatar `string/ReactNode` - Avator
+
+### BrandInfo
+- id `number` - Primary key
+- name `string` - Company name
+- title `string` - Title
+- url `string` - Website url
+- logo `string | ReactNode` - Logo
+
+
+
+========================================================================================
+## SOURCE FILE: en/guide/layout-hook.mdx
+========================================================================================
+
+---
+title: Global Hooks
+author: zhouwenqi
+description: Global hooks refer to hooks provided by antd-layout used within <AntdLayout>. They are designed for global layout and container-level state management and methods.
+category: Development Guide
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# Global Hooks
+
+Global hooks refer to hooks provided by `antd-layout` and used within `<AntdLayout>`. They are designed for global layout and container-level state management and methods.
+
+## Usage
+<TabCode title='src/pages/welcome.tsx'>
+<div>
+```tsx
+import { useConfigAction, useConfigState } from '@adminui-dev/antd-layout';
+
+export default function(){    
+    const { layoutConfig} = useConfigState() // read-only
+    const { setLayoutConfig } = useConfigAction() // write
+    ...
+    setLayoutConfig({...})
+    return(
+        <div>
+            <p>primaryColor: {layoutConfig.primaryColor}</p>
+            <p>layoutType: {layoutConfig.layoutType}</p>
+            <p>
+                <button onClick={()=>{setLayoutConfig({...layoutConfig,layoutType:'headMenu'})}}>Update</button>
+            </p>
+        </div>
+    )
+}
+```
+</div>
+</TabCode>
+## useConfigAction
+Hook for modifying layout configuration:
+- setLayoutConfig `void`- Update layout configuration
+- setLocale `void` - Set internationalization language
+
+## useConfigState
+Hook for accessing layout state, theme, and language data:
+- layoutConfig [`LayoutConfig`](../layout-config#layoutconfig) - Current layout configuration
+- locale `string` - Current locale
+- originalConfig [`LayoutConfig`](../layout-config#layoutconfig) - Original layout configuration
+- themeSkin [`ThemeSkin`](../theme-skin#themeskin) - Current theme skin
+- themeSkinMap `Record<SkinType,ThemeSkin[]>` - All available theme skins
+- languages [`Language[]`](../locales#language) - Loaded language list
+- menuDataMap `Record<string,MenuData[]>` - Menu data mapping
+
+## useContainerOutlet
+Hook for container content management:
+- title `string`- Page title
+- breadcrumbData `any[]` - Breadcrumb data
+- footer `ReactNode`- Container footer content
+- toolbar `ReactNode` - Container toolbar content
+
+## useMainCollapsed
+Returns the collapsed state(`bool`) of the sidebar menu:
+
+## useBrandPopover
+Brand popover hook:
+- close `void`- Close brand popover
+
+## useAvatarPopover
+User avatar popover hook:
+- close `void`- Close user popover
+
+> Except for `useConfigAction` and `useConfigState`, all other hooks are only effective when used under the `<Container />` [Container](../container) component。
+
+
+========================================================================================
+## SOURCE FILE: en/guide/locales.mdx
+========================================================================================
+
+---
+title: Internationalization
+author: zhouwenqi
+description: Internationalization in antd-layout is implemented using react-intl and is designed to stay as consistent as possible with the ant-design structure.
+category: Development Guide
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# Internationalization
+
+Internationalization in `antd-layout` is implemented using `react-intl` and is designed to stay as consistent as possible with the `ant-design` structure.
+
+## i18n Data
+
+All localization data is stored under `src/locales`, using standard language codes as folder names. For better organization, data can be further split by pages and business domains.
+
+For example:
+- `menus.ts` is used for [menu i18n](./router-menu#menu-localization)
+- `pages.ts` is used for page-level translations
+- `components.ts` is used for component-level translations
+
+These conventions are not strictly required, but they help keep the project more maintainable. The key requirement is that the final merged structure passed into the layout component is correct.
+
+You should also merge Ant Design's built-in i18n data together with your own, as shown below:
+<TabCode items={["en-US.ts","zh-CN.ts"]} defaultItem="en-US.ts">
+<div data-tab="zh-CN.ts">
+```ts
+// src/locales/zh-CN.ts
+
+import components from "./zh-CN/components";
+import menus from "./zh-CN/menus";
+import pages from "./zh-CN/pages";
+    
+export default {
+    ...menus,
+    ...pages,
+    ...components,
+    "skin.blue.label":"蔚蓝天空"
+}
+```
+</div>
+<div data-tab="en-US.ts" class="is-active">
+```ts
+// src/locales/en-US.ts
+
+import components from "./en-US/components";
+import menus from "./en-US/menus";
+import pages from "./en-US/pages";
+    
+export default {
+    ...menus,
+    ...pages,
+    ...components,
+    "skin.blue.label":"Azure sky"
+}
+```
+</div>
+</TabCode>
+Using i18n in Layout
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx
+import { AntdLayout } from "@adminui-dev/antd-layout"
+import type { LayoutConfig, LocaleMessage } from "@adminui-dev/antd-layout"
+import menuData from "./menuData"
+import antdZhCN from 'antd/locale/zh_CN'
+import antdEnUS from 'antd/locale/en_US'
+import zhCN from "@/locales/zh-CN"
+import enUS from "@/locales/en-US"
+
+const localeMessages:Record<string,LocaleMessage> = {   
+    "zh-CN":{
+        locale:antdZhCN.locale,
+        name:"简体中文",
+        flag:"🇨🇳",
+        messages:{...zhCN,...settingsZhCN},            
+        antdLocale:antdZhCN
+    },
+    "en-US":{
+        locale:antdEnUS.locale,
+        name:"English",
+        flag:"🇺🇸",
+        messages:{...enUS,...settingsEnUS}, 
+        antdLocale:antdEnUS
+    },
+}
+const layoutConfig:LayoutConfig = {
+    layoutType:"leftMenu",  
+    asideMenuInline:true,        
+}
+
+export default function(){
+    return(
+        <AntdLayout layoutConfig={...} menuData={...} localeMessages={localeMessages}>
+    )
+}
+```
+</div>
+</TabCode>
+> Note: The `keys` in `localeMessages` must be correct and follow standard language code conventions.
+>
+
+> Also note that `ant-design` requires its own `import antdZhCN from antd/locale/zh_CN`, which is merged here for convenience.
+
+## Content localization
+You can use standard react-intl APIs directly.
+<TabCode items={['useIntl','FormattedMessage']} defaultItem='useIntl'>
+<div data-tab="useIntl" class="is-active">
+```tsx
+import { useIntl } from 'react-intl'
+
+export default function(){
+    const intl = useIntl()
+    const skinName = intl.formatMessage({id:`skin.blue.label`})
+    return(
+        <span>{skinName}</span>
+    )
+}
+```
+</div>
+<div data-tab="FormattedMessage">
+```tsx
+import { FormattedMessage } from 'react-intl'
+
+export default function(){
+    return(
+        <FormattedMessage
+            id='skin.blue.label'
+            description='skin name'
+            defaultMessage='blue'
+            />
+    )
+}
+
+```
+</div>
+</TabCode>
+
+## Switching Languages
+The above only configures supported languages. The `[layout component](../layout-component)` defaults to `en-US`，or reads the value stored in the browser.
+You can switch languages using the global hook [`setLocale`](../layout-hook#useconfigaction).
+<TabCode title='src/pages/welcome.tsx'>
+<div>
+```tsx
+setLocale("zh-CN")
+```
+</div>
+</TabCode>
+
+## Getting the Language List
+You can access the currently loaded languages via the [useConfigState](../layout-hook#useconfigstate) hook. This can be used to build a `language` switcher.
+### Language
+- name `string` - Display name
+- locale `string` - Locale code
+- flag `string` - Country flag identifier
+
+### LocaleMessageData 
+- locale `string` - Regional language
+- name `string` - Name
+- flag `string` - Flag icon
+- messages `Record<string, string>` - Localized data
+
+### LocaleMessage
+- antdLocale `string` - ant-design regional language
+- locale `string` - Regional language
+- name `string` - Name
+- flag `string` - Flag icon
+- messages `Record<string, string>` - Localized data
+
+========================================================================================
+## SOURCE FILE: en/guide/router-menu.mdx
+========================================================================================
+
+---
+title: Routing and Menu
+author: zhouwenqi
+description: The menu is the core of the layout component. It must be manually configured based on the routing structure.
+category: Development Guide
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# Routing and Menu
+
+The menu is the core of the layout component. In `antd-layout`, menus must be manually configured based on the routing structure, and routing must use [react-router](https://reactrouter.com/).
+
+## Route Lazy Loading
+
+If you need route lazy loading, you should use the [Data Mode](https://reactrouter.com/start/data/routing) routing configuration. Combined with the `LazyPage` helper provided by `antd-layout`, you can assemble lazy-loaded routes.
+
+<TabCode title='src/routers.ts'>
+<div>
+```ts
+import { LazyPage } from "@adminui-dev/antd-layout"
+import { createBrowserRouter,redirect } from "react-router-dom"
+
+const DashboardLayout = LazyPage(()=>import("@/layouts"))
+const OrderPage = LazyPage(()=>import("@/pages/transaction/order"))
+const ProductPage = LazyPage(()=>import("@/pages/transaction/product"))
+const WelcomePage = LazyPage(()=>import("@/pages/welcome"))
+
+const routers = createBrowserRouter(
+    [
+       {path:"/",Component:DashboardLayout, children:[
+        {index:true,loader:()=>redirect("/welcome")},
+        {path:"welcome",Component:WelcomePage},     
+        {path:"transaction",children:[
+            {index:true,loader:()=>redirect("/transaction/order")},
+            {path:"order",Component:OrderPage},
+            {path:"product",Component:ProductPage}
+        ]}
+       ]}
+    ]
+)
+export { routers }
+```
+</div>
+</TabCode>
+Then mount the router at the application root. Note that you must include the `nprogress.css` style. Lazy loading uses a top progress bar indicator.
+<TabCode title='src/App.ts'>
+<div>
+```ts
+import { Suspense } from 'react'
+import './App.css'
+import 'nprogress/nprogress.css'; 
+import { RouterProvider } from 'react-router'
+import { routers } from './routes'
+
+function App() {  
+  return (
+    <>
+      <Suspense>
+        <RouterProvider router={routers} />
+      </Suspense>
+    </>
+  )
+}
+
+export default App
+```
+</div>
+</TabCode>
+For more routing configuration details, please refer to the [react-router](https://reactrouter.com/start/data/route-object)
+
+## Configuring the Menu
+Menus must be configured according to the routing structure and then passed into the `antd-layout` component.
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx
+import { AntdLayout } from "@adminui-dev/antd-layout"
+import type { LayoutConfig, MenuData } from "@adminui-dev/antd-layout"
+
+const menuData:MenuData = {
+    name:"",
+    path:"/",
+    label:"Dashboard",
+    children:[
+        {name:"welcome",path:"welcome",label:"Welcome"},
+        {name:"transaction",path:"transaction",label:"Transaction",children:[
+            {name:"order",path:"order",label:"Order"},
+            {name:"product",path:"product",label:"Product"},
+        ]}
+    ]
+}
+
+export default function(){      
+    // layout config
+    const layoutConfig:LayoutConfig = {
+        disabledLocale:true,
+        largeBrand:true,    
+    }
+    return(
+        <>
+            <AntdLayout layoutConfig={layoutConfig} menuData={menuData} />
+        </>
+    )
+}
+
+```
+</div>
+</TabCode>
+> The root of the menu corresponds to the root route, so it is an object `{...}`, rather than an array `[...]`。
+
+### Icon
+The icon field is `icon` ，which is a `Component` object. Icons must be installed separately. All mainstream icon libraries are supported. It is recommended to use either `@ant-design/icons` or `lucide-react` , and keep a consistent style by using only one library.
+<TabCode>
+<div>
+```ts
+{ name:"visit", path:"./visit", label:"Visit", icon:<Globe /> }
+```
+</div>
+</TabCode>
+### Menu localization
+Menu i18n is enabled in sync with the layout component's `localeMessages`. the `key` is automatically generated based on `path` and `name`, All menu i18n keys must start with `menu.`, The root menu uses `menu.`, These keys are also used in breadcrumbs. Menu i18n data is usually stored in a separate file, such as `.menus.ts`. Example:
+<TabCode title="src/locales/en-US/menus.ts">
+<div>
+```ts
+export default {
+    "menu.":"Dashboard",  
+    "menu.login":"Login",    
+    "menu.welcome":"Welcome",  
+    "menu.workbench":"Workbench",
+    "menu.workbench.notifications":"Notifications",
+    "menu.workbench.monitoring":"Monitoring",
+    "menu.workbench.report":"Report",
+    "menu.workbench.report.visit":"Visit",
+    "menu.workbench.report.sales":"Sales",
+    "menu.workbench.logs":"Logs",
+    "menu.workbench.logs.login":"Login logs",
+    "menu.workbench.logs.operation":"Operation logs"
+}
+```
+</div>
+</TabCode>
+
+<TabCode title="src/locales/zn-CN/menus.ts">
+<div>
+```ts
+export default {
+    "menu.":"仪表盘",    
+    "menu.login":"登录",
+    "menu.welcome":"欢迎页",
+    "menu.workbench":"工作台",    
+    "menu.workbench.notifications":"我的消息",
+    "menu.workbench.monitoring":"数据监控",
+    "menu.workbench.report":"统计报表",
+    "menu.workbench.report.visit":"访问统计",
+    "menu.workbench.report.sales":"销售统计",
+    "menu.workbench.logs":"日志记录",
+    "menu.workbench.logs.login":"登录日志",
+    "menu.workbench.logs.operation":"操作日志"
+}
+```
+</div>
+</TabCode>
+> To disable menu i18n, set `disabledLocale` to `false` in the [layout configuration](../layout-config)。
+>
+> When i18n is disabled, menu names will fall back to the `label` field.
+
+## Menu Properties
+### MenuData
+| Name | Type |Default| Description |
+|-------|-------|-------|-------|
+|name|`string`|-|**Unique name**,corresponding to a route node|
+|label|`string`|-|Display name|
+|path|`string`|-|Navigation route|
+|icon|`ReactNode`|-|Icon component|
+|extra|`ReactNode`|-|Extra UI such as `<Brage>`,`<Tag>`|
+|params|`Record<string,string>`|-|Route parameters|
+|children|`MenuData[]`|-|Child menus|
+> It is not recommended for menus to exceed 3 levels. The structure should remain clear, concise, and intuitive.
+
+========================================================================================
+## SOURCE FILE: en/guide/theme-skin.mdx
+========================================================================================
+
+---
+title: Theme Skins
+author: zhouwenqi
+description: In addition to basic light/dark modes and single-color themes, antd-layout also supports highly customizable appearance themes.
+category: Development Guide
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# Theme Skins
+
+In addition to basic light/dark modes and single-color theme effects, `antd-layout` also supports highly customizable appearance themes. For example, you can add dynamic backgrounds and layered blur effects to the entire layout, or even transform the UI into a `shadcn-ui`-like style.
+
+## System Skins 
+
+Official skin themes can be installed into your project using `npx create-antd-skin@latest`. System skins will be added periodically.
+
+**Installation Method**
+1. Run `npx create-antd-skin@latest <skin-name>`.
+2. If you don't know `<skin-name>`, you can leave it blank, skin names will be automatically listed for selection.
+3. Set the skin name in [`LayoutConfig`](../layout-config#layoutconfig) for `skinName`.
+
+## Custom Theme Skins
+
+Based on the `ThemeSkin` constraints provided by `antd-layout`, you can define more detailed properties and combine them with image-based background assets to create a skin component.
+
+These skins can then be imported into the system just like menu and i18n data. Finally, set `skinName` in `layoutConfig` to activate the theme skin.
+
+### Creating a Custom Skin
+<TabCode title="src/components/skins/blueSkyDark.ts">
+<div>
+```tsx
+import type { ThemeSkin } from "@adminui-dev/antd-layout"
+
+const BackgroundElement = <div><img style={{width:"100%"}} src="/images/skins/blue-sky/bg.webp" alt="bg.webp" /></div>
+
+const blueSkyDark:ThemeSkin = {
+    "name":"blueSkyDark",    
+    "skinType":"custom",
+    "backgroundColor":"#090a0b",
+    "layoutConfig":{
+        "theme":"dark",
+        "primaryColor":"#4dbae9",        
+        "noneHeader":false,
+        "hideBorder":false,
+        "asideBlur":true,
+        "headerBlur":true,
+        "largeBrand":true,
+        "containerBlur":true,
+        "menuItemSelectColor":"primary",
+    },        
+    "logo":"/images/skins/blue-sky/app-logo-light.webp",
+    "icon":"/images/skins/blue-sky/skin-icon-dark.webp",
+    "backgroundContent":<BackgroundElement />
+}
+export { blueSkyDark }
+```
+</div>
+</TabCode>
+> You can also use the `defineThemeSkin` helper for a cleaner definition:
+>
+> `const blueSkyDark  = defineThemeSkin({...})`
+### Using a Skin
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx
+import { blueSkyDark } from "@components/skins/blueSkyDark"
+import { AntdLayout } from "@adminui-dev/antd-layout"
+...
+export default function(){   
+    // layout config
+    const layoutConfig:LayoutConfig = {
+        disabledLocale:true,
+        largeBrand:true,    
+        skinName:"blueSkyDark", // Using a Skin
+    }
+    return(
+        <AntdLayout layoutConfig={layoutConfig} menuData={...} themeSkins={[blueSkyDark]}>        
+    )
+}
+```
+</div>
+</TabCode>
+> `themeSkins` accepts an array because multiple skins can be registered.
+### Switching Skins
+Use the [`setLayoutConfig`](../layout-config#dynamically-updating-layout-configuration) method to switch themes.
+<TabCode title='src/pages/welcome.tsx'>
+<div>
+```tsx
+import { Container, setSkinConfig, useConfigAction, useConfigState } from '@adminui-dev/antd-layout';
+...
+const { setLayoutConfig } = useConfigAction()
+const { layoutConfig } = useConfigState()
+...
+const config = setSkinConfig(layoutConfig,skin)          
+setLayoutConfig({
+    ...config,
+    skinName:"customeSkinName"
+})
+...
+```
+</div>
+</TabCode>
+## Skin Properties
+### ThemeSkin
+| Name | Type |Default| Description |
+|-------|-------|-------|-------|
+|name|`string`|-|**Unique identifier**|
+|label|`string`|-|Display name|
+|skinType|[`SkinType`](#skinType)|custom|Skin type|
+|layoutConfig|[`LayoutConfig`](../layout-config#layoutconfig)|-|Layout configuration overrides|
+|backgroundColor|`string`|-|Background color|
+|antdToken|`json`|-|ant-design token|
+|logo|`string / ReactNode`|-|Brand logo|
+|icon|`string`|-|Skin thumbnail|
+|headerStyle|`string`|-|Header style|
+|asideStyle|`string`|-|Sidebar style|
+
+
+### SkinType
+- system `string` - System skin (reserved)
+- custom `string` - Custom skin
+
+========================================================================================
+## SOURCE FILE: en/introduction/getting-started.mdx
+========================================================================================
+
+---
+title: Getting Started
+author: zhouwenqi
+description: The basic development environment requires Node.js 18 or above. You can directly run npx create-antd-layout@latest your-project to install. It provides many pre-configured templates for quick setup.
+category: Introduction
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# Getting Started
+The basic development environment requires [Node.js](https://nodejs.org) version 18 or above.
+
+## Installation Method 1 (Recommended)
+You can directly run `npx create-antd-layout@latest your-project` to install. It provides many pre-configured templates, making setup quick and convenient.
+
+## Installation Method 2
+Integrate into an existing project.
+
+1. Add `@adminui-dev/antd-layout` to your project
+<TabCode items={['npm','pnpm','yarn','bun']} defaultItem="npm">
+<div data-tab="npm" class="is-active">
+```bash
+npm i @adminui-dev/antd-layout
+```
+</div>
+<div data-tab="pnpm">
+```bash
+pnpm i @adminui-dev/antd-layout
+```
+</div>
+<div data-tab="yarn">
+```bash
+yarn add @adminui-dev/antd-layout
+```
+</div>
+<div data-tab="bun">
+```bash
+bun add @adminui-dev/antd-layout
+```
+</div>
+</TabCode>
+
+2. Add the required dependencies
+<TabCode title='package.json'>
+<div>
+```json
+"dependencies": {
+    "@adminui-dev/antd-layout": "^1.8.3",
+    "@ant-design/colors": "^7.2.1",
+    "nprogress": "^0.2.0",
+    "antd": "^6.1.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-intl": "^8.0.4",
+    "react-router": "^7.11.0",
+    "react-router-dom": "^7.11.0"
+}
+```
+</div>
+</TabCode>
+3. Use and configure the component in your layout file
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx
+// src/layout/index.tsx
+...
+import { AntdLayout } from "@adminui-dev/antd-layout"
+...
+export default function(){      
+    return(
+        <>
+            <AntdLayout layoutConfig={...} menuData={...} />
+        </>
+    )
+}
+```
+</div>
+</TabCode>
+> Prerequisites: Node, ant-design, react, and react-dom environment are required.
+
+========================================================================================
+## SOURCE FILE: en/introduction/what-is-antd-layout.md
+========================================================================================
+
+---
+title: What's Astro?
+author: zhouwenqi
+description: antd-layout @adminui-dev/antd-layout is a frontend layout component built on top of ant-design and react-router. It is fully open-source, offering flexible and diverse layout styles, along with support for custom theme skins. It is especially suitable for admin panels and web dashboard projects with personalized UI requirements.
+category: Introduction
+---
+
+# What is antd-layout?
+
+antd-layout `@adminui-dev/antd-layout` is a frontend layout component built on top of [ant-design](https://ant.design/) and [react-router](https://reactrouter.com/). It is fully open-source and provides flexible, diverse layout styles, along with support for custom theme skins. It is particularly well-suited for admin panels and web dashboard projects that require a high degree of customization. Hereafter referred to as `antd-layout`:
+
+🎉 [Live Demo](https://demo.adminui.dev)
+
+## Layout Component
+
+In frontend frameworks, layout pages (components) are typically located in the `src/layouts` directory. `antd-layout` is added to layout files as a component. Through configuration options, it enables all pages in the project to present rich and dynamic styles, offering a high level of flexibility.
+
+### Features
+
+- Supports multiple layout modes and detailed property controls  
+- Supports dynamic monochrome theme switching  
+- Supports custom theme skins  
+- Supports i18n internationalization  
+- Control over brand size and color depth  
+- Fine-grained control over user avatar positioning  
+- Detailed control over icons down to basic UI components  
+
+## Tech Stack
+
+- node.js (22+)  
+- react (18+)  
+- react-intl (8.0)  
+- react-router (7.11)  
+- ant-design (6.10)  
+- vite (7.0+)  
+
+## Use Cases
+
+- Single-page admin dashboards  
+- Dashboard projects with highly customized UI  
+- SaaS management systems  
+- Systems developed based on the [ant-design](https://ant.design/) ecosystem  
+
+## Not Suitable For
+
+- Projects requiring server-side rendering (SSR)  
+- Projects requiring full static site generation  
+- End-user-oriented free layout platforms  
+
+========================================================================================
+## SOURCE FILE: zh/guide/container.mdx
+========================================================================================
+
+---
+title: 容器组件
+author: zhouwenqi
+description: 容器组件，使用它可保持与整体布局统一UI风格，包括透明度和模糊特性，可选择性使用（强烈推荐），可以在需要的页面加入。容器组件会带上统一的标题、面包屑菜单、页脚和相应的钩子，也可以通过属性单独设置，非常灵活。
+category: 开发指南
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# 容器组件
+`antd-layout` 提供一个与布局高度融合的内器包裹组件：`Container` 容器组件，使用它可保持与整体布局统一UI风格，包括透明度和模糊特性，可选择性使用（强烈推荐），可以在需要的页面加入。容器组件会带上统一的标题、面包屑菜单、页脚和相应的钩子，也可以通过属性单独设置，非常灵活。
+## 使用容器
+需要作为页面的根节点，每个页面只能放置一个。
+<TabCode title='src/pages/welcome.tsx'>
+<div>
+```tsx
+import { Container } from '@adminui-dev/antd-layout';
+
+export default function(){ 
+    return(
+        <Container mode="panel">
+            <div>
+                <h1>Welcome</h1>
+            </div>
+        </Container>
+    )
+}
+```
+</div>
+</TabCode>
+## 容器属性
+可控制容器的细节形态
+| 参数名 | 类型 |默认值| 说明 |
+|-------|-------|-------|-------|
+|mode|`ContainerMode`|inline|容器外观：主要是边距控制|
+|stretch|`ContainerStretch`|inline|容器高度伸缩模式|
+|hideBorder|`bool`|false|影响边线|
+|hideTitle|`bool`|false|影响标题|
+|hideBreadcrumb|`bool`|false|隐藏面包屑菜单|
+|hideFooter|`bool`|false|隐藏页角|
+|title|`string`|-|重新设置title|
+|transparent|`bool`|false|容器背景透明|
+> 布局配置中也有一份 `hideFooter`、`hideBreadcrumb`、`hideFooter`，它是针对全局的，这里只影响当前容器。
+### ContainerMode
+- inline `string`- 容器没有边距
+- box `string`- 容器会有一个antd的padding
+- panel `string`- 在box的基础上在加上一个内边框
+> panel会带上边框和背景，但是标题和面包屑和页脚都是在外面的。
+
+### ContainerStretch
+- inline `string`- 容器和panel高度自动
+- auto `string`- panel高度自动
+- fill `string`- 容器和panel高度都会充满
+> 可以通过在panel模式下观察页脚查看不同的效果。
+
+<TabCode items={['Preview','Code']} defaultItem="Preview">
+<div data-tab="Preview" class="is-active" data-viewmode="frame">
+    <iframe style="width:100%;height:900px" data-src="/components/container" />
+</div>
+<div data-tab="Code">
+```tsx
+import { Container, useConfigState } from "@adminui-dev/antd-layout";
+import type {ContainerStretch,ContainerMode} from "@adminui-dev/antd-layout";
+import { Checkbox, Result, Segmented, Space } from 'antd';
+import { useState } from 'react';
+
+export default function(){    
+  const {layoutConfig} = useConfigState();
+  const [mode,setMode]= useState<ContainerMode>()
+  const [stretch,setStretch] = useState<ContainerStretch>()
+
+  const [hideTitle,setHideTitle]= useState(layoutConfig.hideTitle)
+  const [hideBreadcrumb,setHideBreadcrumb] = useState(layoutConfig.hideBreadcrumb)
+  const [hideFooter,setHideFooter] = useState(layoutConfig.hideFooter)
+    return (
+        <Container mode={mode} stretch={stretch} hideTitle={hideTitle} hideBreadcrumb={hideBreadcrumb} hideFooter={hideFooter}>
+            <Result
+                status="info"
+                title="Set container style!"
+                subTitle="Each<Container/>component can have three basic styles and can display the title bar and breadcrumb navigation separately."
+                extra={[
+                    <Segmented key="mode_segmented" defaultValue={mode} options={["inline","box","panel"]} onChange={(e)=>{setMode(e as ContainerMode)}} />
+                ]} />
+                <div style={{textAlign:"center",padding:"0px 0px 12px 0px"}}>
+                <h4>Set container stretch for height</h4>
+                    <div>
+                        <Space>
+                            <Segmented disabled={mode!="panel"} key="stretch_segmented" defaultValue={stretch} options={["inline ","auto","fill"]} onChange={(e)=>{setStretch(e as ContainerStretch)}} />
+                        </Space>
+                    </div> 
+                    <h4>Set the display of breadcrumbs, title, and footer for the current page separately</h4>
+                    <div style={{display:"flex",justifyContent:"center"}}>
+                        <Space>              
+                            <Checkbox defaultChecked={!hideFooter} checked={!hideFooter} onClick={()=>{setHideFooter(!hideFooter)}}>Footer</Checkbox>
+                            <Checkbox defaultChecked={!hideBreadcrumb} checked={!hideBreadcrumb} onClick={()=>{setHideBreadcrumb(!hideBreadcrumb)}}>Breadcrumb</Checkbox>
+                            <Checkbox defaultChecked={!hideTitle} checked={!hideTitle} onClick={()=>{setHideTitle(!hideTitle)}}>Title</Checkbox>                    
+                        </Space>                 
+                    </div>                    
+                </div>
+        </Container>
+    )
+}
+```
+</div>
+</TabCode>
+
+## 容器钩子
+容器也有几个相应的钩子，[全局钩子](../layout-hook#usemaincollapsed) 中有提到。
+
+========================================================================================
+## SOURCE FILE: zh/guide/layout-component.mdx
+========================================================================================
+
+---
+title: 布局组件
+author: zhouwenqi
+description: antd-layout最核心的组件是<AntdLayout />, 放置在布局中，通常位于 `src/layouts` 下，而且可能有多个，它们之间的状态效果都是隔离的。
+category: 开发指南
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# 布局组件
+最核心的组件 `<AntdLayout />`，放置在布局中，通常位于 `src/layouts` 下，而且可能有多个，它们之间的状态效果都是隔离的，包括存储在浏览器上的配置，使用布局组件后，所有页面都带上配置好的菜单和工具栏及品牌信息，使用布局组件前需要先配置好 [`路由`](./router-menu) 和 [`菜单`](./router-menu#配置菜单) 属性参数，参数一共分两块：`属性` 和 `子元素标签`。
+
+## 使用示例
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx
+import { AntdLayout } from "@adminui-dev/antd-layout"
+import type { LayoutConfig, MenuData } from "@adminui-dev/antd-layout"
+
+/** menu data */
+const menuData:MenuData = {
+    name:"",
+    path:"/",
+    label:"Dashboard",
+    children:[
+        {name:"welcome",path:"welcome",label:"Welcome"},
+        {name:"transaction",path:"transaction",label:"Transaction",children:[
+            {name:"order",path:"order",label:"Order"},
+            {name:"product",path:"product",label:"Product"},
+        ]}
+    ]
+}
+export default function(){  
+    // layout config
+    const layoutConfig:LayoutConfig = {
+        disabledLocale:true,
+        layoutType:"leftMenu",  
+        primaryColor:"#4dbae9"        
+    }
+    return(
+        <>
+            <AntdLayout layoutConfig={layoutConfig} menuData={menuData} />
+        </>
+    )
+}
+```
+</div>
+</TabCode>
+
+## 属性
+属性主要配置一些初始化参数，绝大部分可以动态响应。
+| 参数名 | 类型 |默认值| 说明 |
+|-------|-------|-------|-------|
+|layoutConfig|[`LayoutConfig`](../layout-config#layoutconfig)|-|[布局配置](../layout-config)(包括主题模式、主题颜色、布局类型、菜单展示形态等)|
+|menuData|`MenuData`|-|[菜单](../router-menu#菜单配置)配置数据|
+|themeSkins|[`ThemeSkin[]`](../theme-skin#themeskin)|-|[自定义皮肤](../theme-skin#自定义皮肤主题)资源|
+|localeMessages|[`Record<string, LocaleMessage>`](../locales#localeMessage)|-|[i18n国际化](../locales)数据|
+|locale|`string`|`en-US`|强制使用一个地本化(例如：`en-US`)|
+|theme|`string`|-|强制明亮度模式(例如：`light`)|
+|disabledStorageConfig|`bool`|`false`|禁用本地储存配置|
+> 属性中的强制参数会覆盖 `layoutConfig` 参数，且 `setLayoutConfig` 修改不起作用。
+
+
+## 子元素标签
+子元素挂载了一些带UI组件，例如：用户信息、品牌信息、扩展工具栏组件等。
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx
+<AntdLayout layoutConfig={...} menuData={...}>
+    <AntdLayout.BrandPopoverContent>
+        <div className="brandContent">
+            <dl>
+                <dt>Title</dt>
+                <dd>Username</dt>
+                <dd>Email<dt>
+            <dl>
+        </div>
+    </AntdLayout.BrandPopoverContent>
+</AntdLayout>
+```
+</div>
+</TabCode>
+
+| 参数名 | 类型 |默认值| 说明 |
+|-------|-------|-------|-------|
+|BrandPopoverContent|`ReactNode`|-|左上角品牌popover内容|
+|AvatarPopoverContent|`ReactNode`|-|用户信息popover内容|
+|HeaderToolbarExtra|`ReactNode[]`|-|工具栏扩展内容|
+|AsideHeader|`ReactNode[]`|-|侧滑面版头部内容|
+|AsideFooter|`ReactNode[]`|-|侧滑面版页脚内容|
+|Footer|`ReactNode[]`|-|正文页脚内容|
+|SlotContent|`ReactNode`|-|不影响布局的插槽内容|
+
+
+
+========================================================================================
+## SOURCE FILE: zh/guide/layout-config.mdx
+========================================================================================
+
+---
+title: 布局配置
+author: zhouwenqi
+description: 布局配置 `LayoutConfig` 涵盖布局组件 `<AntdLayout />` 几乎所有初始化和动态参数，这些配置基本上都可以再进行动态修改。
+category: 开发指南
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# 布局配置
+布局配置 `LayoutConfig` 涵盖布局组件 `<AntdLayout />` 几乎所有初始化和动态参数，这些配置基本上都可以再进行动态修改，但有些参数特殊场景被刻意阻断，配置信息可根据路由存储在本地浏览器 (`localStorage`) 环境中。需要通过指定的方法（`setLayoutConfig`）进行修改。
+同时可以通过 `setLayoutConfig` 方法，动态修改相关参数信息，通过 `layoutConfig` 可实时获取相关参数改动，这两个方法需要分别通过写入（`setLayoutConfig`）和 只读（`useConfigState`）钩子获取。
+
+## 初始化布局配置
+首次加载进布局组件的配置参数
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx 
+import { AntdLayout } from "@adminui-dev/antd-layout"
+import type { LayoutConfig } from "@adminui-dev/antd-layout"
+
+const layoutConfig:LayoutConfig = {
+    layoutType:"leftMenu",  
+    asideMenuInline:true,
+    hideAsideMenuDataEmpty:true,
+    skinName:"parkWavesLight",
+    collapsedPosition:"center",
+    menuIconSize:16,
+    disabledLocale:false,
+    menuItemSelectColor:"default",
+    largeBrand:true,
+}
+export default function(){    
+    return(
+        <AntdLayout layoutConfig={layoutConfig} menuData={...}>        
+    )
+}
+```
+</div>
+</TabCode>
+
+## 动态修改布局配置
+这里分两种情况：
+1. 在组件外部用状态机（不推荐）
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx 
+export default function(){    
+    const [config,setConfig] = useState<LayoutConfig>({...})
+    return(
+        <AntdLayout layoutConfig={config} menuData={...}>        
+    )
+}
+```
+</div>
+</TabCode>
+> 基本可行，但完全不推荐，因为配置参数根据场景需要[阻断](#配置阻断)。
+
+2. 组件内部用钩子修改布局参数（推荐）
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx 
+export default function(){    
+    const config:LayoutConfig = {
+        layoutType:"leftMenu",  
+        asideMenuInline:true,
+        ...
+    }
+    return(
+        <AntdLayout layoutConfig={config} menuData={...}>        
+    )
+}
+```
+</div>
+</TabCode>
+
+在页面中使用钩子 `useConfigAction` 和专用的方法 `setLayoutConfig`
+<TabCode title='src/pages/transaction/order.tsx'>
+<div>
+```tsx 
+const { layoutConfig } = useConfigState()
+const { setLayoutConfig } = useConfigAction()
+...
+setLayoutConfig( {...layoutConfig, layoutType:'headMenu' })
+...
+```
+</div>
+</TabCode>
+
+## 配置阻断
+有些项目业务只需要初始布局配置就够了，但有些需要动态修改指定参数，有些还要在此基础上保存参数，刷新或下次打开继续上次的效果等等，为此就在业务功能上就需要产生阻断。例如：
+- 存储在本地浏览器的配置参数；
+- 国际化语言、自动明亮度切换；
+- 自定义皮肤的预装载；
+- 强制国际化：提供了多种语言，但只允许使用一种；
+
+> 布局组件关闭 `disabledStorageConfig = true` 浏览器存储后，刷新将失去修改配置信息。
+
+## 属性与类型
+### LayoutConfig
+| 参数名 | 类型 | 默认值 | 说明 |
+|-------|-------|-------|-------|
+|layoutType|[`LayoutType`](#layoutType)|leftMenu|布局版式类型|
+|primaryColor|`string`|rgb(65, 127, 251)|全局主题色|
+|theme|`Theme`|system|布局主题|
+|locale|`string`|en-US|国际化语言|
+|skinName|`string`|-|当前皮肤名称|
+|headerHeight|`number`|56|布局头部高度|
+|asideWidth|`number`|260|滑动侧栏最大宽度|
+|colorLink|`string`|rgb(65, 127, 251)|链接颜色|
+|menuIconSize|`number`|16|菜单图标大小|
+|menuFontSize|`number`|14|菜单字体大小|
+|containerMargin|`number`|0|容器外边距|
+|compact|`bool`|false|紧凑布局|
+|splitMenu|`bool`|false|上下分隔菜单|
+|flated|`bool`|false|扁平模式|
+|noneHeader|`bool`|false|去掉布局头部|
+|largeBrand|`bool`|false|品牌Logo放大|
+|asideMenuInline|`bool`|false|滑动菜单内联|
+|asideMenuGroup|`bool`|false|滑动菜单分组|
+|disabledLocale|`bool`|false|禁用国际化|
+|hideBorder|`bool`|false|隐藏线条|
+|hideTitle|`bool`|false|隐藏标题|
+|hideFooter|`bool`|false|隐藏页脚|
+|hideBreadcrumb|`bool`|false|隐藏面条屑|
+|asideTransparent|`bool`|false|滑动菜单透明|
+|headerTransparent|`bool`|false|顶部菜单透明|
+|containerTransparent|`bool`|false|容器透明|
+|asideBlur|`bool`|false|顶部背景模糊|
+|headerBlur|`bool`|false|滑动背景模糊|
+|containerBlur|`bool`|false|容器背景模糊|
+|hideAsideMenuDataEmpty|`bool`|false|滑动菜单为空时隐藏|
+|menuItemSelectColor|[`MenuItemSelectColor`](#menuitemselectcolor)|default|菜单选中项效果|
+|collapsedPosition|[`Position`](#position)|center|折叠按钮位置|
+|avatarPosition|[`AvatarPosition`](#avatarPosition)|rightTop|用户形象位置|
+|visibleBreadcrumbIcon|[`BreadcrumbIconVisible`](#breadcrumbiconvisible)|none|面包屑菜单图标显示效果|
+|userInfo|[`UserInfo`](#userinfo)|-|用户信息|
+|brandInfo|[`BrandInfo`](#brandinfo)|-|品牌形信|
+
+### LayoutType
+- leftMenu `string` - 左侧主菜单
+- headMenu `string` - 头部主菜单
+
+### Theme
+- light `string` - 明亮模式
+- dark `string` - 黑暗模式
+- system `string` - 跟随系统
+
+### MenuItemSelectColor
+- default `string` - 默认
+- primary `string` - 主题色
+- invert `string` - 反色
+
+### Position
+- top `string` - 顶部
+- center `string` - 中间
+- bottom `string`  底部
+
+### AvatarPosition
+- none `string` - 不展示
+- rightTop `string` - 右上角
+- leftBottom `string` - 左下角
+
+### BreadcrumbIconVisible
+- none `string` - 不显示
+- first `string` - 第一个
+- all `string` - 所有项
+
+### UserInfo
+- id `number` - 主键
+- uid `string` - 用户名
+- title `string` - 标题
+- avatar `string/ReactNode` - 头像
+
+### BrandInfo
+- id `number` - 主键
+- name `string` - 名称
+- title `string` - 标题
+- url `string` - 网址
+- logo `string | ReactNode` - Logo
+
+
+
+========================================================================================
+## SOURCE FILE: zh/guide/layout-hook.mdx
+========================================================================================
+
+---
+title: 全局钩子
+author: zhouwenqi
+description: 全局钩子指的是在 <AntdLayout> 使用的由 antd-layout 提供的钩子，适用于全局布局和容器的全局方法和状态。
+category: 开发指南
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# 全局钩子
+全局钩子指的是在 `<AntdLayout>` 使用的由 `antd-layout` 提供的钩子，适用于全局 `布局` 和 `容器` 的全局方法和状态。获取方法：
+<TabCode title='src/pages/welcome.tsx'>
+<div>
+```tsx
+import { useConfigAction, useConfigState } from '@adminui-dev/antd-layout';
+
+export default function(){    
+    const { layoutConfig} = useConfigState() // 只读
+    const { setLayoutConfig } = useConfigAction() // 写入
+    ...
+    setLayoutConfig({...})
+    return(
+        <div>
+            <p>primaryColor: {layoutConfig.primaryColor}</p>
+            <p>layoutType: {layoutConfig.layoutType}</p>
+            <p>
+                <button onClick={()=>{setLayoutConfig({...layoutConfig,layoutType:'headMenu'})}}>Update</button>
+            </p>
+        </div>
+    )
+}
+```
+</div>
+</TabCode>
+## useConfigAction
+获取修改布局配置相关方法的钩子：
+- setLayoutConfig `void`- 设置布局配置参数
+- setLocale `void` - 设置国际化语言
+
+## useConfigState
+获取布局配置、皮肤和语言等数据的钩子：
+- layoutConfig [`LayoutConfig`](../layout-config#layoutconfig) - 布局配置参数
+- locale `string` - 当前国际化语言
+- originalConfig [`LayoutConfig`](../layout-config#layoutconfig) - 原始布局配置参数
+- themeSkin [`ThemeSkin`](../theme-skin#themeskin) - 当前皮肤信息
+- themeSkinMap `Record<SkinType,ThemeSkin[]>` - 所有皮肤信息
+- languages [`Language[]`](../locales#language) - 当前已装载的语言列表
+- menuDataMap `Record<string,MenuData[]>` - 所有皮肤信息
+
+## useContainerOutlet
+容器内容相关的钩子：
+- title `string`- 标题
+- breadcrumbData `any[]` - 面包屑数据
+- footer `ReactNode`- 容器页面内容
+- toolbar `ReactNode` - 容器工具栏内容
+
+## useMainCollapsed
+获取侧滑菜单折叠状态，返回一个 `bool` 值。
+
+## useBrandPopover
+品牌popover钩子
+- close `void`- 关闭品牌popover
+
+## useAvatarPopover
+用户popover钩子
+- close `void`- 关闭用户popover
+
+> 除了 `useConfigAction` 和 `useConfigState` 之外，其它钩子都需要在使用 `<Container />` [容器组件](../container)下才有效。
+
+
+========================================================================================
+## SOURCE FILE: zh/guide/locales.mdx
+========================================================================================
+
+---
+title: 国际化
+author: zhouwenqi
+description: antd-layout 国际化采用 react-intl 实现并与 ant-design 结构尽可能保持一持。
+category: 开发指南
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# 国际化
+`antd-layout` 国际化采用 `react-intl` 实现并与 `ant-design` 结构尽可能保持一持。
+## 国际化数据
+数据统一放置在 `src/locales` 下，用通用语言名命名隔开，如果数据太多进一步用页面和业务分类，例如：`menus.ts` 用于存放[菜单国际化](./router-menu#菜单国际化)数据，`pages.ts` 用于存放页面国际化数据，`components.ts` 用于存放组件国际化数据等等，注意这些规则都不强制的，只是为了更清晰的方便管理，重点是最后放入布局组件中的结构正确就行了，同时要合并ant-design的组件国际化数据一起放入，如下：
+<TabCode items={["en-US.ts","zh-CN.ts"]} defaultItem="en-US.ts">
+<div data-tab="zh-CN.ts">
+```ts
+// src/locales/zh-CN.ts
+
+import components from "./zh-CN/components";
+import menus from "./zh-CN/menus";
+import pages from "./zh-CN/pages";
+    
+export default {
+    ...menus,
+    ...pages,
+    ...components,
+    "skin.blue.label":"蔚蓝天空"
+}
+```
+</div>
+<div data-tab="en-US.ts" class="is-active">
+```ts
+// src/locales/en-US.ts
+
+import components from "./en-US/components";
+import menus from "./en-US/menus";
+import pages from "./en-US/pages";
+    
+export default {
+    ...menus,
+    ...pages,
+    ...components,
+    "skin.blue.label":"Azure sky"
+}
+```
+</div>
+</TabCode>
+布局中使用国际化数据
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx
+import { AntdLayout } from "@adminui-dev/antd-layout"
+import type { LayoutConfig, LocaleMessage } from "@adminui-dev/antd-layout"
+import menuData from "./menuData"
+import antdZhCN from 'antd/locale/zh_CN'
+import antdEnUS from 'antd/locale/en_US'
+import zhCN from "@/locales/zh-CN"
+import enUS from "@/locales/en-US"
+
+const localeMessages:Record<string,LocaleMessage> = {   
+    "zh-CN":{
+        locale:antdZhCN.locale,
+        name:"简体中文",
+        flag:"🇨🇳",
+        messages:{...zhCN,...settingsZhCN},            
+        antdLocale:antdZhCN
+    },
+    "en-US":{
+        locale:antdEnUS.locale,
+        name:"English",
+        flag:"🇺🇸",
+        messages:{...enUS,...settingsEnUS}, 
+        antdLocale:antdEnUS
+    },
+}
+const layoutConfig:LayoutConfig = {
+    layoutType:"leftMenu",  
+    asideMenuInline:true,        
+}
+
+export default function(){
+    return(
+        <AntdLayout layoutConfig={...} menuData={...} localeMessages={localeMessages}>
+    )
+}
+```
+</div>
+</TabCode>
+> 注意 `localeMessages` 中的 `key` 不能错就行了，请自行参考相应的语言名规范。
+>
+> 另外因为 `ant-design` 本身也需要导入组件国际化 `import antdZhCN from 'antd/locale/zh_CN'`, 所以刚好这里直接进行了合并。
+
+## 内容国际化
+直接使用通用方法。
+<TabCode items={['useIntl','FormattedMessage']} defaultItem='useIntl'>
+<div data-tab="useIntl" class="is-active">
+```tsx
+import { useIntl } from 'react-intl'
+
+export default function(){
+    const intl = useIntl()
+    const skinName = intl.formatMessage({id:`skin.blue.label`})
+    return(
+        <span>{skinName}</span>
+    )
+}
+```
+</div>
+<div data-tab="FormattedMessage">
+```tsx
+import { FormattedMessage } from 'react-intl'
+
+export default function(){
+    return(
+        <FormattedMessage
+            id='skin.blue.label'
+            description='skin name'
+            defaultMessage='blue'
+            />
+    )
+}
+
+```
+</div>
+</TabCode>
+
+## 国际化切换
+上面只是配置了项目所支持的国际化语言，`[布局组件](../layout-component)` 默认将采用 `en-US`，获者读取浏览器客户端存储的国际化值，并且可以通用钩子中 [`setLocale`](../layout-hook#useconfigaction) 进行切换。
+<TabCode title='src/pages/welcome.tsx'>
+<div>
+```tsx
+setLocale("zh-CN")
+```
+</div>
+</TabCode>
+
+## 获取语言列表
+通过 [钩子](../layout-hook#useconfigstate) 可获取 `languags` 当前已装载的语言列表，可用于显示切换。
+### Language
+- name `string` - 显示名称
+- locale `string` - 国际语言名称
+- flag `string` - 国旗标识
+
+### LocaleMessageData 
+- locale `string` - 区域语言
+- name `string` - 名称
+- flag `string` - 旗帜标识
+- messages `Record<string, string>` - 本地化数据
+
+### LocaleMessage
+- antdLocale `string` - ant-design区域语言
+- locale `string` - 区域语言
+- name `string` - 名称
+- flag `string` - 旗帜标识
+- messages `Record<string, string>` - 本地化数据
+
+
+========================================================================================
+## SOURCE FILE: zh/guide/router-menu.mdx
+========================================================================================
+
+---
+title: 路由和菜单
+author: zhouwenqi
+description: 菜单是布局组件的核心，菜单需要基于路由结构手动配置。
+category: 开发指南
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# 路由和菜单
+菜单是布局组件的核心，`antd-layout` 菜单需要基于路由结构手动配置，且路由需要采用 [react-router](https://reactrouter.com/) 提供路由。
+
+## 路由懒加载
+如果需要对路由进行懒加载？需要采用 [Data Mode](https://reactrouter.com/start/data/routing) 配置路由，同时配合 `antd-layout` 提供的 `LazyPage` 加载方法装配路由。
+<TabCode title='src/routers.ts'>
+<div>
+```ts
+import { LazyPage } from "@adminui-dev/antd-layout"
+import { createBrowserRouter,redirect } from "react-router-dom"
+
+const DashboardLayout = LazyPage(()=>import("@/layouts"))
+const OrderPage = LazyPage(()=>import("@/pages/transaction/order"))
+const ProductPage = LazyPage(()=>import("@/pages/transaction/product"))
+const WelcomePage = LazyPage(()=>import("@/pages/welcome"))
+
+const routers = createBrowserRouter(
+    [
+       {path:"/",Component:DashboardLayout, children:[
+        {index:true,loader:()=>redirect("/welcome")},
+        {path:"welcome",Component:WelcomePage},     
+        {path:"transaction",children:[
+            {index:true,loader:()=>redirect("/transaction/order")},
+            {path:"order",Component:OrderPage},
+            {path:"product",Component:ProductPage}
+        ]}
+       ]}
+    ]
+)
+export { routers }
+```
+</div>
+</TabCode>
+再将路由配置项目根节点，注意要带上 `nprogress.css` 样式，懒加载状态采用页面顶部的进度条加载效果。
+<TabCode title='src/App.ts'>
+<div>
+```ts
+import { Suspense } from 'react'
+import './App.css'
+import 'nprogress/nprogress.css'; 
+import { RouterProvider } from 'react-router'
+import { routers } from './routes'
+
+function App() {  
+  return (
+    <>
+      <Suspense>
+        <RouterProvider router={routers} />
+      </Suspense>
+    </>
+  )
+}
+
+export default App
+```
+</div>
+</TabCode>
+更多路由配置信息请参考 [react-router官网](https://reactrouter.com/start/data/route-object)
+
+## 配置菜单
+菜单需要根据路由结构进行配置，然后装入 `antd-layout` 布局组件，
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx
+import { AntdLayout } from "@adminui-dev/antd-layout"
+import type { LayoutConfig, MenuData } from "@adminui-dev/antd-layout"
+
+const menuData:MenuData = {
+    name:"",
+    path:"/",
+    label:"Dashboard",
+    children:[
+        {name:"welcome",path:"welcome",label:"Welcome"},
+        {name:"transaction",path:"transaction",label:"Transaction",children:[
+            {name:"order",path:"order",label:"Order"},
+            {name:"product",path:"product",label:"Product"},
+        ]}
+    ]
+}
+
+export default function(){      
+    // layout config
+    const layoutConfig:LayoutConfig = {
+        disabledLocale:true,
+        largeBrand:true,    
+    }
+    return(
+        <>
+            <AntdLayout layoutConfig={layoutConfig} menuData={menuData} />
+        </>
+    )
+}
+
+```
+</div>
+</TabCode>
+> 注意：菜单根结构对应根路由所以是一对象 `{...}`，而不是数组 `[...]`。
+
+### 图标
+图标参数字段是 `icon` ，是 `Component` 对象，图标需要自行安装，支持所有主流图标库，推荐采用官方的 `@ant-design/icons` 或 `lucide-react` ，建议只用一套保持风格一致。
+<TabCode>
+<div>
+```ts
+{ name:"visit", path:"./visit", label:"Visit", icon:<Globe /> }
+```
+</div>
+</TabCode>
+### 菜单国际化
+菜单国际化数据随布局组件国际化 `localeMessages` 同步启用，它是 `key` 是基于 `path` 和 `name` 一起自动拼接的，它的规则是所有菜单国际化数据的key都以 `menu.` 开头，根菜单就是 `menu.`，在面包屑菜单中会有显示，菜单国际化数据一般都单独一个文件命名 `menus.ts` ，示例：
+<TabCode title="src/locales/en-US/menus.ts">
+<div>
+```ts
+export default {
+    "menu.":"Dashboard",  
+    "menu.login":"Login",    
+    "menu.welcome":"Welcome",  
+    "menu.workbench":"Workbench",
+    "menu.workbench.notifications":"Notifications",
+    "menu.workbench.monitoring":"Monitoring",
+    "menu.workbench.report":"Report",
+    "menu.workbench.report.visit":"Visit",
+    "menu.workbench.report.sales":"Sales",
+    "menu.workbench.logs":"Logs",
+    "menu.workbench.logs.login":"Login logs",
+    "menu.workbench.logs.operation":"Operation logs"
+}
+```
+</div>
+</TabCode>
+
+<TabCode title="src/locales/zn-CN/menus.ts">
+<div>
+```ts
+export default {
+    "menu.":"仪表盘",    
+    "menu.login":"登录",
+    "menu.welcome":"欢迎页",
+    "menu.workbench":"工作台",    
+    "menu.workbench.notifications":"我的消息",
+    "menu.workbench.monitoring":"数据监控",
+    "menu.workbench.report":"统计报表",
+    "menu.workbench.report.visit":"访问统计",
+    "menu.workbench.report.sales":"销售统计",
+    "menu.workbench.logs":"日志记录",
+    "menu.workbench.logs.login":"登录日志",
+    "menu.workbench.logs.operation":"操作日志"
+}
+```
+</div>
+</TabCode>
+> 禁用菜单国际化：可以在[布局配置](../layout-config)中设置 `disabledLocale` 为 `false`。
+>
+> 禁用国际化菜单名会回退显示 `label`。
+
+## 菜单属性
+### MenuData
+| 参数名 | 类型 |默认值| 说明 |
+|-------|-------|-------|-------|
+|name|`string`|-|**唯一名称**，对应路由节点|
+|label|`string`|-|显示名称|
+|path|`string`|-|导航路由|
+|icon|`ReactNode`|-|图标组件|
+|extra|`ReactNode`|-|扩展组件例如：`<Brage>`、`<Tag>`|
+|params|`Record<string,string>`|-|路由参数|
+|children|`MenuData[]`|-|子菜单|
+> 菜单数据不建议超过3级，应该尽可能清晰且直观合理。
+
+========================================================================================
+## SOURCE FILE: zh/guide/theme-skin.mdx
+========================================================================================
+
+---
+title: 主题皮肤
+author: zhouwenqi
+description: antd-layout除了支持基本的明暗度、单色主题效果以外，还可以高度自定义外观主题。
+category: 开发指南
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# 主题皮肤
+`antd-layout` 除了支持基本的明暗度、单色主题效果以外，还可以高度自定义外观主题，例如：给整个布局增加动态背景和模糊层次的皮肤效果，还能让整体变妆为 `shadcn-ui` 风格。
+## 系统皮肤
+官方提供的皮肤主题，可以通过 `npx create-antd-skin@latest` 安装到项目里，系统皮肤会不定期增加。
+**安装方式**
+1. 运行`npx create-antd-skin@latest <skin-name>`。
+2. 如果不知道`<skin-name>`可不填，会自动列出皮肤名进行选择。
+3. 设置[`LayoutConfig`](../layout-config#layoutconfig)的`skinName`皮肤名称。
+## 自定义皮肤主题
+可以基于 `antd-layout` 提供的 `ThemeSkin` 约束参数，配置更细致的关键属性配合图片背景素材，组织成皮肤组件，然后像 `菜单` 和 `国际化` 数据一样装入组件内部，再设置 `layoutConfig` 中的 `skinName` 即可启用皮肤主题了。
+
+### 定制皮肤
+<TabCode title="src/components/skins/blueSkyDark.ts">
+<div>
+```tsx
+import type { ThemeSkin } from "@adminui-dev/antd-layout"
+
+const BackgroundElement = <div><img style={{width:"100%"}} src="/images/skins/blue-sky/bg.webp" alt="bg.webp" /></div>
+
+const blueSkyDark:ThemeSkin = {
+    "name":"blueSkyDark",    
+    "skinType":"custom",
+    "backgroundColor":"#090a0b",
+    "layoutConfig":{
+        "theme":"dark",
+        "primaryColor":"#4dbae9",        
+        "noneHeader":false,
+        "hideBorder":false,
+        "asideBlur":true,
+        "headerBlur":true,
+        "largeBrand":true,
+        "containerBlur":true,
+        "menuItemSelectColor":"primary",
+    },        
+    "logo":"/images/skins/blue-sky/app-logo-light.webp",
+    "icon":"/images/skins/blue-sky/skin-icon-dark.webp",
+    "backgroundContent":<BackgroundElement />
+}
+export { blueSkyDark }
+```
+</div>
+</TabCode>
+> 可以使用 `defineThemeSkin` 方法配置更方便
+>
+> `const blueSkyDark  = defineThemeSkin({...})`
+### 使用皮肤
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx
+import { blueSkyDark } from "@components/skins/blueSkyDark"
+import { AntdLayout } from "@adminui-dev/antd-layout"
+...
+export default function(){   
+    // layout config
+    const layoutConfig:LayoutConfig = {
+        disabledLocale:true,
+        largeBrand:true,    
+        skinName:"blueSkyDark", // 使用皮肤
+    }
+    return(
+        <AntdLayout layoutConfig={layoutConfig} menuData={...} themeSkins={[blueSkyDark]}>        
+    )
+}
+```
+</div>
+</TabCode>
+> `themeSkins` 接收的是数组，因为可能有多个皮肤。
+### 切换皮肤
+使用 [`setLayoutConfig`](../layout-config#动态修改布局配置) 方法进行切换
+<TabCode title='src/pages/welcome.tsx'>
+<div>
+```tsx
+import { Container, setSkinConfig, useConfigAction, useConfigState } from '@adminui-dev/antd-layout';
+...
+const { setLayoutConfig } = useConfigAction()
+const { layoutConfig } = useConfigState()
+...
+const config = setSkinConfig(layoutConfig,skin)          
+setLayoutConfig({
+    ...config,
+    skinName:"customeSkinName"
+})
+...
+```
+</div>
+</TabCode>
+## 皮肤属性
+### ThemeSkin
+| 参数名 | 类型 |默认值| 说明 |
+|-------|-------|-------|-------|
+|name|`string`|-|**唯一名称**|
+|label|`string`|-|显示名称|
+|skinType|[`SkinType`](#skinType)|custom|皮肤类型|
+|layoutConfig|[`LayoutConfig`](../layout-config#layoutconfig)|-|布局类型|
+|backgroundColor|`string`|-|背景颜色|
+|antdToken|`json`|-|ant-design官方token配置|
+|logo|`string / ReactNode`|-|品牌Logo|
+|icon|`string`|-|皮肤缩略图|
+|headerStyle|`string`|-|布局头部样式|
+|asideStyle|`string`|-|布局侧滑样式|
+
+
+### SkinType
+- system `string` - 系统皮肤（保留）
+- custom `string` - 自定义皮肤
+
+========================================================================================
+## SOURCE FILE: zh/introduction/getting-started.mdx
+========================================================================================
+
+---
+title: 快速开始
+author: zhouwenqi
+description: 基本开发环境需要Node.js18以上版本,直接使用 npx create-antd-layout@latest your-project 安装，它提供许多已定制好的模版，方便快捷。
+category: 简介
+---
+
+import TabCode from '@components/TabCode.astro';
+
+# 快速开始
+基本开发环境需要 [Node.js](https://nodejs.org)18 以上版本
+
+## 安装方式-1 (推荐)
+直接使用 ```npx create-antd-layout@latest your-project``` 安装，它提供许多已定制好的模版，方便快捷。
+
+## 安装方式-2
+
+集成到已有项目中
+
+1. 添加 `@adminui-dev/antd-layout` 到项目中
+<TabCode items={['npm','pnpm','yarn','bun']} defaultItem="npm">
+<div data-tab="npm" class="is-active">
+```bash
+npm i @adminui-dev/antd-layout
+```
+</div>
+<div data-tab="pnpm">
+```bash
+pnpm i @adminui-dev/antd-layout
+```
+</div>
+<div data-tab="yarn">
+```bash
+yarn add @adminui-dev/antd-layout
+```
+</div>
+<div data-tab="bun">
+```bash
+bun add @adminui-dev/antd-layout
+```
+</div>
+</TabCode>
+
+2. 添加相关依赖项
+<TabCode title='package.json'>
+<div>
+```json
+"dependencies": {
+    "@adminui-dev/antd-layout": "^1.8.3",
+    "@ant-design/colors": "^7.2.1",
+    "nprogress": "^0.2.0",
+    "antd": "^6.1.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-intl": "^8.0.4",
+    "react-router": "^7.11.0",
+    "react-router-dom": "^7.11.0"
+}
+```
+</div>
+</TabCode>
+3. 在布局文件中使用并配置组件
+<TabCode title='src/layouts/index.tsx'>
+<div>
+```tsx
+// src/layout/index.tsx
+...
+import { AntdLayout } from "@adminui-dev/antd-layout"
+...
+export default function(){      
+    return(
+        <>
+            <AntdLayout layoutConfig={...} menuData={...} />
+        </>
+    )
+}
+```
+</div>
+</TabCode>
+> 前提条件：需要node、ant-desing、react、react-dom环境
+
+========================================================================================
+## SOURCE FILE: zh/introduction/what-is-antd-layout.md
+========================================================================================
+
+---
+title: 为什么是 Astro?
+author: zhouwenqi
+description: antd-layout @adminui-dev/antd-layout 是一款基于 ant-design 和 react-router 打造的前端布局组件，它是完全开源的，拥有灵活且丰富的布局形态和样式，同时支持自定义皮肤主题样式，非常适合有个性需求的中后台和web仪表盘项目使用。
+category: 简介
+---
+# antd-layout 是什么？
+antd-layout `@adminui-dev/antd-layout` 是一款基于 [ant-design](https://ant.design/) 和 [react-router](https://reactrouter.com/) 打造的前端布局组件，它是完全开源的，拥有灵活且丰富的布局形态和样式，同时支持自定义皮肤主题样式，非常适合有个性需求的中后台和web仪表盘项目使用。以下简称 `antd-layout`：
+
+🎉 [效果展示](https://demo.adminui.dev)
+
+## 布局组件
+前端框架中布局页面（组件）通常位于 `src/layouts` 目录下，`antd-layout` 以组件形式添加到布局文件中，通过相应的配置参数让整个项目的所有页面呈出丰富多彩的样式，灵活度极高。
+
+### 组件特征
+- 支持多种版式和细节属性控制
+- 支持动态单色主题切换
+- 支持自定义主题皮肤
+- 支持i18n国际化
+- 品牌大小和色深控制
+- 用户形象位置细节控制
+- 细致到基础控件的图标控制
+
+
+## 技术栈
+- node.js(22+)
+- react(18+)
+- react-intl(8.0)
+- react-router(7.11)
+- ant-design(6.10)
+- vite(7.0+)
+
+## 适用场景
+- 单页面布局的后台管理系统
+- 个性化UI的仪表盘项目
+- saas管理系统
+- 基于 [ant-design](https://ant.design/) 套件开发的系统
+
+## 不适用的场景
+- 需要服务端渲染的项目
+- 需要全站静态化的项目
+- 面向用户端自由布局平台

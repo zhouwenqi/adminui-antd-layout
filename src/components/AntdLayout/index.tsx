@@ -247,13 +247,16 @@ function AntdLayout(props:RootLayoutProps<LocaleMessage> & {
         "lightSiderBg":"transparent",
         "lightTriggerBg":"transparent"
     }
+
+    const antdToken = currentSkinData ? currentSkinData.antdToken : {}
     // antd theme config
     const antdThemeConfig = {
         algorithm:algorithms,
         token:{
             colorPrimary:layoutConfig.primaryColor,     
             borderRadius:layoutConfig.flated ? 0 : 6,
-            colorLink:layoutConfig.colorLink
+            colorLink:layoutConfig.colorLink,
+            ...antdToken
         },
         components:{
             "Menu":menuStyles,
