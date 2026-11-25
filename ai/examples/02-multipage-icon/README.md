@@ -2,6 +2,7 @@
 ## Recommend using `lucide-react` and `@ant-design/icons` for icon libraries
 
 # Dependencies
+## Depends on local public components `./components`
 "@adminui-dev/antd-layout": "^1.8.8",
 "@ant-design/icons": "^6.1.0",
 "@ant-design/colors": "^7.2.1",
