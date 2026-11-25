@@ -12,10 +12,10 @@
 
 ## Read these references
 - `llms-full.txt`: complete text of the supplied bilingual documentation snapshot.
-- `.agents/skills/adminui/SKILL.md`: workflow and usage rules for coding agents.
-- `.agents/skills/adminui/references/api-verified.md`: API facts checked against the repository's current `main` source.
-- `.agents/skills/adminui/references/known-issues.md`: documentation defects and unresolved API claims.
-- `.agents/skills/adminui/references/compatibility.md`: version and dependency notes.
+- `ai/skills/adminui/SKILL.md`: workflow and usage rules for coding agents.
+- `ai/skills/adminui/references/api-verified.md`: API facts checked against the repository's current `main` source.
+- `ai/skills/adminui/references/known-issues.md`: documentation defects and unresolved API claims.
+- `ai/skills/adminui/references/compatibility.md`: version and dependency notes.
 
 ## Important agent cautions
 - Use `@adminui-dev/antd-layout` as the application-facing import path.

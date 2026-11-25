@@ -50,7 +50,7 @@ Use this skill when working with the `@adminui-dev/antd-layout` package.
 ## Localization
 - `LocaleMessage.antdLocale` must be an Ant Design `Locale` object according to current core source, not a string.
 - Use the actual locale object imported from `antd/locale/...`.
-- The menu i18n disable instruction in the supplied docs is contradictory; do not follow its `disabledLocale: false` instruction as written. See `known-issues.md`.
+- The menu i18n disable instruction in the supplied docs is contradictory; do not follow its `disabledLocale: true` instruction as written. See `known-issues.md`.
 
 ## Theme skins
 - `ThemeSkin` can be imported as a type from `@adminui-dev/antd-layout`.

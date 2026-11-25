@@ -1,6 +1,6 @@
 {
   "name": "@adminui-dev/antd-layout",
-  "version": "1.8.8",
+  "version": "1.9.0",
   "description": "This is a layout component based on the ant design framework, which only supports SPA mode and supports multiple layout modes, themes, and custom skin effects",
   "keywords": [
     "layout",
@@ -17,7 +17,7 @@
     "dashboard",
     "admin",
     "admin-ui",
-    "mananger",
+    "manager",
     "adminui-dev/antd-layout",
     "react-layout"
   ],
@@ -54,6 +54,7 @@
     "dev": "rollup -c -w",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix",
+    "ai:check": "tsc -p ai/examples/tsconfig.json --noEmit",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {

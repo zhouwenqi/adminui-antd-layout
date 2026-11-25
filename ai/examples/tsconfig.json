@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "jsx": "react-jsx",    
+    "rootDir": "../",
+    "paths": {
+        "@adminui.dev/antd-layout": ["../../src/index.ts"]
+    }
+  },
+  "include": ["./**/*"],
+  "exclude": [
+    "generated",
+    "node_modules"
+  ]
+}
