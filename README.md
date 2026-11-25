@@ -55,14 +55,79 @@ bun add @adminui-dev/antd-layout
 
 ## 🚀 Alternatively, use the npx create-antd-layout quick template to build the project (recommended).
 ```bash
-npx create-antd-layout@lastest your-app
+npx create-antd-layout@latest your-app
 ```
 ## 🔨 Example
-```jsx
+### 1. Configure routing
+```tsx
+// src/routes.ts
+
+import { LazyPage } from "@adminui-dev/antd-layout";
+import { createBrowserRouter,redirect } from "react-router-dom";
+
+const DashboardLayout = LazyPage(()=>import("@/layouts"))
+const LoginPage = LazyPage(()=>import("@/pages/login"))
+const OrderPage = LazyPage(()=>import("@/pages/transaction/order"))
+const ProductPage = LazyPage(()=>import("@/pages/transaction/product"))
+const WelcomePage = LazyPage(()=>import("@/pages/welcome"))
+const ConfigPage = LazyPage(()=>import("@/pages/system/config"))
+const LogsPage = LazyPage(()=>import("@/pages/system/logsPage"))
+const NotFound = LazyPage(()=>import("@/pages/404"))
+/**
+ * global router data
+ * standard react-router solution
+ * reference: https://reactrouter.com/start/data/routing
+ *  
+ */
+const routers = createBrowserRouter(
+    [
+       { path:"/", Component:DashboardLayout, children: [
+        { index:true, loader:()=>redirect("/welcome") },    
+        { path:"welcome", Component:WelcomePage},
+        { path:"transaction", children: [
+            { index:true, loader:()=>redirect("/transaction/order") },
+            { path:"order",Component:OrderPage },
+            { path:"product",Component:ProductPage }
+        ]},
+         { path:"system", children:[
+            { index:true,loader:()=>redirect("/system/config")},
+            { path:"config",Component:ConfigPage },
+            { path:"logs",Component:LogsPage }
+        ]},        
+        { path:"/login",Component:LoginPage },      
+       ]},       
+       { path:"*",Component:NotFound }
+    ]
+)
+
+export { routers }
+
+// src/App.tsx
+import { Suspense } from 'react';
+import 'nprogress/nprogress.css'; 
+import { PageLoading } from '@adminui-dev/antd-layout'
+import { RouterProvider } from 'react-router'
+import { routers } from './routes'
+
+function App() {  
+  return (
+    <>
+      <Suspense fallback={<PageLoading />}>
+        <RouterProvider router={routers} />
+      </Suspense>
+    </>
+  )
+}
+
+export default App
+```
+
+### 2. Configure layout files and menus
+```tsx
+// src/layouts/index.tsx
+
 import { AntdLayout } from "@adminui-dev/antd-layout"
 import type { LayoutConfig,MenuData } from "@adminui-dev/antd-layout"
-
-// src/layouts/index.tsx
 
 /**
 * menu data
@@ -75,7 +140,7 @@ const menuData:MenuData = {
         {name:"welcome",path:"welcome",label:"Welcome"},
         {name:"transaction",path:"transaction",label:"Transaction",children:[
             {name:"order",path:"order",label:"Order"},
-            {name:"order",path:"product",label:"Product"},
+            {name:"product",path:"product",label:"Product"},
         ]},
         {name:"system",path:"system",label:"System",children:[
             {name:"config",path:"config",label:"Config"},
@@ -107,10 +172,3 @@ For reference 🍸[https://github.com/zhouwenqi/adminui-demo-antd-layout-simple]
 Website 🔗[https://adminui.dev](https://adminui.dev)
 
 Docs 🔗[https://adminui.dev/en/docs](https://adminui.dev/en/docs)
-
-## Agents
-`public/llms.txt` — compact AI entry point.
-`public/llms-full.txt` — concatenated source documentation snapshot.
-`.agents/skills/adminui/SKILL.md` — coding-agent skill.
-`.agents/skills/adminui/references/` — source-verified API notes, compatibility notes, and audit findings.
-`docs-source/` — exact Markdown/MDX and category JSON files from the uploaded archive.

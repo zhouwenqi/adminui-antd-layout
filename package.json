@@ -6,6 +6,10 @@
     "layout",
     "antd-layout",
     "adminui",
+    "ant-design",
+    "skill",
+    "llms-txt",
+    "llms",
     "admin-layout",
     "layout",
     "adminui-layout",
@@ -37,7 +41,8 @@
     "zhouwenqi <zhouwenqi1982@live.com>"
   ],
   "files": [
-    "dist"
+    "dist",
+    "ai"
   ],
   "repository": {
     "type": "git",
